@@ -7,7 +7,8 @@ import pl.edu.agh.session.SessionUtil;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
-public class AccountDao {
+public class AccountDao implements IAccountDao{
+    @Override
     public void saveAccount(Account account) throws PersistenceException {
         Session session = SessionUtil.getSession();
         Transaction transaction = session.beginTransaction();
@@ -15,6 +16,7 @@ public class AccountDao {
         transaction.commit();
     }
 
+    @Override
     public List<Account> getAllAccounts() throws PersistenceException {
         Session session = SessionUtil.getSession();
         List<Account> accountList = session.createQuery("FROM Accounts", Account.class).getResultList();
@@ -22,6 +24,7 @@ public class AccountDao {
         return accountList;
     }
 
+    @Override
     public void addTransaction(Account account, Object transaction){
         //TODO It has to change balance of Account!
     }

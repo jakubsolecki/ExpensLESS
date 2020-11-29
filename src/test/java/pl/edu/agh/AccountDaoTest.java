@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.AccountDao;
+import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.session.SessionUtil;
 
@@ -27,7 +28,7 @@ public class AccountDaoTest {
     @Test
     public void saveAccountTest(){
         //Given
-        AccountDao accountDao = new AccountDao();
+        IAccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", 100.0);
 
         //when
@@ -42,7 +43,7 @@ public class AccountDaoTest {
     @Test
     public void getAllAccountsTest(){
         //Given
-        AccountDao accountDao = new AccountDao();
+        IAccountDao accountDao = new AccountDao();
         Account account1 = new Account("Moje konto1", 100.0);
         Account account2 = new Account("Moje konto2", 100.0);
 
