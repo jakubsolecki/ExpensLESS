@@ -17,7 +17,6 @@ public class Main extends Application {
             BorderPane rootLayout = loader.load();
             configureStage(primaryStage, rootLayout);
             primaryStage.show();
-
         } catch (IOException e) {
             e.printStackTrace();
         }
