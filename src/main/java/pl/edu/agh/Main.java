@@ -25,6 +25,6 @@ public class Main extends Application {
     private void configureStage(Stage primaryStage, BorderPane rootLayout) {
         var scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Hello");
+        primaryStage.setTitle("Hello 1");
     }
 }
