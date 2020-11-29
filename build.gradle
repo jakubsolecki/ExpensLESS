@@ -15,6 +15,10 @@ repositories {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 application {
     mainClassName = 'pl.edu.agh.Main'
 }
