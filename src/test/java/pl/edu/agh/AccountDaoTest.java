@@ -1,17 +1,22 @@
 package pl.edu.agh;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.AccountDao;
 import pl.edu.agh.model.Account;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AccountDaoTest {
-    private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+    private static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     @Test
     public void saveAccountTest(){
@@ -23,9 +28,9 @@ public class AccountDaoTest {
         accountDao.saveAccount(account);
 
         //then
-        Account result = sessionFactory.openSession().createQuery("FROM Accounts", Account.class).getSingleResult();
-        System.out.println(account);
-        System.out.println(result);
+        Session session = sessionFactory.openSession();
+        Account result = session.createQuery("FROM Accounts", Account.class).getSingleResult();
+        session.close();
         assertEquals(result, account);
     }
 
@@ -41,7 +46,7 @@ public class AccountDaoTest {
         accountDao.saveAccount(account2);
 
         //then
-        int size = accountDao.getAllAccounts().size();
-        assertEquals(2, size);
+        List<Account> result = accountDao.getAllAccounts();
+        assertTrue(result.contains(account1) && result.contains(account2));
     }
 }
