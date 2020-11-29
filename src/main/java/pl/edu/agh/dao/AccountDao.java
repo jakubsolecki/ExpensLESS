@@ -6,7 +6,6 @@ import pl.edu.agh.model.Account;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
-import java.util.Optional;
 
 public class AccountDao {
     private final SessionFactory sessionFactory;
