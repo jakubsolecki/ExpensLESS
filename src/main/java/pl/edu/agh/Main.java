@@ -29,6 +29,7 @@ public class Main extends Application {
         accountService.createAccount(new Account("Moje konto 6", 21.37));
     }
 
+
     @Override
     public void start(Stage primaryStage) {
         Injector injector = Guice.createInjector(new AppModule());
