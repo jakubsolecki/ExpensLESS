@@ -1,4 +1,4 @@
-package pl.edu.agh.session;
+package pl.edu.agh.util;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

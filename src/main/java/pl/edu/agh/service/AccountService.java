@@ -3,7 +3,7 @@ package pl.edu.agh.service;
 import com.google.inject.Inject;
 import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
-import pl.edu.agh.session.SessionUtil;
+import pl.edu.agh.util.SessionUtil;
 import java.util.List;
 
 public class AccountService {

@@ -11,6 +11,7 @@ import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.util.Router;
 
 import java.io.IOException;
 
@@ -30,24 +31,23 @@ public class Main extends Application {
         AccountService accountService = injector.getInstance(AccountService.class);
         createMockAccounts(accountService);
 
+
+
         try{
             var loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/view/accountsView.fxml"));
-            BorderPane rootLayout = loader.load();
-
+            BorderPane mainLayout = loader.load();
+            Scene mainScene = new Scene(mainLayout);
+            Router.setMainScene(mainScene);
+            Router.addPane("Account", mainLayout);
             AccountController controller = loader.getController();
             controller.setAccountService(accountService);
 
-            configureStage(primaryStage, rootLayout);
+            primaryStage.setTitle("ExpensLESS");
+            primaryStage.setScene(mainScene);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void configureStage(Stage primaryStage, BorderPane rootLayout) {
-        var scene = new Scene(rootLayout);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("ExpensLESS");
     }
 }

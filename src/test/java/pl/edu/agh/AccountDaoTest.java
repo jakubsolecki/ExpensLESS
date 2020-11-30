@@ -1,13 +1,12 @@
 package pl.edu.agh;
 
-import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.AccountDao;
 import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
-import pl.edu.agh.session.SessionUtil;
+import pl.edu.agh.util.SessionUtil;
 
 import java.util.List;
 

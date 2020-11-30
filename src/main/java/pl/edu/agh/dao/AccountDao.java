@@ -2,7 +2,7 @@ package pl.edu.agh.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.model.Account;
-import pl.edu.agh.session.SessionUtil;
+import pl.edu.agh.util.SessionUtil;
 
 import javax.persistence.PersistenceException;
 import java.util.List;
