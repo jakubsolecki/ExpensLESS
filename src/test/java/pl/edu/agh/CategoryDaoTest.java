@@ -17,26 +17,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class CategoryDaoTest {
 
     private ICategoryDao categoryDao;
+    private boolean clearDBAfterEveryTest = true; // Constraint on category name. Examples can also be changed
+
 
     @BeforeEach
-    public void before() {
+    public void beforeEach() {
         SessionUtil.openSession();
         categoryDao = new CategoryDao();
     }
 
     @AfterEach
-    public void after() {
-//        Session session = SessionUtil.getSession();
-//        session.createQuery("DELETE FROM Categories").executeUpdate();
-        SessionUtil.closeSession();
+    public void afterEach() {
 
+        if (clearDBAfterEveryTest) {
+            Session session = SessionUtil.getSession();
+            Transaction tx = session.getTransaction();
+
+            if (!tx.isActive()) {
+                tx.begin();
+            }
+
+            session.createQuery("DELETE FROM Categories").executeUpdate();
+            tx.commit();
+        }
+
+        SessionUtil.closeSession();
     }
 
     @Test
     public void saveCategoryTest() {
         // given
         Category category = new Category("Category 1");
-
 
         // when
         categoryDao.saveCategory(category);
@@ -50,8 +61,8 @@ public class CategoryDaoTest {
     @Test
     public void getAllCategories() {
         // given
-        Category category1 = new Category("Category 1");
-        Category category2 = new Category("Category 2");
+        Category category1 = new Category("Category 2");
+        Category category2 = new Category("Category 3");
 
         // when
         categoryDao.saveCategory(category1);

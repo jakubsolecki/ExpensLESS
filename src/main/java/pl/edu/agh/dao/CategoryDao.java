@@ -7,6 +7,7 @@ import pl.edu.agh.util.SessionUtil;
 
 import java.util.List;
 
+
 public class CategoryDao implements ICategoryDao {
 
     @Override
@@ -29,16 +30,15 @@ public class CategoryDao implements ICategoryDao {
         }
     }
 
+    @Override
     public List<Category> getAllCategories() {
         Transaction transaction = null;
-        List<Category> categoryList = null;
 
         try {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            categoryList = session.createQuery("FROM Categories", Category.class).getResultList();
 
-            return categoryList;
+            return session.createQuery("FROM Categories", Category.class).getResultList();
 
         } catch (Exception e) {
 

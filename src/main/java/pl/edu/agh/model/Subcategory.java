@@ -1,7 +1,10 @@
 package pl.edu.agh.model;
 
+import com.google.inject.Inject;
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import pl.edu.agh.dao.CategoryDao;
 
 import javax.persistence.*;
 
@@ -21,12 +24,13 @@ public class Subcategory {
     private String name;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     private Category category;
 
 //    private List<Transaction> transactions; // TODO do we need this?
 
-    public Subcategory(String name, Category category) { // TODO category name instead fo category?
+
+    public Subcategory(String name, Category category) { // TODO categoryName instead of category?
         this.name = name;
         this.category = category;
         category.addSubcategory(this);

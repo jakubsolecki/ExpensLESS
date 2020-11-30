@@ -2,6 +2,7 @@ package pl.edu.agh.model;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import pl.edu.agh.dao.CategoryDao;
 
 import javax.persistence.*;
 import java.util.LinkedList;
@@ -20,10 +21,10 @@ public class Category {
     private Long id;
 
     @NotNull
-//    @Column(unique = true)
+    @Column(unique = true)
     private String name;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Subcategory> subcategories = new LinkedList<>(); // TODO: consider set instead
 
     public Category(String name) {
