@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.guice.AppModule;
@@ -16,7 +17,10 @@ import pl.edu.agh.util.Router;
 import java.io.IOException;
 
 public class Main extends Application {
-    public void createMockAccounts(AccountService accountService){
+    private AccountService accountService;
+    private Pane mainPane;
+
+    public void createMockAccounts(){
         accountService.createAccount(new Account("Moje konto 1", 21.37));
         accountService.createAccount(new Account("Moje konto 2", 21.37));
         accountService.createAccount(new Account("Moje konto 3", 21.37));
@@ -28,26 +32,40 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         Injector injector = Guice.createInjector(new AppModule());
-        AccountService accountService = injector.getInstance(AccountService.class);
-        createMockAccounts(accountService);
-
-
+        accountService = injector.getInstance(AccountService.class);
+        createMockAccounts();
 
         try{
-            var loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/view/accountsView.fxml"));
-            BorderPane mainLayout = loader.load();
-            Scene mainScene = new Scene(mainLayout);
-            Router.setMainScene(mainScene);
-            Router.addPane("Account", mainLayout);
-            AccountController controller = loader.getController();
-            controller.setAccountService(accountService);
-
-            primaryStage.setTitle("ExpensLESS");
-            primaryStage.setScene(mainScene);
-            primaryStage.show();
+            initializeAccounts();
+            initializeHello();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Scene mainScene = new Scene(mainPane);
+        Router.setMainScene(mainScene);
+        primaryStage.setTitle("ExpensLESS");
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
+    }
+
+    private void initializeAccounts() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/view/accountsView.fxml"));
+        Pane accountsPane = fxmlLoader.load();
+
+        AccountController controller = fxmlLoader.getController();
+        controller.setAccountService(accountService);
+
+        Router.addPane("Accounts", accountsPane);
+        mainPane = accountsPane;
+    }
+
+    private void initializeHello() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/view/helloView.fxml"));
+        Pane accountPane = fxmlLoader.load();
+
+        Router.addPane("Hello", accountPane);
     }
 }
