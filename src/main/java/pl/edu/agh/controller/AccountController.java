@@ -3,10 +3,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
+import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.viewElements.AccountViewElement;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class AccountController {
     @FXML
@@ -16,15 +15,15 @@ public class AccountController {
     private AccountService accountService;
 
     @FXML
-    public void initialize(){
-        Platform.runLater(() -> {
-            AtomicInteger i = new AtomicInteger();
-            var list = accountService.getAllAccounts();
-            list.forEach(account -> {gridPane.add(new AccountViewElement(account), i.get(), 0);
-                i.getAndIncrement();
-            });
-        });
-
-
+    public void initialize() {
+        new Thread(() -> {
+            int i = 0;
+            for (Account account : accountService.getAllAccounts()){
+                int finalI = i;
+                Platform.runLater(() -> gridPane.add(new AccountViewElement(account), finalI, 0));
+                i++;
+            }
+        }).start();
     }
 }
+
