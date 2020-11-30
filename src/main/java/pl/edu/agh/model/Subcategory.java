@@ -14,6 +14,7 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
+
 public class Subcategory {
 
     @Id
@@ -24,13 +25,13 @@ public class Subcategory {
     private String name;
 
     @NotNull
-    @ManyToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
 
 //    private List<Transaction> transactions; // TODO do we need this?
 
 
-    public Subcategory(String name, Category category) { // TODO categoryName instead of category?
+    public Subcategory(String name, Category category) {
         this.name = name;
         this.category = category;
         category.addSubcategory(this);

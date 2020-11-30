@@ -9,6 +9,8 @@ import java.util.List;
 
 public class SubcategoryDao implements ISubcategoryDao {
 
+    // TODO: make common save method for this and CategoryDao)?
+
     @Override
     public void saveSubcategory(Subcategory subcategory) {
         Transaction transaction = null;
@@ -37,7 +39,7 @@ public class SubcategoryDao implements ISubcategoryDao {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
 
-            return session.createQuery("FROM Subcategories ", Subcategory.class).getResultList();
+            return session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
 
         } catch (Exception e) {
 

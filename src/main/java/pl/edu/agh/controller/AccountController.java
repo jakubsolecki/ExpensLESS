@@ -9,6 +9,7 @@ import pl.edu.agh.viewElements.AccountViewElement;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class AccountController {
+
     @FXML
     public GridPane gridPane;
 

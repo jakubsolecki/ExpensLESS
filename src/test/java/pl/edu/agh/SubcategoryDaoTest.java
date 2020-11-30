@@ -5,7 +5,6 @@ import org.hibernate.Transaction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import pl.edu.agh.dao.CategoryDao;
 import pl.edu.agh.dao.ICategoryDao;
 import pl.edu.agh.dao.ISubcategoryDao;
@@ -64,6 +63,7 @@ public class SubcategoryDaoTest {
         Subcategory result = SessionUtil.getSession()
                 .createQuery("From Subcategories", Subcategory.class).getSingleResult();
         assertEquals(result, subcategory);
+        assertEquals(category, subcategory.getCategory());
     }
 
     @Test
@@ -80,5 +80,6 @@ public class SubcategoryDaoTest {
         // then
         List<Subcategory> result = subcategoryDao.getAllSubcategories();
         assertTrue(result.contains(subcategory1) && result.contains(subcategory2));
+        assertTrue(category.getSubcategories().contains(subcategory1));
     }
 }

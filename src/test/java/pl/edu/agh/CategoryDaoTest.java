@@ -3,7 +3,6 @@ package pl.edu.agh;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
-import org.mockito.Mockito;
 import pl.edu.agh.dao.CategoryDao;
 import pl.edu.agh.dao.ICategoryDao;
 import pl.edu.agh.model.Category;

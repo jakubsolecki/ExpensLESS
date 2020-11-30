@@ -24,8 +24,8 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<Subcategory> subcategories = new LinkedList<>(); // TODO: consider set instead
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Subcategory> subcategories = new LinkedList<>();
 
     public Category(String name) {
         this.name = name;
