@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import java.util.HashMap;
 
 public class Router {
+
     private static final HashMap<String, Pane> paneMap = new HashMap<>();
     private static Scene mainScene;
 

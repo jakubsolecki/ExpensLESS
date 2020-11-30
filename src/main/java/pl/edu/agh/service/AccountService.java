@@ -7,6 +7,7 @@ import pl.edu.agh.util.SessionUtil;
 import java.util.List;
 
 public class AccountService {
+
     private final IAccountDao accountDao;
 
     @Inject

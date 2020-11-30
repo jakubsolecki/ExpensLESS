@@ -11,13 +11,13 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Account {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(nullable = false)
     private String name;
-
 
     @Column(nullable = false)
     private double balance;

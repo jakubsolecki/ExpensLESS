@@ -7,7 +7,7 @@ import pl.edu.agh.util.SessionUtil;
 import javax.persistence.PersistenceException;
 import java.util.List;
 
-public class AccountDao implements IAccountDao{
+public class AccountDao implements IAccountDao {
     @Override
     public void saveAccount(Account account) throws PersistenceException {
         Session session = SessionUtil.getSession();

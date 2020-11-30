@@ -5,6 +5,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 public class SessionUtil {
+
     public static final SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     private static Session session;
