@@ -15,7 +15,7 @@ public class AccountViewElement extends VBox {
         button = new Button("Open");
 
         button.setOnAction((event -> {
-            Router.routeTo("Hello");
+            Router.routeTo("Categories");
         }));
         getChildren().addAll(new Text(account.getName()),
                 new Text(account.getBalance() + " PLN"),

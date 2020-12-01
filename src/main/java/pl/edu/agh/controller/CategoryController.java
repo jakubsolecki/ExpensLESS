@@ -1,17 +1,14 @@
 package pl.edu.agh.controller;
 
-import com.google.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import lombok.Setter;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.service.CategoryService;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 public class CategoryController {
 
@@ -19,24 +16,22 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @FXML
-    private ListView<String> categoriesListView = new ListView<>();
+    private TreeView<String> categoryTreeView = new TreeView<>();
 
     @FXML
     public void initialize() {
+        Platform.runLater(() -> {
+        TreeItem<String> rootItem = new TreeItem<>("Categories");
+        rootItem.setExpanded(true);
 
-        ObservableList<String> categories = FXCollections.observableList(
-                categoryService.getAllCategories().stream()
-                .map(Category::getName)
-                .collect(Collectors.toList())
-        );
+        List<Category> categoryList = categoryService.getAllCategories();
 
-        categoriesListView.setItems(categories);
+        categoryList.stream()
+            .map(cat -> new TreeItem<String>(cat.getName()))
+            .forEach(catView -> rootItem.getChildren().add(catView));
 
-        categoriesListView.setPrefHeight(15);
-        categoriesListView.setPrefWidth(150);
-
-//        categoriesListView.setCellFactory(cat -> new ListCell<>() {
-//
-//        });
+        categoryTreeView.setRoot(rootItem);
+        categoryTreeView.setShowRoot(false);
+    });
     }
 }
