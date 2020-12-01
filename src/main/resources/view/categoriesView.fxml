@@ -26,7 +26,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="Back" translateX="2.0" />
+            <Button mnemonicParsing="false" text="Back" translateX="2.0" onAction="#backButtonClicked"/>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Text layoutX="-4.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu się wyświetli nazwę konta, saldo i inne pierdoły" />

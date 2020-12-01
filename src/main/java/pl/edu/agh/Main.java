@@ -95,6 +95,5 @@ public class Main extends Application {
         controller.setCategoryService(categoryService);
 
         Router.addPane("Categories", pane);
-//        mainPane = pane;
     }
 }
