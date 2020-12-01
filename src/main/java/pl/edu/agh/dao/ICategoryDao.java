@@ -9,4 +9,6 @@ public interface ICategoryDao {
     void saveCategory(Category category);
 
     List<Category> getAllCategories();
+
+    Category findCategoryByName(String name);
 }

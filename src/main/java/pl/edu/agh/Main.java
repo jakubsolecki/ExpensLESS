@@ -13,11 +13,14 @@ import pl.edu.agh.controller.CategoryController;
 import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.util.Router;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -35,10 +38,25 @@ public class Main extends Application {
     }
 
     public void createMockCategories() {
-        categoryService.createCategory(new Category("Category 1"));
-        categoryService.createCategory(new Category("Category 2"));
-        categoryService.createCategory(new Category("Category 3"));
-        categoryService.createCategory(new Category("Category 4"));
+        List<Category> categoryList = Arrays.asList(
+                new Category("Category 1"),
+                new Category("Category 2"),
+                new Category("Category 3"),
+                new Category("Category 4")
+        );
+
+        for (Category category : categoryList) {
+            categoryService.createCategory(category);
+        }
+
+        categoryService.createSubcategory(new Subcategory("Subcategory a", categoryList.get(0)));
+        categoryService.createSubcategory(new Subcategory("Subcategory b", categoryList.get(0)));
+        categoryService.createSubcategory(new Subcategory("Subcategory c", categoryList.get(0)));
+        categoryService.createSubcategory(new Subcategory("Subcategory e", categoryList.get(1)));
+        categoryService.createSubcategory(new Subcategory("Subcategory f", categoryList.get(1)));
+        categoryService.createSubcategory(new Subcategory("Subcategory g", categoryList.get(1)));
+        categoryService.createSubcategory(new Subcategory("Subcategory h", categoryList.get(2)));
+        categoryService.createSubcategory(new Subcategory("Subcategory i", categoryList.get(3)));
     }
 
 

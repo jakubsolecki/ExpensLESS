@@ -51,4 +51,26 @@ public class CategoryDao implements ICategoryDao {
             throw e;
         }
     }
+
+    @Override
+    public Category findCategoryByName(String name) {
+        Transaction transaction = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+
+            return (Category) session.createQuery("FROM Categories where name = :name")
+                    .setParameter("name", name)
+                    .getSingleResult();
+
+        } catch (Exception e) {
+
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
+    }
 }

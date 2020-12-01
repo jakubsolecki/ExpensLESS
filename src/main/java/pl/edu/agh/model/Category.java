@@ -24,7 +24,7 @@ public class Category {
     @Column(unique = true)
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subcategory> subcategories = new LinkedList<>();
 
     public Category(String name) {

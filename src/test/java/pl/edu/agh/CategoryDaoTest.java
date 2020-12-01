@@ -60,16 +60,31 @@ public class CategoryDaoTest {
     @Test
     public void getAllCategories() {
         // given
-        Category category1 = new Category("Category 2");
-        Category category2 = new Category("Category 3");
+        Category category2 = new Category("Category 2");
+        Category category3 = new Category("Category 3");
 
         // when
-        categoryDao.saveCategory(category1);
         categoryDao.saveCategory(category2);
+        categoryDao.saveCategory(category3);
 
         // then
         List<Category> result = categoryDao.getAllCategories();
-        assertTrue(result.contains(category1) && result.contains(category1));
+        assertTrue(result.contains(category2) && result.contains(category2));
+    }
+
+    @Test
+    public void findCategoryById() {
+        // given
+        Category category4 = new Category("Category 4");
+        Category category5 = new Category("Category 5");
+
+        // when
+        categoryDao.saveCategory(category4);
+        categoryDao.saveCategory(category5);
+
+        // then
+        Category resultCategory = categoryDao.findCategoryByName("Category 5");
+        assertEquals(category5, resultCategory);
     }
 
 }

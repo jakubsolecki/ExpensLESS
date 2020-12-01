@@ -1,6 +1,5 @@
 package pl.edu.agh.controller;
 
-import antlr.actions.cpp.ActionLexerTokenTypes;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,6 +7,7 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import lombok.Setter;
 import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.util.Router;
 
@@ -29,9 +29,17 @@ public class CategoryController {
 
             List<Category> categoryList = categoryService.getAllCategories();
 
-            categoryList.stream()
-                .map(cat -> new TreeItem<>(cat.getName()))
-                .forEach(catView -> rootItem.getChildren().add(catView));
+            for (Category cat : categoryList) {
+                TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
+
+                for (Subcategory subcat : cat.getSubcategories()) {
+                    if (subcat != null) {
+                        categoryTreeItem.getChildren().add(new TreeItem<>(subcat.getName()));
+                    }
+                }
+
+                rootItem.getChildren().add(categoryTreeItem);
+            }
 
             categoryTreeView.setRoot(rootItem);
             categoryTreeView.setShowRoot(false);

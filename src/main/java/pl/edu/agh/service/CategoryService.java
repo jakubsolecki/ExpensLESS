@@ -40,9 +40,13 @@ public class CategoryService {
         return categoryList;
     }
 
-//    public List<Subcategory> getAllSubcategories() {
-//
-//    }
+    public Category getCategoryByName(String name) {
+        SessionUtil.openSession();
+        Category category = categoryDao.findCategoryByName(name);
+        SessionUtil.closeSession();
+
+        return category;
+    }
 
 
 }
