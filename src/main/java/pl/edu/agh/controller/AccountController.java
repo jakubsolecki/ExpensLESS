@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class AccountController {
+
     @FXML
     public GridPane gridPane;
 
@@ -48,14 +49,12 @@ public class AccountController {
 
             controller.setAccountController(this);
 
-
             Scene scene = new Scene(pane);
             Stage stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.showAndWait();
     }
-
 
     @FXML
     public void initialize() {

@@ -14,5 +14,8 @@
         <property name="hbm2ddl.auto">create</property>
 
         <mapping class="pl.edu.agh.model.Account"></mapping>
+        <mapping class="pl.edu.agh.model.Category"></mapping>
+        <mapping class="pl.edu.agh.model.Subcategory"></mapping>
+        <mapping class="pl.edu.agh.model.Transaction"/>
     </session-factory>
 </hibernate-configuration>

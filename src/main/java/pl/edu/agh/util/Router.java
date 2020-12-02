@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 
 public class Router {
+
     private static final HashMap<String, Pane> paneMap = new HashMap<>();
     @Setter
     private static Scene mainScene;
