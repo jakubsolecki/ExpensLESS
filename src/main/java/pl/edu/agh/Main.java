@@ -80,7 +80,6 @@ public class Main extends Application {
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
         Router.setMainScene(mainScene);
-        Router.setMainStage(primaryStage);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();

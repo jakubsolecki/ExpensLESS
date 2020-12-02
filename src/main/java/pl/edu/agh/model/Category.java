@@ -2,7 +2,6 @@ package pl.edu.agh.model;
 
 import com.sun.istack.NotNull;
 import lombok.*;
-import pl.edu.agh.dao.CategoryDao;
 
 import javax.persistence.*;
 import java.util.LinkedList;

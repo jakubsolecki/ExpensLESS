@@ -107,5 +107,3 @@ Temporary Items
 /.idea/
 /build/
 .gradle
-
-database.db

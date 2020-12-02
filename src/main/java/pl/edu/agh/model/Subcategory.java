@@ -1,10 +1,7 @@
 package pl.edu.agh.model;
 
-import com.google.inject.Inject;
 import com.sun.istack.NotNull;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import pl.edu.agh.dao.CategoryDao;
 
 import javax.persistence.*;
 
