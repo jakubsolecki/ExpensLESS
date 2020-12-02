@@ -13,5 +13,22 @@
     -fx-background-radius: 10;
     -fx-background-insets: 0;
     -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
+
 }
 
+.account-view-add-button {
+    -fx-background-color: #ECA72C;
+    -fx-background-radius: 10em;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-max-width: 100px;
+    -fx-max-height: 100px;
+    -fx-font-size: 50px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
+
+}

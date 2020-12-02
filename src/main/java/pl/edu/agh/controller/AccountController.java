@@ -1,6 +1,7 @@
 package pl.edu.agh.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
@@ -13,14 +14,20 @@ public class AccountController {
     @FXML
     public GridPane gridPane;
 
+    @FXML
+    public Button addButton;
+
     @Setter
     private AccountService accountService;
 
     private int accountsNumber = 0;
 
     private void addAccountToPane(Account account){
-        gridPane.add(new AccountViewElement(account), accountsNumber % 4, accountsNumber / 4);
-        accountsNumber++;
+        if (accountsNumber <= 10 ){
+            gridPane.add(new AccountViewElement(account), accountsNumber % 4, accountsNumber / 4);
+            accountsNumber++;
+        }
+
     }
 
 
