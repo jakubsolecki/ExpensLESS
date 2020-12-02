@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Text?>
 
 <BorderPane prefHeight="550.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.CategoryController">
    <top>
@@ -26,10 +25,10 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" text="Back" translateX="2.0" onAction="#backButtonClicked"/>
+            <Button mnemonicParsing="false" onAction="#backButtonClicked" text="Back" translateX="2.0" />
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Text layoutX="-4.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu się wyświetli nazwę konta, saldo i inne pierdoły" />
+                  <Label layoutY="6.0" text="Tu się wyświetli nazwę konta, saldo i inne pierdoły" />
                </children>
             </AnchorPane>
          </children>
@@ -52,7 +51,7 @@
                   <Label layoutX="47.0" layoutY="5.0" text="Kategorie" />
                </children>
             </AnchorPane>
-            <TreeView prefHeight="435.0" prefWidth="150.0" fx:id="categoryTreeView"/>
+            <TreeView fx:id="categoryTreeView" prefHeight="435.0" prefWidth="150.0" />
          </children>
       </VBox>
    </left>
