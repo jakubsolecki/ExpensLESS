@@ -4,5 +4,14 @@
     -fx-border-style: solid;
     -fx-border-radius: 5;
     -fx-alignment: center;
+    -fx-font-size: 20px;
+}
+
+.account-view-button {
+    -fx-padding: 5px 30px 5px 30px;
+    -fx-background-color: #275DAD;
+    -fx-background-radius: 10;
+    -fx-background-insets: 0;
+    -fx-text-fill: white;
 }
 

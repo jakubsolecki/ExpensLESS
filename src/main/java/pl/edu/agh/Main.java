@@ -25,11 +25,11 @@ public class Main extends Application {
         accountService.createAccount(new Account("Moje konto 2", 21.37));
         accountService.createAccount(new Account("Moje konto 3", 21.37));
         accountService.createAccount(new Account("Moje konto 4", 21.37));
-        accountService.createAccount(new Account("Moje konto 5", 21.37));
-        accountService.createAccount(new Account("Moje konto 6", 21.37));
+        accountService.createAccount(new Account("Moje konto 5", -21.37));
+        accountService.createAccount(new Account("Moje konto 6", -21.37));
         accountService.createAccount(new Account("Moje konto 7", 21.37));
         accountService.createAccount(new Account("Moje konto 8", 21.37));
-        accountService.createAccount(new Account("Moje konto 9", 21.37));
+        accountService.createAccount(new Account("Moje konto 9", -21.37));
     }
 
 
