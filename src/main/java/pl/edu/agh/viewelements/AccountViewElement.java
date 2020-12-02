@@ -8,24 +8,31 @@ import pl.edu.agh.model.Account;
 import pl.edu.agh.util.Router;
 
 public class AccountViewElement extends VBox {
-    private final Account account;
-    private final Button button;
+    public final Account account;
+    private final Text balanceText;
+    private final Text accountName;
 
     public AccountViewElement(Account account) {
         this.account = account;
-        button = new Button("Otwórz");
-        Text balanceText = new Text(account.getBalance() + " PLN");
-        balanceText.setFill(account.getBalance() > 0 ? Color.GREEN : Color.RED);
+        Button button = new Button("Otwórz");
+        balanceText = new Text(account.getBalance() + " PLN");
+        balanceText.setFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
 
         button.setOnAction((event -> {
             Router.routeTo("Hello");
         }));
-        getChildren().addAll(new Text(account.getName()), balanceText, button);
+        accountName = new Text(account.getName());
+        getChildren().addAll(accountName, balanceText, button);
 
         this.getStyleClass().add("account-view-element");
         this.setSpacing(20);
         button.getStyleClass().add("standard-button");
+    }
 
+    public void refresh(){
+        balanceText.setText(account.getBalance() + " PLN");
+        balanceText.setFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
+        accountName.setText(account.getName());
     }
 
 }

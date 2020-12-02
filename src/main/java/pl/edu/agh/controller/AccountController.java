@@ -12,10 +12,8 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
-import pl.edu.agh.util.Router;
 import pl.edu.agh.viewelements.AccountViewElement;
 
-import javax.transaction.Transaction;
 import java.io.IOException;
 import java.util.List;
 
@@ -31,26 +29,35 @@ public class AccountController {
 
     private int accountsNumber = 0;
 
-    private void addAccountToPane(Account account){
+    private AccountViewElement addAccountToPane(Account account){
         if (accountsNumber <= 10 ){
-            gridPane.add(new AccountViewElement(account), accountsNumber % 4, accountsNumber / 4);
+            AccountViewElement accountViewElement = new AccountViewElement(account);
+            gridPane.add(accountViewElement, accountsNumber % 4, accountsNumber / 4);
             accountsNumber++;
+            return accountViewElement;
         }
-
+        return null;
     }
 
     @FXML
     private void handleEditAction(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
-        Pane pane = fxmlLoader.load();
-        AccountDialogController controller = fxmlLoader.getController();
-        controller.setAccountService(accountService);
+        AccountViewElement accountViewElement = addAccountToPane(new Account());
+        if (accountViewElement != null){
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
+            Pane pane = fxmlLoader.load();
+            AccountDialogController controller = fxmlLoader.getController();
+            controller.setAccountService(accountService);
 
-        Scene scene = new Scene(pane);
-        Stage stage = new Stage();
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.setScene(scene);
-        stage.showAndWait();
+            controller.setAccountViewElement(accountViewElement);
+
+
+            Scene scene = new Scene(pane);
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(scene);
+            stage.showAndWait();
+        }
+
     }
 
 
