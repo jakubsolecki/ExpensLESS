@@ -1,4 +1,4 @@
-package pl.edu.agh.viewElements;
+package pl.edu.agh.viewelements;
 
 public class CategoryViewElement {
 }

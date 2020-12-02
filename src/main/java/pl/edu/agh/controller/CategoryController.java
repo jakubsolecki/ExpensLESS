@@ -48,6 +48,6 @@ public class CategoryController {
 
     @FXML
     public void backButtonClicked(ActionEvent event) {
-        Router.routeTo("Accounts");
+        Router.routeTo("Account");
     }
 }
