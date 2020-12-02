@@ -40,7 +40,7 @@ public class AccountController {
     }
 
     @FXML
-    private void handleEditAction(ActionEvent event) throws IOException {
+    private void handleAddAction(ActionEvent event) throws IOException {
         AccountViewElement accountViewElement = addAccountToPane(new Account());
         if (accountViewElement != null){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
@@ -57,7 +57,6 @@ public class AccountController {
             stage.setScene(scene);
             stage.showAndWait();
         }
-
     }
 
 
@@ -68,6 +67,5 @@ public class AccountController {
             Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
         }).start();
     }
-
 }
 
