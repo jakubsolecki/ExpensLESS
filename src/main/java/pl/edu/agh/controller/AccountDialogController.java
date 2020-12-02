@@ -22,7 +22,7 @@ public class AccountDialogController {
     public TextField balanceTextField;
 
     @Setter
-    private AccountViewElement accountViewElement;
+    private AccountController accountController;
 
     @FXML
     public void handleCancelAction(ActionEvent event) {
@@ -31,15 +31,20 @@ public class AccountDialogController {
 
     @FXML
     public void handleAddAction(ActionEvent event) {
+        Account account = new Account();
         try {
-            accountViewElement.account.setName(nameTextField.getText());
-            accountViewElement.account.setBalance(Double.parseDouble(balanceTextField.getText()));
+
+            account.setName(nameTextField.getText());
+            account.setBalance(Double.parseDouble(balanceTextField.getText()));
         } catch (NumberFormatException e){
             System.out.println("Wrong format!");
             return;
         }
-        accountService.createAccount(accountViewElement.account);
-        accountViewElement.refresh();
+        if (accountController.addAccountToPane(account) != null){
+            accountService.createAccount(account);
+        }
+
+
         closeDialog(event);
     }
 

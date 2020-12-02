@@ -29,7 +29,7 @@ public class AccountController {
 
     private int accountsNumber = 0;
 
-    private AccountViewElement addAccountToPane(Account account){
+    AccountViewElement addAccountToPane(Account account){
         if (accountsNumber <= 10 ){
             AccountViewElement accountViewElement = new AccountViewElement(account);
             gridPane.add(accountViewElement, accountsNumber % 4, accountsNumber / 4);
@@ -41,14 +41,12 @@ public class AccountController {
 
     @FXML
     private void handleAddAction(ActionEvent event) throws IOException {
-        AccountViewElement accountViewElement = addAccountToPane(new Account());
-        if (accountViewElement != null){
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
             Pane pane = fxmlLoader.load();
             AccountDialogController controller = fxmlLoader.getController();
             controller.setAccountService(accountService);
 
-            controller.setAccountViewElement(accountViewElement);
+            controller.setAccountController(this);
 
 
             Scene scene = new Scene(pane);
@@ -56,7 +54,6 @@ public class AccountController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.setScene(scene);
             stage.showAndWait();
-        }
     }
 
 
