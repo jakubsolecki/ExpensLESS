@@ -2,8 +2,13 @@ package pl.edu.agh.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
@@ -11,6 +16,7 @@ import pl.edu.agh.util.Router;
 import pl.edu.agh.viewelements.AccountViewElement;
 
 import javax.transaction.Transaction;
+import java.io.IOException;
 import java.util.List;
 
 public class AccountController {
@@ -34,8 +40,17 @@ public class AccountController {
     }
 
     @FXML
-    private void handleEditAction(ActionEvent event){
-        Router.createDialog("AccountDialog");
+    private void handleEditAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
+        Pane pane = fxmlLoader.load();
+        AccountDialogController controller = fxmlLoader.getController();
+        controller.setAccountService(accountService);
+
+        Scene scene = new Scene(pane);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
     }
 
 

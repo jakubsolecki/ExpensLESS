@@ -24,14 +24,4 @@ public class Router {
         mainScene.setRoot(paneMap.get(name));
     }
 
-    public static void createDialog(String name){
-        Stage dialogStage = new Stage();
-        dialogStage.setTitle("Dodaj nowe konto");
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        dialogStage.initOwner(mainStage);
-        Scene scene = new Scene(paneMap.get(name));
-        dialogStage.setScene(scene);
-
-        dialogStage.showAndWait();
-    }
 }

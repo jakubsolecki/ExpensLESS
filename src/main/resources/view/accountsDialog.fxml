@@ -61,7 +61,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <Button mnemonicParsing="false" text="Anuluj" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelAction" text="Anuluj" />
                </children>
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
