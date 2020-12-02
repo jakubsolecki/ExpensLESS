@@ -44,7 +44,6 @@ public class AccountDialogController {
             accountService.createAccount(account);
         }
 
-
         closeDialog(event);
     }
 

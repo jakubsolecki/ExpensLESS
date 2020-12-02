@@ -28,27 +28,28 @@ public class AccountDetailsController {
 
     @FXML
     public void initialize() {
-        Platform.runLater(() -> {
-            TreeItem<String> rootItem = new TreeItem<>("Categories");
-            rootItem.setExpanded(true);
 
+        new Thread(() -> {
             List<Category> categoryList = categoryService.getAllCategories();
 
-            for (Category cat : categoryList) {
-                TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
+            Platform.runLater(() -> {
+                TreeItem<String> rootItem = new TreeItem<>("Categories");
+                rootItem.setExpanded(true);
 
-                for (Subcategory subcat : cat.getSubcategories()) {
-                    if (subcat != null) {
-                        categoryTreeItem.getChildren().add(new TreeItem<>(subcat.getName()));
+                for (Category cat : categoryList) {
+                    TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
+
+                    for (Subcategory subcat : cat.getSubcategories()) {
+                        if (subcat != null) {
+                            categoryTreeItem.getChildren().add(new TreeItem<>(subcat.getName()));
+                        }
                     }
+                    rootItem.getChildren().add(categoryTreeItem);
                 }
-
-                rootItem.getChildren().add(categoryTreeItem);
-            }
-
-            categoryTreeView.setRoot(rootItem);
-            categoryTreeView.setShowRoot(false);
-        });
+                categoryTreeView.setRoot(rootItem);
+                categoryTreeView.setShowRoot(false);
+            });
+        }).start();
     }
 
     @FXML
