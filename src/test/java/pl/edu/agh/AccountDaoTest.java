@@ -6,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.AccountDao;
 import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,5 +56,23 @@ public class AccountDaoTest {
         //then
         List<Account> result = accountDao.getAllAccounts();
         assertTrue(result.contains(account1) && result.contains(account2));
+    }
+
+    @Test
+    public void addTransactionTest(){
+        IAccountDao accountDao = new AccountDao();
+        Account account = new Account("Moje konto", 100.0);
+        Transaction transaction = new Transaction("Warzywa", -69.0, Date.from(Instant.now()), account);
+
+        // when
+        accountDao.addTransaction(account, transaction);
+
+        //then
+        Account result = (Account) SessionUtil.getSession().
+                createQuery("FROM Accounts WHERE id = :id").
+                setParameter("id", account.getId()).
+                getSingleResult();
+        assertTrue(result.getTransactions().contains(transaction) &&
+                Double.compare(result.getBalance(), account.getBalance()) == 0);
     }
 }
