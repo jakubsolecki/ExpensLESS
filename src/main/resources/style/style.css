@@ -21,11 +21,11 @@
 .account-view-add-button {
     -fx-background-color: #ECA72C;
     -fx-background-radius: 10em;
-    -fx-min-width: 60px;
-    -fx-min-height: 60px;
-    -fx-max-width: 100px;
-    -fx-max-height: 100px;
-    -fx-font-size: 50px;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 80px;
+    -fx-max-height: 80px;
+    -fx-font-size: 40px;
     -fx-text-fill: white;
     -fx-cursor: hand;
     -fx-alignment: center;
