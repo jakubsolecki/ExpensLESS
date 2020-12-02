@@ -1,4 +1,4 @@
-package pl.edu.agh.viewElements;
+package pl.edu.agh.viewelements;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -21,5 +21,8 @@ public class AccountViewElement extends VBox {
                 new Text(account.getBalance() + " PLN"),
                 button);
 
+        this.getStyleClass().add("account-view-element");
+
     }
+
 }

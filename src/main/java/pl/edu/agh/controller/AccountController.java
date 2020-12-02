@@ -19,7 +19,7 @@ public class AccountController {
     private int accountsNumber = 0;
 
     private void addAccountToPane(Account account){
-        gridPane.add(new AccountViewElement(account), accountsNumber % 3, accountsNumber / 3);
+        gridPane.add(new AccountViewElement(account), accountsNumber % 4, accountsNumber / 4);
         accountsNumber++;
     }
 

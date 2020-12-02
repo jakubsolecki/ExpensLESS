@@ -27,6 +27,9 @@ public class Main extends Application {
         accountService.createAccount(new Account("Moje konto 4", 21.37));
         accountService.createAccount(new Account("Moje konto 5", 21.37));
         accountService.createAccount(new Account("Moje konto 6", 21.37));
+        accountService.createAccount(new Account("Moje konto 7", 21.37));
+        accountService.createAccount(new Account("Moje konto 8", 21.37));
+        accountService.createAccount(new Account("Moje konto 9", 21.37));
     }
 
 
@@ -44,6 +47,8 @@ public class Main extends Application {
         }
 
         Scene mainScene = new Scene(mainPane);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+
         Router.setMainScene(mainScene);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
