@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.util.Router;
+import pl.edu.agh.util.View;
 
 public class AccountViewElement extends VBox {
     public final Account account;
@@ -19,7 +20,7 @@ public class AccountViewElement extends VBox {
         balanceText.setFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
 
         button.setOnAction((event -> {
-            Router.routeTo("Categories");
+            Router.routeTo(View.ACCOUNT_DETAILS);
         }));
         accountName = new Text(account.getName());
         getChildren().addAll(accountName, balanceText, button);

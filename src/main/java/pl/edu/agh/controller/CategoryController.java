@@ -10,6 +10,7 @@ import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.util.Router;
+import pl.edu.agh.util.View;
 
 import java.util.List;
 
@@ -48,6 +49,6 @@ public class CategoryController {
 
     @FXML
     public void backButtonClicked(ActionEvent event) {
-        Router.routeTo("Account");
+        Router.routeTo(View.ACCOUNTS);
     }
 }

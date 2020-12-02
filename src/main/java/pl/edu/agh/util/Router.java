@@ -1,24 +1,43 @@
 package pl.edu.agh.util;
 
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import lombok.Setter;
-
-import java.util.HashMap;
+import pl.edu.agh.controller.AccountController;
+import pl.edu.agh.controller.CategoryController;
+import pl.edu.agh.service.AccountService;
+import pl.edu.agh.service.CategoryService;
 
 
 public class Router {
-
-    private static final HashMap<String, Pane> paneMap = new HashMap<>();
     @Setter
     private static Scene mainScene;
+    @Setter
+    private static CategoryService categoryService;
+    @Setter
+    private static AccountService accountService;
 
-    public static void addPane(String name, Pane pane){
-        paneMap.put(name, pane);
+    public static void routeTo(View view){
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            if (view == View.ACCOUNTS){
+                fxmlLoader.setLocation(Router.class.getResource("/view/accountsView.fxml"));
+                Pane pane = fxmlLoader.load();
+                AccountController controller = fxmlLoader.getController();
+                controller.setAccountService(accountService);
+                mainScene.setRoot(pane);
+                return;
+            }
+            if (view == View.ACCOUNT_DETAILS){
+                fxmlLoader.setLocation(Router.class.getResource("/view/categoriesView.fxml"));
+                Pane pane = fxmlLoader.load();
+                CategoryController controller = fxmlLoader.getController();
+                controller.setCategoryService(categoryService);
+                mainScene.setRoot(pane);
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
-    public static void routeTo(String name){
-        mainScene.setRoot(paneMap.get(name));
-    }
-
 }
