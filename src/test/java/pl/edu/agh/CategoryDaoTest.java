@@ -69,7 +69,7 @@ public class CategoryDaoTest {
 
         // then
         List<Category> result = categoryDao.getAllCategories();
-        assertTrue(result.contains(category2) && result.contains(category2));
+        assertTrue(result.contains(category2) && result.contains(category3));
     }
 
     @Test
