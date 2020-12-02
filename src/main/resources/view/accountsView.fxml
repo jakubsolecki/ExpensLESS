@@ -32,7 +32,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <children>
-                  <Button fx:id="addButton" styleClass="account-view-add-button" mnemonicParsing="false" text="+" />
+                  <Button onAction="#handleEditAction" fx:id="addButton" styleClass="account-view-add-button" mnemonicParsing="false" text="+" />
                </children>
             </HBox>
          </children>

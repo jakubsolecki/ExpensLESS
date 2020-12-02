@@ -7,7 +7,7 @@
     -fx-font-size: 20px;
 }
 
-.account-view-button {
+.standard-button {
     -fx-padding: 5px 30px 5px 30px;
     -fx-background-color: #275DAD;
     -fx-background-radius: 10;

@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pl.edu.agh.controller.AccountController;
+import pl.edu.agh.controller.AccountDialogController;
 import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
@@ -42,6 +43,7 @@ public class Main extends Application {
         try{
             initializeAccounts();
             initializeHello();
+            initializeAccountsDialog();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,6 +52,7 @@ public class Main extends Application {
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
         Router.setMainScene(mainScene);
+        Router.setMainStage(primaryStage);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();
@@ -63,8 +66,19 @@ public class Main extends Application {
         AccountController controller = fxmlLoader.getController();
         controller.setAccountService(accountService);
 
-        Router.addPane("Accounts", accountsPane);
+        Router.addPane("Account", accountsPane);
         mainPane = accountsPane;
+    }
+
+    private void initializeAccountsDialog() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/view/accountsDialog.fxml"));
+        Pane accountsDialogPane = fxmlLoader.load();
+
+        AccountDialogController controller = fxmlLoader.getController();
+        controller.setAccountService(accountService);
+
+        Router.addPane("AccountDialog", accountsDialogPane);
     }
 
     private void initializeHello() throws IOException {

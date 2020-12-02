@@ -1,13 +1,16 @@
 package pl.edu.agh.controller;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.util.Router;
 import pl.edu.agh.viewelements.AccountViewElement;
 
+import javax.transaction.Transaction;
 import java.util.List;
 
 public class AccountController {
@@ -30,6 +33,11 @@ public class AccountController {
 
     }
 
+    @FXML
+    private void handleEditAction(ActionEvent event){
+        Router.createDialog("AccountDialog");
+    }
+
 
     @FXML
     public void initialize() {
@@ -38,5 +46,6 @@ public class AccountController {
             Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
         }).start();
     }
+
 }
 

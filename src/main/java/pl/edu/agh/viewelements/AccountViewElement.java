@@ -13,7 +13,7 @@ public class AccountViewElement extends VBox {
 
     public AccountViewElement(Account account) {
         this.account = account;
-        button = new Button("Open");
+        button = new Button("Otwórz");
         Text balanceText = new Text(account.getBalance() + " PLN");
         balanceText.setFill(account.getBalance() > 0 ? Color.GREEN : Color.RED);
 
@@ -24,7 +24,7 @@ public class AccountViewElement extends VBox {
 
         this.getStyleClass().add("account-view-element");
         this.setSpacing(20);
-        button.getStyleClass().add("account-view-button");
+        button.getStyleClass().add("standard-button");
 
     }
 
