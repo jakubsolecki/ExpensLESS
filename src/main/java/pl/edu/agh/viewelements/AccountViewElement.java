@@ -29,10 +29,4 @@ public class AccountViewElement extends VBox {
         button.getStyleClass().add("standard-button");
     }
 
-    public void refresh(){
-        balanceText.setText(account.getBalance() + " PLN");
-        balanceText.setFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
-        accountName.setText(account.getName());
-    }
-
 }
