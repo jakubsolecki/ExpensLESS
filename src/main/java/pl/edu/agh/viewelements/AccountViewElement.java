@@ -19,9 +19,9 @@ public class AccountViewElement extends VBox {
         balanceText = new Text(account.getBalance() + " PLN");
         balanceText.setFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
 
-        button.setOnAction((event -> {
-            Router.routeTo(View.ACCOUNT_DETAILS);
-        }));
+        button.setOnAction((event ->
+            Router.routeTo(View.ACCOUNT_DETAILS, account)
+        ));
         accountName = new Text(account.getName());
         getChildren().addAll(accountName, balanceText, button);
 

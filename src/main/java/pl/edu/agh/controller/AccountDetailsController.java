@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import lombok.Setter;
+import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;
@@ -14,10 +15,13 @@ import pl.edu.agh.util.View;
 
 import java.util.List;
 
-public class CategoryController {
+public class AccountDetailsController {
 
     @Setter
     private CategoryService categoryService;
+
+    @Setter
+    private Account account;
 
     @FXML
     private TreeView<String> categoryTreeView = new TreeView<>();
