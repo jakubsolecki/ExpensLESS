@@ -12,49 +12,25 @@ import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
+import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class Main extends Application {
-
     private AccountService accountService;
+
     private Pane mainPane;
     private CategoryService categoryService;
-
-    public void createMockAccounts(){
-        accountService.createAccount(new Account("Moje konto 1", 21.37));
-        accountService.createAccount(new Account("Moje konto 2", 21.37));
-        accountService.createAccount(new Account("Moje konto 3", 21.37));
-        accountService.createAccount(new Account("Moje konto 4", 21.37));
-    }
-
-    public void createMockCategories() {
-        List<Category> categoryList = Arrays.asList(
-                new Category("Category 1"),
-                new Category("Category 2"),
-                new Category("Category 3"),
-                new Category("Category 4")
-        );
-
-        for (Category category : categoryList) {
-            categoryService.createCategory(category);
-        }
-
-        categoryService.createSubcategory(new Subcategory("Subcategory a", categoryList.get(0)));
-        categoryService.createSubcategory(new Subcategory("Subcategory b", categoryList.get(0)));
-        categoryService.createSubcategory(new Subcategory("Subcategory c", categoryList.get(0)));
-        categoryService.createSubcategory(new Subcategory("Subcategory e", categoryList.get(1)));
-        categoryService.createSubcategory(new Subcategory("Subcategory f", categoryList.get(1)));
-        categoryService.createSubcategory(new Subcategory("Subcategory g", categoryList.get(1)));
-        categoryService.createSubcategory(new Subcategory("Subcategory h", categoryList.get(2)));
-        categoryService.createSubcategory(new Subcategory("Subcategory i", categoryList.get(3)));
-    }
-
+    private TransactionService transactionService;
 
     @Override
     public void start(Stage primaryStage) {
@@ -62,8 +38,10 @@ public class Main extends Application {
 
         accountService = injector.getInstance(AccountService.class);
         categoryService = injector.getInstance(CategoryService.class);
-        createMockAccounts();
-        createMockCategories();
+        transactionService = injector.getInstance(TransactionService.class);
+        List<Account> accounts = createMockAccounts();
+        List<Subcategory> subcategories = createMockCategories();
+        createMockTransactions(accounts, subcategories);
 
         try{
             initializeAccounts();
@@ -77,10 +55,76 @@ public class Main extends Application {
         Router.setMainScene(mainScene);
         Router.setAccountService(accountService);
         Router.setCategoryService(categoryService);
+        Router.setTransactionService(transactionService);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
+
+    public List<Account> createMockAccounts(){
+
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(new Account("Moje konto 1", 21.37));
+        accounts.add(new Account("Moje konto 2", 21.37));
+        accounts.add(new Account("Moje konto 3", 21.37));
+        accounts.add(new Account("Moje konto 4", 21.37));
+
+        for (Account account : accounts){
+            accountService.createAccount(account);
+        }
+
+        return accounts;
+    }
+
+    public List<Subcategory> createMockCategories() {
+        List<Category> categoryList = Arrays.asList(
+                new Category("Category 1"),
+                new Category("Category 2"),
+                new Category("Category 3"),
+                new Category("Category 4")
+        );
+
+        for (Category category : categoryList) {
+            categoryService.createCategory(category);
+        }
+
+        List<Subcategory> subcategories = new ArrayList<>();
+        subcategories.add(new Subcategory("Subcategory a", categoryList.get(0)));
+        subcategories.add(new Subcategory("Subcategory b", categoryList.get(0)));
+        subcategories.add(new Subcategory("Subcategory c", categoryList.get(0)));
+        subcategories.add(new Subcategory("Subcategory e", categoryList.get(1)));
+        subcategories.add(new Subcategory("Subcategory f", categoryList.get(1)));
+        subcategories.add(new Subcategory("Subcategory g", categoryList.get(1)));
+        subcategories.add(new Subcategory("Subcategory h", categoryList.get(2)));
+        subcategories.add(new Subcategory("Subcategory i", categoryList.get(3)));
+
+        for (Subcategory subcategory : subcategories){
+            categoryService.createSubcategory(subcategory);
+        }
+
+        return subcategories;
+    }
+
+    public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(new Transaction("Podatek CIT", -89.90,
+                Calendar.getInstance().getTime(), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
+        transactions.add(new Transaction("Warzywa", -24.20,
+                Calendar.getInstance().getTime(), "Dla babci", accounts.get(0), subcategories.get(3)));
+        transactions.add(new Transaction("Urodziny", 100.0,
+                Calendar.getInstance().getTime(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
+        transactions.add(new Transaction("Kwiaty", -42.21,
+                Calendar.getInstance().getTime(), "Dla żony", accounts.get(1), subcategories.get(1)));
+        transactions.add(new Transaction("Podatek", -59.90,
+                Calendar.getInstance().getTime(), "Znowu", accounts.get(2), subcategories.get(6)));
+        transactions.add(new Transaction("Przelew", 200.0,
+                Calendar.getInstance().getTime(), "Za buty", accounts.get(3), subcategories.get(4)));
+
+        for (Transaction transaction : transactions){
+            accountService.addTransaction(transaction.getAccount(), transaction);
+        }
+    }
+
 
     private void initializeAccounts() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

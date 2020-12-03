@@ -43,4 +43,23 @@ public class Transaction {
         this.account = account;
         account.addTransaction(this);
     }
+
+    public Transaction(String name, double price, Date date, Account account, Subcategory subcategory) {
+        this.name = name;
+        this.price = price;
+        this.date = date;
+        this.account = account;
+        this.subCategory = subcategory;
+        account.addTransaction(this);
+    }
+
+    public Transaction(String name, double price, Date date, String description, Account account, Subcategory subcategory) {
+        this.name = name;
+        this.price = price;
+        this.date = date;
+        this.description = description;
+        this.account = account;
+        this.subCategory = subcategory;
+        account.addTransaction(this);
+    }
 }
