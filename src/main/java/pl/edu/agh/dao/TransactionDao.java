@@ -20,7 +20,7 @@ public class TransactionDao implements ITransactionDao {
     public List<Transaction> getAllTransactionsOfAccount(Account account) {
         Session session = SessionUtil.getSession();
         List<Transaction> transactionList = session.
-                createQuery("FROM Transactions WHERE Accounts .id = :id", Transaction.class).
+                createQuery("FROM Transactions WHERE account.id = :id", Transaction.class).
                 setParameter("id", account.getId()).
                 getResultList();
         session.close();

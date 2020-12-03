@@ -26,11 +26,40 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Main extends Application {
-
     private AccountService accountService;
+
     private Pane mainPane;
     private CategoryService categoryService;
     private TransactionService transactionService;
+
+    @Override
+    public void start(Stage primaryStage) {
+        Injector injector = Guice.createInjector(new AppModule());
+
+        accountService = injector.getInstance(AccountService.class);
+        categoryService = injector.getInstance(CategoryService.class);
+        transactionService = injector.getInstance(TransactionService.class);
+        List<Account> accounts = createMockAccounts();
+        List<Subcategory> subcategories = createMockCategories();
+        createMockTransactions(accounts, subcategories);
+
+        try{
+            initializeAccounts();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+        Scene mainScene = new Scene(mainPane);
+        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
+
+        Router.setMainScene(mainScene);
+        Router.setAccountService(accountService);
+        Router.setCategoryService(categoryService);
+        Router.setTransactionService(transactionService);
+        primaryStage.setTitle("ExpensLESS");
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
+    }
 
     public List<Account> createMockAccounts(){
 
@@ -79,51 +108,23 @@ public class Main extends Application {
     public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(new Transaction("Podatek CIT", -89.90,
-                Calendar.getInstance().getTime(), accounts.get(0), subcategories.get(0)));
+                Calendar.getInstance().getTime(), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
         transactions.add(new Transaction("Warzywa", -24.20,
-                Calendar.getInstance().getTime(), accounts.get(0), subcategories.get(3)));
+                Calendar.getInstance().getTime(), "Dla babci", accounts.get(0), subcategories.get(3)));
         transactions.add(new Transaction("Urodziny", 100.0,
-                Calendar.getInstance().getTime(), accounts.get(1), subcategories.get(2)));
+                Calendar.getInstance().getTime(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
         transactions.add(new Transaction("Kwiaty", -42.21,
-                Calendar.getInstance().getTime(), accounts.get(1), subcategories.get(1)));
+                Calendar.getInstance().getTime(), "Dla żony", accounts.get(1), subcategories.get(1)));
         transactions.add(new Transaction("Podatek", -59.90,
-                Calendar.getInstance().getTime(), accounts.get(2), subcategories.get(6)));
+                Calendar.getInstance().getTime(), "Znowu", accounts.get(2), subcategories.get(6)));
         transactions.add(new Transaction("Przelew", 200.0,
-                Calendar.getInstance().getTime(), accounts.get(3), subcategories.get(4)));
+                Calendar.getInstance().getTime(), "Za buty", accounts.get(3), subcategories.get(4)));
 
         for (Transaction transaction : transactions){
             accountService.addTransaction(transaction.getAccount(), transaction);
         }
     }
 
-
-    @Override
-    public void start(Stage primaryStage) {
-        Injector injector = Guice.createInjector(new AppModule());
-
-        accountService = injector.getInstance(AccountService.class);
-        categoryService = injector.getInstance(CategoryService.class);
-        transactionService = injector.getInstance(TransactionService.class);
-        List<Account> accounts = createMockAccounts();
-        List<Subcategory> subcategories = createMockCategories();
-        createMockTransactions(accounts, subcategories);
-
-        try{
-            initializeAccounts();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
-
-        Scene mainScene = new Scene(mainPane);
-        mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-
-        Router.setMainScene(mainScene);
-        Router.setAccountService(accountService);
-        Router.setCategoryService(categoryService);
-        primaryStage.setTitle("ExpensLESS");
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
-    }
 
     private void initializeAccounts() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

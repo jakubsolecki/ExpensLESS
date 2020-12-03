@@ -9,6 +9,7 @@ import pl.edu.agh.controller.AccountDetailsController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
+import pl.edu.agh.service.TransactionService;
 
 
 public class Router {
@@ -18,6 +19,8 @@ public class Router {
     private static CategoryService categoryService;
     @Setter
     private static AccountService accountService;
+    @Setter
+    private static TransactionService transactionService;
 
     public static void routeTo(View view, Object object){
         try{
@@ -42,6 +45,8 @@ public class Router {
                     AccountDetailsController controller = fxmlLoader.getController();
                     controller.setAccount(account);
                     controller.setCategoryService(categoryService);
+                    controller.setAccountService(accountService);
+                    controller.setTransactionService(transactionService);
                     mainScene.setRoot(pane);
                     break;
                 }
