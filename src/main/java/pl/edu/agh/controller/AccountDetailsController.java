@@ -4,11 +4,9 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lombok.Data;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
@@ -20,21 +18,24 @@ import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
-import java.util.Date;
+import java.text.DateFormat;
 import java.util.List;
 
 public class AccountDetailsController {
 
     @FXML
-    public TableColumn<Transaction, String> nameColumn;
+    private Label balance;
+
     @FXML
-    public TableColumn<Transaction, Double> priceColumn;
+    private TableColumn<Transaction, String> nameColumn;
     @FXML
-    public TableColumn<Transaction, Date> dateColumn;
+    private TableColumn<Transaction, Double> priceColumn;
     @FXML
-    public TableColumn<Transaction, String> descriptionColumn;
+    private TableColumn<Transaction, String> dateColumn;
     @FXML
-    public TableView<Transaction> transactionsTable;
+    private TableColumn<Transaction, String> descriptionColumn;
+    @FXML
+    private TableView<Transaction> transactionsTable;
 
     @Setter
     private CategoryService categoryService;
@@ -75,14 +76,22 @@ public class AccountDetailsController {
                 categoryTreeView.setRoot(rootItem);
                 categoryTreeView.setShowRoot(false);
 
-                transactionsTable.setItems(FXCollections.observableList(transactions));
-                nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-                priceColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrice()));
-                dateColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getDate()));
-                descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
+                setTableView(transactions);
+
+                balance.textProperty().bind(new SimpleObjectProperty<>(account.getBalance()).asString());
             });
         }).start();
 
+    }
+
+    private void setTableView(List<Transaction> transactions) {
+        transactionsTable.setItems(FXCollections.observableList(transactions));
+        nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrice()));
+        dateColumn.setCellValueFactory(data -> new SimpleStringProperty(DateFormat.
+                getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).
+                format(data.getValue().getDate())));
+        descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
     }
 
     @FXML
