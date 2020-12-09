@@ -10,6 +10,7 @@ import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 
@@ -43,8 +44,8 @@ class TransactionDaoTest {
     @Test
     void saveTransaction() {
         // given
-        Account account = new Account("Moje konto", 100.0);
-        Transaction transaction = new Transaction("Warzywa", 100.0, Date.from(Instant.now()), account);
+        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
+        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(100.0), Date.from(Instant.now()), account);
 
         // when
         transactionDao.saveTransaction(transaction);

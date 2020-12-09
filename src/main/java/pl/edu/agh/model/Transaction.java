@@ -5,6 +5,8 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.swing.plaf.basic.BasicIconFactory;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity(name = "Transactions")
@@ -22,7 +24,7 @@ public class Transaction {
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     private String description;
 
@@ -36,14 +38,14 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL)
     private Subcategory subCategory;
 
-    public Transaction(String name, double price, Date date, Account account) {
+    public Transaction(String name, BigDecimal price, Date date, Account account) {
         this.name = name;
         this.price = price;
         this.date = date;
         this.account = account;
     }
 
-    public Transaction(String name, double price, Date date, Account account, Subcategory subcategory) {
+    public Transaction(String name, BigDecimal price, Date date, Account account, Subcategory subcategory) {
         this.name = name;
         this.price = price;
         this.date = date;
@@ -51,7 +53,7 @@ public class Transaction {
         this.subCategory = subcategory;
     }
 
-    public Transaction(String name, double price, Date date, String description, Account account, Subcategory subcategory) {
+    public Transaction(String name, BigDecimal price, Date date, String description, Account account, Subcategory subcategory) {
         this.name = name;
         this.price = price;
         this.date = date;
@@ -60,7 +62,7 @@ public class Transaction {
         this.subCategory = subcategory;
     }
 
-    public Transaction(String name, double price, Date date, String description, Account account) {
+    public Transaction(String name, BigDecimal price, Date date, String description, Account account) {
         this.name = name;
         this.price = price;
         this.date = date;

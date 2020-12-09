@@ -26,6 +26,7 @@ import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -94,7 +95,7 @@ public class AccountDetailsController {
 
                 setTableView(transactions);
                 balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
+                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
                 name.setText(account.getName());
             });
         }).start();
@@ -104,7 +105,7 @@ public class AccountDetailsController {
     private void setTableView(List<Transaction> transactions) {
         transactionsTable.setItems(FXCollections.observableList(transactions));
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty<>(data.getValue().getPrice()));
+        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(DateFormat.
                 getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).
                 format(data.getValue().getDate())));
@@ -137,6 +138,6 @@ public class AccountDetailsController {
     private void refresh(){
         transactionsTable.setItems(FXCollections.observableList(transactionService.getAllTransactionsOfAccount(account)));
         balance.setText(account.getBalance() + " PLN");
-        balance.setTextFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
+        balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
     }
 }

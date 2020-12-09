@@ -19,6 +19,7 @@ import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,10 +65,10 @@ public class Main extends Application {
     public List<Account> createMockAccounts(){
 
         List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("Moje konto 1", 21.37));
-        accounts.add(new Account("Moje konto 2", 212121.37));
-        accounts.add(new Account("Moje konto 3", 21.37));
-        accounts.add(new Account("Moje konto 4", 21.37));
+        accounts.add(new Account("Moje konto 1", BigDecimal.valueOf(21.38)));
+        accounts.add(new Account("Moje konto 2", BigDecimal.valueOf(21.36)));
+        accounts.add(new Account("Moje konto 3", BigDecimal.valueOf(21.35)));
+        accounts.add(new Account("Moje konto 4", BigDecimal.valueOf(21.21)));
 
         for (Account account : accounts){
             accountService.createAccount(account);
@@ -107,17 +108,17 @@ public class Main extends Application {
 
     public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
         List<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction("Podatek CIT", -89.90,
+        transactions.add(new Transaction("Podatek CIT", BigDecimal.valueOf(-89.97),
                 Calendar.getInstance().getTime(), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
-        transactions.add(new Transaction("Warzywa", -24.20,
+        transactions.add(new Transaction("Warzywa", BigDecimal.valueOf(-24.20),
                 Calendar.getInstance().getTime(), "Dla babci", accounts.get(0), subcategories.get(3)));
-        transactions.add(new Transaction("Urodziny", 100.0,
+        transactions.add(new Transaction("Urodziny", BigDecimal.valueOf(100.0),
                 Calendar.getInstance().getTime(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
-        transactions.add(new Transaction("Kwiaty", -42.21,
+        transactions.add(new Transaction("Kwiaty", BigDecimal.valueOf(-42.21),
                 Calendar.getInstance().getTime(), "Dla żony", accounts.get(1), subcategories.get(1)));
-        transactions.add(new Transaction("Podatek", -59.90,
+        transactions.add(new Transaction("Podatek", BigDecimal.valueOf(-59.90),
                 Calendar.getInstance().getTime(), "Znowu", accounts.get(2), subcategories.get(6)));
-        transactions.add(new Transaction("Przelew", 200.0,
+        transactions.add(new Transaction("Przelew", BigDecimal.valueOf(200.0),
                 Calendar.getInstance().getTime(), "Za buty", accounts.get(3), subcategories.get(4)));
 
         for (Transaction transaction : transactions){

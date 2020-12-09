@@ -12,6 +12,7 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.TransactionService;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,7 +60,8 @@ public class TransactionDialogController {
     public void okButtonClicked(ActionEvent event) {
         try {
             String name = nameTextField.getText();
-            double price = Double.parseDouble(priceTextField.getText());
+            BigDecimal price = new BigDecimal(priceTextField.getText());
+
             Optional<Date> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
             if(!name.isEmpty() && date.isPresent()){

@@ -10,6 +10,8 @@ import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.viewelements.AccountViewElement;
 
+import java.math.BigDecimal;
+
 public class AccountDialogController {
 
     @Setter
@@ -35,7 +37,7 @@ public class AccountDialogController {
         try {
 
             account.setName(nameTextField.getText());
-            account.setBalance(Double.parseDouble(balanceTextField.getText()));
+            account.setBalance(new BigDecimal(balanceTextField.getText()));
         } catch (NumberFormatException e){
             System.out.println("Wrong format!");
             return;

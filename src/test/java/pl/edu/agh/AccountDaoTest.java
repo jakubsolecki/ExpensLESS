@@ -9,6 +9,7 @@ import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +32,7 @@ public class AccountDaoTest {
     public void saveAccountTest(){
         //Given
         IAccountDao accountDao = new AccountDao();
-        Account account = new Account("Moje konto", 100.0);
+        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
 
         //when
         accountDao.saveAccount(account);
@@ -46,8 +47,8 @@ public class AccountDaoTest {
     public void getAllAccountsTest(){
         //Given
         IAccountDao accountDao = new AccountDao();
-        Account account1 = new Account("Moje konto1", 100.0);
-        Account account2 = new Account("Moje konto2", 100.0);
+        Account account1 = new Account("Moje konto1", BigDecimal.valueOf(100.0));
+        Account account2 = new Account("Moje konto2", BigDecimal.valueOf(100.0));
 
         //when
         accountDao.saveAccount(account1);
@@ -61,8 +62,8 @@ public class AccountDaoTest {
     @Test
     public void addTransactionTest(){
         IAccountDao accountDao = new AccountDao();
-        Account account = new Account("Moje konto", 100.0);
-        Transaction transaction = new Transaction("Warzywa", -69.0, Date.from(Instant.now()), account);
+        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
+        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(-69.0), Date.from(Instant.now()), account);
 
         // when
         accountDao.saveAccount(account);
@@ -73,7 +74,6 @@ public class AccountDaoTest {
                 createQuery("FROM Accounts WHERE id = :id").
                 setParameter("id", account.getId()).
                 getSingleResult();
-        assertTrue(result.getTransactions().contains(transaction) &&
-                Double.compare(result.getBalance(), account.getBalance()) == 0);
+        assertTrue(result.getTransactions().contains(transaction));
     }
 }
