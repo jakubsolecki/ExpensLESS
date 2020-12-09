@@ -61,6 +61,7 @@ public class AccountDetailsController {
     @FXML
     private Button addButton;
 
+    @Setter
     private List<Transaction> transactions;
 
     @FXML
@@ -127,5 +128,11 @@ public class AccountDetailsController {
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
+        refresh();
+    }
+
+    private void refresh(){
+        transactionsTable.setItems(FXCollections.observableList(transactionService.getAllTransactionsOfAccount(account)));
+        balance.setText(String.valueOf(account.getBalance()));
     }
 }
