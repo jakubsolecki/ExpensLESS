@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -89,7 +91,8 @@ public class AccountDetailsController {
                 categoryTreeView.setShowRoot(false);
 
                 setTableView(transactions);
-                balance.setText(String.format("%.2f", account.getBalance()));
+                balance.setText(account.getBalance() + " PLN");
+                balance.setTextFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
             });
         }).start();
 
@@ -106,7 +109,7 @@ public class AccountDetailsController {
     }
 
     @FXML
-    public void backButtonClicked(ActionEvent event) {
+    public void backButtonClicked(MouseEvent event) {
         Router.routeTo(View.ACCOUNTS);
     }
 
@@ -131,6 +134,7 @@ public class AccountDetailsController {
 
     private void refresh(){
         transactionsTable.setItems(FXCollections.observableList(transactionService.getAllTransactionsOfAccount(account)));
-        balance.setText(String.format("%.2f", account.getBalance()));
+        balance.setText(account.getBalance() + " PLN");
+        balance.setTextFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
     }
 }
