@@ -32,6 +32,8 @@ import java.util.List;
 public class AccountDetailsController {
 
     @FXML
+    public Label name;
+    @FXML
     private Label balance;
     @FXML
     private TableColumn<Transaction, String> nameColumn;
@@ -93,6 +95,7 @@ public class AccountDetailsController {
                 setTableView(transactions);
                 balance.setText(account.getBalance() + " PLN");
                 balance.setTextFill(account.getBalance() >= 0 ? Color.GREEN : Color.RED);
+                name.setText(account.getName());
             });
         }).start();
 
@@ -123,7 +126,6 @@ public class AccountDetailsController {
         controller.setTransactionService(transactionService);
 
         Stage dialogStage = new Stage();
-        dialogStage.setTitle("Transaction");
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);

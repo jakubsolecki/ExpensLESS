@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Optional;
 
 public class TransactionDialogController {
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
     @Setter
     private AccountService accountService;
@@ -45,6 +46,12 @@ public class TransactionDialogController {
     public Button cancelButton;
 
 
+    @FXML
+    public void initialize() {
+        Date date = new Date(System.currentTimeMillis());
+        dateTextField.setText(simpleDateFormat.format(date));
+    }
+
     public void cancelButtonClicked(ActionEvent event) {
         closeDialog(event);
     }
@@ -69,7 +76,6 @@ public class TransactionDialogController {
     }
 
     private Optional<Date> parseDateFromString(String text) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         try {
             Date date = simpleDateFormat.parse(text);
             return Optional.of(date);

@@ -65,7 +65,7 @@ public class Main extends Application {
 
         List<Account> accounts = new ArrayList<>();
         accounts.add(new Account("Moje konto 1", 21.37));
-        accounts.add(new Account("Moje konto 2", 21.37));
+        accounts.add(new Account("Moje konto 2", 212121.37));
         accounts.add(new Account("Moje konto 3", 21.37));
         accounts.add(new Account("Moje konto 4", 21.37));
 
