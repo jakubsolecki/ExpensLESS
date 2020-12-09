@@ -12,7 +12,10 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.TransactionService;
 
-import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Optional;
 
 public class TransactionDialogController {
 
@@ -32,6 +35,9 @@ public class TransactionDialogController {
     public TextField priceTextField;
 
     @FXML
+    public TextField dateTextField;
+
+    @FXML
     public TextField descriptionTextField;
 
     @FXML
@@ -46,16 +52,31 @@ public class TransactionDialogController {
     }
 
     public void addButtonClicked(ActionEvent event) {
-        String name = nameTextField.getText();
-        double price = Double.parseDouble(priceTextField.getText());
-        String description = descriptionTextField.getText();
-        if(!name.isEmpty()){
-            Transaction transaction =
-                    new Transaction(name, price, Calendar.getInstance().getTime(), description, account);
-            transactionService.saveTransaction(transaction);
-            accountService.addTransaction(account, transaction);
+        try {
+            String name = nameTextField.getText();
+            double price = Double.parseDouble(priceTextField.getText());
+            Optional<Date> date = parseDateFromString(dateTextField.getText());
+            String description = descriptionTextField.getText();
+            if(!name.isEmpty() && date.isPresent()){
+                Transaction transaction =
+                        new Transaction(name, price, date.get(), description, account);
+                transactionService.saveTransaction(transaction);
+                accountService.addTransaction(account, transaction);
+            }
+        } catch (NumberFormatException e){
+            System.out.println("Wrong format");
+        } finally {
+            closeDialog(event);
         }
-        closeDialog(event);
+    }
+
+    private Optional<Date> parseDateFromString(String text) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+        try {
+            return Optional.of(simpleDateFormat.parse(text));
+        } catch (ParseException e) {
+            return Optional.empty();
+        }
     }
 
     public void closeDialog(ActionEvent event){

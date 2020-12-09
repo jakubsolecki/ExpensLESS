@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
@@ -24,6 +23,7 @@ import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.List;
 
@@ -89,8 +89,7 @@ public class AccountDetailsController {
                 categoryTreeView.setShowRoot(false);
 
                 setTableView(transactions);
-
-                balance.textProperty().bind(new SimpleObjectProperty<>(account.getBalance()).asString());
+                balance.setText(String.valueOf(account.getBalance()));
             });
         }).start();
 
@@ -111,8 +110,7 @@ public class AccountDetailsController {
         Router.routeTo(View.ACCOUNTS);
     }
 
-    @SneakyThrows
-    public void addButtonClicked(ActionEvent event) {
+    public void addButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TransactionDialog.fxml"));
         Pane page = loader.load();
 
@@ -127,6 +125,7 @@ public class AccountDetailsController {
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
+        controller.dateTextField.setPromptText("dd.MM.yyyy HH:mm");
         dialogStage.showAndWait();
         refresh();
     }
