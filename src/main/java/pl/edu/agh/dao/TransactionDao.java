@@ -9,7 +9,7 @@ import java.util.List;
 
 public class TransactionDao implements ITransactionDao {
     @Override
-    public void saveTransaction(Transaction transaction, Account account) {
+    public void saveTransaction(Transaction transaction) {
         Session session = SessionUtil.getSession();
         org.hibernate.Transaction hibernateTransaction = session.beginTransaction();
         session.save(transaction);

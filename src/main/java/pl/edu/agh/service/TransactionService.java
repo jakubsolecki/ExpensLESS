@@ -16,9 +16,9 @@ public class TransactionService {
         this.transactionDao = transactionDao;
     }
 
-    public void saveTransaction(Transaction transaction, Account account){
+    public void saveTransaction(Transaction transaction){
         SessionUtil.openSession();
-        transactionDao.saveTransaction(transaction, account);
+        transactionDao.saveTransaction(transaction);
         SessionUtil.closeSession();
     }
 
