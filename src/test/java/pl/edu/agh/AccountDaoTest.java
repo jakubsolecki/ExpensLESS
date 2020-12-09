@@ -65,6 +65,7 @@ public class AccountDaoTest {
         Transaction transaction = new Transaction("Warzywa", -69.0, Date.from(Instant.now()), account);
 
         // when
+        accountDao.saveAccount(account);
         accountDao.addTransaction(account, transaction);
 
         //then

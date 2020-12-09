@@ -28,7 +28,7 @@ public class AccountDao implements IAccountDao {
     public void addTransaction(Account account, Transaction transaction){
         Session session = SessionUtil.getSession();
         org.hibernate.Transaction hibernateTransaction = session.beginTransaction();
-        account.setBalance(account.getBalance() + transaction.getPrice());
+        account.addTransaction(transaction);
         session.update(account);
         hibernateTransaction.commit();
     }
