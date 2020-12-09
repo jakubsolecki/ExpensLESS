@@ -89,7 +89,7 @@ public class AccountDetailsController {
                 categoryTreeView.setShowRoot(false);
 
                 setTableView(transactions);
-                balance.setText(String.valueOf(account.getBalance()));
+                balance.setText(String.format("%.2f", account.getBalance()));
             });
         }).start();
 
@@ -111,14 +111,13 @@ public class AccountDetailsController {
     }
 
     public void addButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TransactionDialog.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
         Pane page = loader.load();
 
         TransactionDialogController controller = loader.getController();
         controller.setAccount(account);
         controller.setAccountService(accountService);
         controller.setTransactionService(transactionService);
-        controller.setAccountDetailsController(this);
 
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Transaction");
@@ -132,6 +131,6 @@ public class AccountDetailsController {
 
     private void refresh(){
         transactionsTable.setItems(FXCollections.observableList(transactionService.getAllTransactionsOfAccount(account)));
-        balance.setText(String.valueOf(account.getBalance()));
+        balance.setText(String.format("%.2f", account.getBalance()));
     }
 }

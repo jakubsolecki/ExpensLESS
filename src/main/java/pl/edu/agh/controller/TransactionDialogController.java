@@ -25,8 +25,6 @@ public class TransactionDialogController {
     private TransactionService transactionService;
     @Setter
     private Account account;
-    @Setter
-    private AccountDetailsController accountDetailsController;
 
     @FXML
     public TextField nameTextField;
@@ -51,7 +49,7 @@ public class TransactionDialogController {
         closeDialog(event);
     }
 
-    public void addButtonClicked(ActionEvent event) {
+    public void okButtonClicked(ActionEvent event) {
         try {
             String name = nameTextField.getText();
             double price = Double.parseDouble(priceTextField.getText());
@@ -63,7 +61,7 @@ public class TransactionDialogController {
                 transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
             }
-        } catch (NumberFormatException e){
+        } catch (Exception e){
             System.out.println("Wrong format");
         } finally {
             closeDialog(event);
@@ -73,7 +71,8 @@ public class TransactionDialogController {
     private Optional<Date> parseDateFromString(String text) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
         try {
-            return Optional.of(simpleDateFormat.parse(text));
+            Date date = simpleDateFormat.parse(text);
+            return Optional.of(date);
         } catch (ParseException e) {
             return Optional.empty();
         }
