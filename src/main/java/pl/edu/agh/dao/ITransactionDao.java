@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ITransactionDao {
 
-    void saveTransaction(Transaction transaction, Account account);
+    void saveTransaction(Transaction transaction);
     List<Transaction> getAllTransactionsOfAccount(Account account);
 
 }

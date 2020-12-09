@@ -5,6 +5,7 @@ import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
+
 import java.util.List;
 
 public class AccountService {
@@ -29,9 +30,9 @@ public class AccountService {
         return list;
     }
 
-    public void addTransaction(Account account, Transaction tranaction){
+    public void addTransaction(Account account, Transaction transaction){
         SessionUtil.openSession();
-        accountDao.addTransaction(account, tranaction);
+        accountDao.addTransaction(account, transaction);
         SessionUtil.closeSession();
 
     }

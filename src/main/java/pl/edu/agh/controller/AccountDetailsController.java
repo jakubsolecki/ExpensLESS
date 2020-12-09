@@ -6,8 +6,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
@@ -25,7 +31,6 @@ public class AccountDetailsController {
 
     @FXML
     private Label balance;
-
     @FXML
     private TableColumn<Transaction, String> nameColumn;
     @FXML
@@ -35,6 +40,7 @@ public class AccountDetailsController {
     @FXML
     private TableColumn<Transaction, String> descriptionColumn;
     @FXML
+    @Setter
     private TableView<Transaction> transactionsTable;
 
     @Setter
@@ -53,11 +59,16 @@ public class AccountDetailsController {
     private TreeView<String> categoryTreeView = new TreeView<>();
 
     @FXML
+    private Button addButton;
+
+    private List<Transaction> transactions;
+
+    @FXML
     public void initialize() {
 
         new Thread(() -> {
             List<Category> categoryList = categoryService.getAllCategories();
-            List<Transaction> transactions = transactionService.getAllTransactionsOfAccount(account);
+            transactions = transactionService.getAllTransactionsOfAccount(account);
 
             Platform.runLater(() -> {
                 TreeItem<String> rootItem = new TreeItem<>("Categories");
@@ -97,5 +108,24 @@ public class AccountDetailsController {
     @FXML
     public void backButtonClicked(ActionEvent event) {
         Router.routeTo(View.ACCOUNTS);
+    }
+
+    @SneakyThrows
+    public void addButtonClicked(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TransactionDialog.fxml"));
+        Pane page = loader.load();
+
+        TransactionDialogController controller = loader.getController();
+        controller.setAccount(account);
+        controller.setAccountService(accountService);
+        controller.setTransactionService(transactionService);
+        controller.setAccountDetailsController(this);
+
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Transaction");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
     }
 }
