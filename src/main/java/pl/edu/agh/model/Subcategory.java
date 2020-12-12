@@ -11,7 +11,6 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @NoArgsConstructor
-
 public class Subcategory {
 
     @Id

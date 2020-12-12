@@ -12,5 +12,6 @@ public class AppModule extends AbstractModule {
         bind(ICategoryDao.class).to(CategoryDao.class);
         bind(ISubcategoryDao.class).to(SubcategoryDao.class);
         bind(ITransactionDao.class).to(TransactionDao.class);
+        bind(ICategoryBudgetDao.class).to(CategoryBudgetDao.class);
     }
 }

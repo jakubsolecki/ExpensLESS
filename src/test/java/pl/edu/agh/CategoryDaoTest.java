@@ -54,7 +54,7 @@ public class CategoryDaoTest {
         // then
         Category result = SessionUtil.getSession()
                 .createQuery("From Categories", Category.class).getSingleResult();
-        assertEquals(result, category);
+        assertEquals(category, result);
     }
 
     @Test

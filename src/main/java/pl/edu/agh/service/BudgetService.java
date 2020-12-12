@@ -1,0 +1,28 @@
+package pl.edu.agh.service;
+
+import com.google.inject.Inject;
+import pl.edu.agh.dao.BudgetDao;
+import pl.edu.agh.dao.CategoryBudgetDao;
+import pl.edu.agh.dao.IBudgetDao;
+import pl.edu.agh.dao.ICategoryBudgetDao;
+import pl.edu.agh.model.CategoryBudget;
+import pl.edu.agh.util.SessionUtil;
+
+public class BudgetService {
+
+    private final ICategoryBudgetDao categoryBudgetDao;
+
+    private final IBudgetDao budgetDao;
+
+    @Inject
+    public BudgetService(CategoryBudgetDao categoryBudgetDao, BudgetDao budgetDao) {
+        this.categoryBudgetDao = categoryBudgetDao;
+        this.budgetDao = budgetDao;
+    }
+
+    public void createCategoryBudget(CategoryBudget categoryBudget) {
+        SessionUtil.openSession();
+        categoryBudgetDao.saveCategoryBudget(categoryBudget);
+        SessionUtil.closeSession();
+    }
+}

@@ -35,7 +35,6 @@ public class AccountDialogController {
     public void handleAddAction(ActionEvent event) {
         Account account = new Account();
         try {
-
             account.setName(nameTextField.getText());
             account.setBalance(new BigDecimal(balanceTextField.getText()));
         } catch (NumberFormatException e){
