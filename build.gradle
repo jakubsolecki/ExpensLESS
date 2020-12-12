@@ -15,6 +15,10 @@ repositories {
     }
 }
 
+test {
+    useJUnitPlatform()
+}
+
 application {
     mainClassName = 'pl.edu.agh.Main'
 }
@@ -40,6 +44,10 @@ dependencies {
     implementation 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     implementation 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.16'
+    implementation group: 'com.google.inject', name: 'guice', version: '4.2.3'
+    implementation group: 'com.google.inject.extensions', name: 'guice-multibindings', version: '4.2.3'
+    implementation 'org.mockito:mockito-core:3.6.28'
+
 
 
 
