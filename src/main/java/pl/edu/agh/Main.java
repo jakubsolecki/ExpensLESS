@@ -128,7 +128,14 @@ public class Main extends Application {
     }
 
     private void createMockBudget(){
-        budgetService.createBudget(new Budget(2020, Month.DECEMBER));
+        Budget mockBudget = new Budget(2020, Month.DECEMBER);
+        Category category = new Category("sample category");
+
+        CategoryBudget categoryBudget = new CategoryBudget(category, BigDecimal.valueOf(20000.0), mockBudget);
+        budgetService.createBudget(mockBudget);
+        mockBudget.addCategoryBudget(categoryBudget);
+        budgetService.createCategoryBudget(categoryBudget);
+
 
     }
 

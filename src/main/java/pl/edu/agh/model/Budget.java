@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.Month;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity(name = "Budgets")
@@ -19,8 +20,12 @@ public class Budget {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<CategoryBudget> categoryBudgetList;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CategoryBudget> categoryBudgetList = new LinkedList<>();
+
+    public void addCategoryBudget(CategoryBudget categoryBudget){
+        categoryBudgetList.add(categoryBudget);
+    }
 
     @NonNull
     @NotNull
@@ -29,4 +34,6 @@ public class Budget {
     @NonNull
     @NotNull
     private Month month;
+
+
 }

@@ -28,4 +28,9 @@ public class CategoryBudget {
     @NotNull
     @Column(nullable = false)
     private BigDecimal plannedBudget;
+
+    @NonNull
+    @NotNull
+    @ManyToOne
+    private Budget budget;
 }
