@@ -9,11 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.guice.AppModule;
-import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
@@ -21,6 +19,7 @@ import pl.edu.agh.util.Router;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,6 +27,7 @@ import java.util.List;
 
 public class Main extends Application {
     private AccountService accountService;
+    private BudgetService budgetService;
 
     private Pane mainPane;
     private CategoryService categoryService;
@@ -40,10 +40,11 @@ public class Main extends Application {
         accountService = injector.getInstance(AccountService.class);
         categoryService = injector.getInstance(CategoryService.class);
         transactionService = injector.getInstance(TransactionService.class);
+        budgetService = injector.getInstance(BudgetService.class);
         List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
         createMockTransactions(accounts, subcategories);
-
+        createMockBudget();
         try{
             initializeAccounts();
         } catch (IOException e) {
@@ -126,6 +127,10 @@ public class Main extends Application {
         }
     }
 
+    private void createMockBudget(){
+        budgetService.createBudget(new Budget(2020, Month.DECEMBER));
+
+    }
 
     private void initializeAccounts() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -136,4 +141,6 @@ public class Main extends Application {
         controller.setAccountService(accountService);
         mainPane = accountsPane;
     }
+
+
 }

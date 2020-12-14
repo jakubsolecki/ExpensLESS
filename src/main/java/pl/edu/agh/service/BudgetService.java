@@ -5,6 +5,7 @@ import pl.edu.agh.dao.BudgetDao;
 import pl.edu.agh.dao.CategoryBudgetDao;
 import pl.edu.agh.dao.IBudgetDao;
 import pl.edu.agh.dao.ICategoryBudgetDao;
+import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.CategoryBudget;
 import pl.edu.agh.util.SessionUtil;
 
@@ -23,6 +24,12 @@ public class BudgetService {
     public void createCategoryBudget(CategoryBudget categoryBudget) {
         SessionUtil.openSession();
         categoryBudgetDao.saveCategoryBudget(categoryBudget);
+        SessionUtil.closeSession();
+    }
+
+    public void createBudget(Budget budget){
+        SessionUtil.openSession();
+        budgetDao.saveBudget(budget);
         SessionUtil.closeSession();
     }
 }

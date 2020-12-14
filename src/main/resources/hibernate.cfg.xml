@@ -20,6 +20,7 @@
         <mapping class="pl.edu.agh.model.Subcategory"/>
         <mapping class="pl.edu.agh.model.Transaction"/>
         <mapping class="pl.edu.agh.model.CategoryBudget"/>
+        <mapping class="pl.edu.agh.model.Budget"/>
 
     </session-factory>
 </hibernate-configuration>
