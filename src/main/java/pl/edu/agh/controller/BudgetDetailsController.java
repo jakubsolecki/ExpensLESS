@@ -19,6 +19,7 @@ import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class BudgetDetailsController {
@@ -43,8 +44,9 @@ public class BudgetDetailsController {
         rootItem.setExpanded(true);
 
         for (CategoryBudget cat : categoryBudgetList) {
-            Text text = new Text(cat.getPlannedBudget().toString());
-            text.setFill(cat.getPlannedBudget().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+            BigDecimal balance = budgetService.calculateBudgetBalance(budget, cat.getCategory());
+            Text text = new Text(balance+" / "+cat.getPlannedBudget().toString());
+            text.setFill(cat.getPlannedBudget().subtract(balance).doubleValue() >= 0 ? Color.GREEN : Color.RED);
             GridPane gridPane = new GridPane();
             gridPane.add(new Text(cat.getCategory().getName()), 0, 0);
             gridPane.add(text, 1, 0);

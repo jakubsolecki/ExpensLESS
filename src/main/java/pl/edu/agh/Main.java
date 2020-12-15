@@ -42,6 +42,7 @@ public class Main extends Application {
         categoryService = injector.getInstance(CategoryService.class);
         transactionService = injector.getInstance(TransactionService.class);
         budgetService = injector.getInstance(BudgetService.class);
+        budgetService.setTransactionService(transactionService);
         List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
         createMockTransactions(accounts, subcategories);
