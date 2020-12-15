@@ -54,12 +54,11 @@ public class Main extends Application {
 
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-
-        budgetService.getBudgetsByYear(2020);
         Router.setMainScene(mainScene);
         Router.setAccountService(accountService);
         Router.setCategoryService(categoryService);
         Router.setTransactionService(transactionService);
+        Router.setBudgetService(budgetService);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();
