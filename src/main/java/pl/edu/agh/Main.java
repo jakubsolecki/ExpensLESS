@@ -16,6 +16,7 @@ import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 
+import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -46,7 +47,7 @@ public class Main extends Application {
         createMockTransactions(accounts, subcategories);
         createMockBudget();
         try{
-            initializeAccounts();
+            initializeMenu();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -139,13 +140,10 @@ public class Main extends Application {
 
     }
 
-    private void initializeAccounts() throws IOException {
+    private void initializeMenu() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/view/accountsView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/view/menuView.fxml"));
         Pane accountsPane = fxmlLoader.load();
-
-        AccountController controller = fxmlLoader.getController();
-        controller.setAccountService(accountService);
         mainPane = accountsPane;
     }
 

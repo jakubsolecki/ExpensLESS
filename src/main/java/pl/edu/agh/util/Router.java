@@ -50,6 +50,11 @@ public class Router {
                     mainScene.setRoot(pane);
                     break;
                 }
+                case MENU -> {
+                    fxmlLoader.setLocation(Router.class.getResource("/view/menuView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    mainScene.setRoot(pane);
+                }
             }
         } catch (Exception e){
             e.printStackTrace();

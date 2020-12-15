@@ -114,7 +114,7 @@ public class AccountDetailsController {
 
     @FXML
     public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.ACCOUNTS);
+        Router.routeTo(View.MENU);
     }
 
     public void addButtonClicked(ActionEvent event) throws IOException {
