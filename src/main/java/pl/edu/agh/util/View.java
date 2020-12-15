@@ -4,5 +4,6 @@ public enum View {
     ACCOUNTS,
     ACCOUNT_DETAILS,
     MENU,
-    BUDGETS
+    BUDGETS,
+    BUDGET_DETAILS
 }

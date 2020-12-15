@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 public class Budget {
 
     @Id
@@ -34,4 +33,9 @@ public class Budget {
     @NonNull
     @NotNull
     private Month month;
+
+    @Override
+    public String toString() {
+        return Integer.toString(year) + " " + month.toString();
+    }
 }

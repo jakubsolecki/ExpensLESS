@@ -45,7 +45,6 @@ public class Main extends Application {
         List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
         createMockTransactions(accounts, subcategories);
-        createMockBudget();
         try{
             initializeMenu();
         } catch (IOException e) {
@@ -128,17 +127,6 @@ public class Main extends Application {
         }
     }
 
-    private void createMockBudget(){
-        Budget mockBudget = new Budget(2020, Month.DECEMBER);
-        Category category = new Category("sample category");
-
-        CategoryBudget categoryBudget = new CategoryBudget(category, BigDecimal.valueOf(20000.0), mockBudget);
-        budgetService.createBudget(mockBudget);
-        mockBudget.addCategoryBudget(categoryBudget);
-        budgetService.createCategoryBudget(categoryBudget);
-
-
-    }
 
     private void initializeMenu() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();

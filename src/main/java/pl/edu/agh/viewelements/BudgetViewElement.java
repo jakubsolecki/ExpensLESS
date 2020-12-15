@@ -23,6 +23,7 @@ public class BudgetViewElement extends VBox {
         this.getStyleClass().add("account-view-element");
         this.setSpacing(20);
         button.getStyleClass().add("standard-button");
+        button.setOnAction(event -> Router.routeTo(View.BUDGET_DETAILS, budget));
     }
 
 }
