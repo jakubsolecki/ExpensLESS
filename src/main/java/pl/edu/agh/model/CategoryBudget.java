@@ -33,4 +33,9 @@ public class CategoryBudget {
     @NotNull
     @ManyToOne
     private Budget budget;
+
+    public CategoryBudget(Category category, BigDecimal bigDecimal) {
+        this.category = category;
+        this.plannedBudget = bigDecimal;
+    }
 }

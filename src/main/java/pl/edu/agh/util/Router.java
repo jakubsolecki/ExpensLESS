@@ -55,6 +55,11 @@ public class Router {
                     Pane pane = fxmlLoader.load();
                     mainScene.setRoot(pane);
                 }
+                case BUDGETS -> {
+                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetsView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    mainScene.setRoot(pane);
+                }
             }
         } catch (Exception e){
             e.printStackTrace();

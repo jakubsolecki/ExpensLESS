@@ -8,7 +8,7 @@ import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity(name = "Budgets")
+@Entity
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -34,6 +34,4 @@ public class Budget {
     @NonNull
     @NotNull
     private Month month;
-
-
 }

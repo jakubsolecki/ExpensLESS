@@ -1,6 +1,7 @@
 package pl.edu.agh.service;
 
 import com.google.inject.Inject;
+import org.hibernate.Session;
 import pl.edu.agh.dao.BudgetDao;
 import pl.edu.agh.dao.CategoryBudgetDao;
 import pl.edu.agh.dao.IBudgetDao;
@@ -47,5 +48,10 @@ public class BudgetService {
         }
         return balance;
     }
+
+    public List<Budget> getBudgetsByYear(int year) {
+        return budgetDao.getBudgetsByYear(year);
+    }
+
 
 }
