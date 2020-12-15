@@ -68,6 +68,7 @@ public class Router {
                     Pane pane = fxmlLoader.load();
                     BudgetController budgetController = fxmlLoader.getController();
                     budgetController.setBudgetService(budgetService);
+                    budgetController.setCategoryService(categoryService);
                     budgetController.refreshData();
                     mainScene.setRoot(pane);
                     break;
