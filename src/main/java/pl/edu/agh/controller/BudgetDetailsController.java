@@ -4,6 +4,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import pl.edu.agh.model.Budget;
@@ -19,7 +23,7 @@ import java.util.List;
 
 public class BudgetDetailsController {
     public Label nameLabel;
-    public TreeView<String> categoryTree;
+    public TreeView<Object> categoryTree;
     @Setter
     private Budget budget;
 
@@ -35,11 +39,20 @@ public class BudgetDetailsController {
         Hibernate.initialize(budget.getCategoryBudgetList());
         List<CategoryBudget> categoryBudgetList = budget.getCategoryBudgetList();
 
-        TreeItem<String> rootItem = new TreeItem<>("Categories");
+        TreeItem<Object> rootItem = new TreeItem<>("Categories");
         rootItem.setExpanded(true);
 
         for (CategoryBudget cat : categoryBudgetList) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getCategory().getName() + " " + cat.getPlannedBudget());
+            Text text = new Text(cat.getPlannedBudget().toString());
+            text.setFill(cat.getPlannedBudget().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+            GridPane gridPane = new GridPane();
+            gridPane.add(new Text(cat.getCategory().getName()), 0, 0);
+            gridPane.add(text, 1, 0);
+
+            gridPane.setHgap(30);
+
+
+            TreeItem<Object> categoryTreeItem = new TreeItem<>(gridPane);
 
             for (Subcategory subcategory : cat.getCategory().getSubcategories()) {
                 if (subcategory != null) {

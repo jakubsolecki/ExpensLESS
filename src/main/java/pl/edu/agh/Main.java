@@ -29,7 +29,7 @@ import java.util.List;
 public class Main extends Application {
     private AccountService accountService;
     private BudgetService budgetService;
-
+    private List<Category> categoryList;
     private Pane mainPane;
     private CategoryService categoryService;
     private TransactionService transactionService;
@@ -50,6 +50,8 @@ public class Main extends Application {
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+
+        transactionService.findTransactionsByYearMonthCategory(2020, Month.DECEMBER, categoryList.get(0));
 
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
@@ -79,7 +81,7 @@ public class Main extends Application {
     }
 
     public List<Subcategory> createMockCategories() {
-        List<Category> categoryList = Arrays.asList(
+        categoryList = Arrays.asList(
                 new Category("Category 1"),
                 new Category("Category 2"),
                 new Category("Category 3"),

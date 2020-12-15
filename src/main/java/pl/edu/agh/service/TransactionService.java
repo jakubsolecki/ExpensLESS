@@ -34,9 +34,7 @@ public class TransactionService {
     }
 
     public List<Transaction> findTransactionsByYearMonthCategory(int year, Month month, Category category) {
-
-
-        //TODO
-        return null;
+        SessionUtil.openSession();
+        return transactionDao.findTransactionByYearMonthCategory(category, year, month);
     }
 }
