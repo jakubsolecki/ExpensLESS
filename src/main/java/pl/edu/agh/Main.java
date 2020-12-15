@@ -52,8 +52,19 @@ public class Main extends Application {
             System.out.println(e.getMessage());
         }
 
-        transactionService.findTransactionsByYearMonthCategory(2020, Month.DECEMBER, categoryList.get(0));
 
+        Budget budget = new Budget();
+        budget.setMonth(Month.DECEMBER);
+        budget.setYear(2020);
+        budget.setCategoryBudgetList(new ArrayList<>());
+        for (Category category : categoryList){
+            BigDecimal plannedBudget = new BigDecimal(200);
+            if (!plannedBudget.equals(BigDecimal.ZERO)){
+                budget.addCategoryBudget(new CategoryBudget(category, plannedBudget));
+            }
+        }
+
+        budgetService.createBudget(budget);
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
         Router.setMainScene(mainScene);
