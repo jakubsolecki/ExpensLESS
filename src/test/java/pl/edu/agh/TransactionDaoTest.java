@@ -52,7 +52,9 @@ class TransactionDaoTest {
 
         // then
         Transaction result = SessionUtil.getSession()
-                .createQuery("From Transactions ", Transaction.class).getSingleResult();
+                .createQuery("From Transactions where id = ?1", Transaction.class)
+                .setParameter(1, transaction.getId())
+                .getSingleResult();
         assertEquals(result, transaction);
     }
 }

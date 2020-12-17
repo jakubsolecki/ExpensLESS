@@ -6,10 +6,17 @@ import javafx.scene.layout.Pane;
 import lombok.Setter;
 import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.controller.AccountDetailsController;
+import pl.edu.agh.controller.BudgetController;
+import pl.edu.agh.controller.BudgetDetailsController;
 import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Budget;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
+import pl.edu.agh.viewelements.BudgetViewElement;
+
+import java.io.Serial;
 
 
 public class Router {
@@ -21,6 +28,8 @@ public class Router {
     private static AccountService accountService;
     @Setter
     private static TransactionService transactionService;
+    @Setter
+    private static BudgetService budgetService;
 
     public static void routeTo(View view, Object object){
         try{
@@ -32,7 +41,6 @@ public class Router {
                     AccountController controller = fxmlLoader.getController();
                     controller.setAccountService(accountService);
                     mainScene.setRoot(pane);
-                    break;
                 }
                 case ACCOUNT_DETAILS -> {
                     if (object == null) {
@@ -48,7 +56,33 @@ public class Router {
                     controller.setAccountService(accountService);
                     controller.setTransactionService(transactionService);
                     mainScene.setRoot(pane);
-                    break;
+                }
+                case MENU -> {
+                    fxmlLoader.setLocation(Router.class.getResource("/view/menuView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    mainScene.setRoot(pane);
+                }
+                case BUDGETS -> {
+
+                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetsView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    BudgetController budgetController = fxmlLoader.getController();
+                    budgetController.setBudgetService(budgetService);
+                    budgetController.setCategoryService(categoryService);
+                    budgetController.refreshData();
+                    mainScene.setRoot(pane);
+                }
+                case BUDGET_DETAILS -> {
+                    if (object == null) {
+                        throw new IllegalArgumentException("Account is required");
+                    }
+                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetDetailsView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    BudgetDetailsController controller = fxmlLoader.getController();
+                    controller.setBudget((Budget)object);
+                    controller.setBudgetService(budgetService);
+                    controller.load();
+                    mainScene.setRoot(pane);
                 }
             }
         } catch (Exception e){

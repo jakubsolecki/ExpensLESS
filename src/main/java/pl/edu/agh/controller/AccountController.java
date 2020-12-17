@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -12,6 +13,8 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.util.Router;
+import pl.edu.agh.util.View;
 import pl.edu.agh.viewelements.AccountViewElement;
 
 import java.io.IOException;
@@ -62,6 +65,11 @@ public class AccountController {
             List<Account> accountList = accountService.getAllAccounts();
             Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
         }).start();
+    }
+
+    @FXML
+    public void backButtonClicked(MouseEvent event) {
+        Router.routeTo(View.MENU);
     }
 }
 

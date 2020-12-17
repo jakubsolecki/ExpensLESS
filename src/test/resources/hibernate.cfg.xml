@@ -17,5 +17,6 @@
         <mapping class="pl.edu.agh.model.Category"></mapping>
         <mapping class="pl.edu.agh.model.Subcategory"></mapping>
         <mapping class="pl.edu.agh.model.Transaction"/>
+        <mapping class="pl.edu.agh.model.CategoryBudget"/>
     </session-factory>
 </hibernate-configuration>

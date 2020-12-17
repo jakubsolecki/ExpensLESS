@@ -9,18 +9,18 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.guice.AppModule;
-import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 
+import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -28,7 +28,8 @@ import java.util.List;
 
 public class Main extends Application {
     private AccountService accountService;
-
+    private BudgetService budgetService;
+    private List<Category> categoryList;
     private Pane mainPane;
     private CategoryService categoryService;
     private TransactionService transactionService;
@@ -40,23 +41,37 @@ public class Main extends Application {
         accountService = injector.getInstance(AccountService.class);
         categoryService = injector.getInstance(CategoryService.class);
         transactionService = injector.getInstance(TransactionService.class);
+        budgetService = injector.getInstance(BudgetService.class);
+        budgetService.setTransactionService(transactionService);
         List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
         createMockTransactions(accounts, subcategories);
-
         try{
-            initializeAccounts();
+            initializeMenu();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
 
+
+        Budget budget = new Budget();
+        budget.setMonth(Month.DECEMBER);
+        budget.setYear(2020);
+        budget.setCategoryBudgetList(new ArrayList<>());
+        for (Category category : categoryList){
+            BigDecimal plannedBudget = new BigDecimal(200);
+            if (!plannedBudget.equals(BigDecimal.ZERO)){
+                budget.addCategoryBudget(new CategoryBudget(category, plannedBudget));
+            }
+        }
+
+        budgetService.createBudget(budget);
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-
         Router.setMainScene(mainScene);
         Router.setAccountService(accountService);
         Router.setCategoryService(categoryService);
         Router.setTransactionService(transactionService);
+        Router.setBudgetService(budgetService);
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();
@@ -78,7 +93,7 @@ public class Main extends Application {
     }
 
     public List<Subcategory> createMockCategories() {
-        List<Category> categoryList = Arrays.asList(
+        categoryList = Arrays.asList(
                 new Category("Category 1"),
                 new Category("Category 2"),
                 new Category("Category 3"),
@@ -127,13 +142,12 @@ public class Main extends Application {
     }
 
 
-    private void initializeAccounts() throws IOException {
+    private void initializeMenu() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/view/accountsView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/view/menuView.fxml"));
         Pane accountsPane = fxmlLoader.load();
-
-        AccountController controller = fxmlLoader.getController();
-        controller.setAccountService(accountService);
         mainPane = accountsPane;
     }
+
+
 }
