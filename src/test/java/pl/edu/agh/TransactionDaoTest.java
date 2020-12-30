@@ -11,8 +11,7 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -45,7 +44,7 @@ class TransactionDaoTest {
     void saveTransaction() {
         // given
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
-        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(100.0), Date.from(Instant.now()), account);
+        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(100.0), LocalDate.now(), account);
 
         // when
         transactionDao.saveTransaction(transaction);

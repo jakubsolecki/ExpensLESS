@@ -13,8 +13,8 @@ import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.TransactionService;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -62,7 +62,7 @@ public class TransactionDialogController {
             String name = nameTextField.getText();
             BigDecimal price = new BigDecimal(priceTextField.getText());
 
-            Optional<Date> date = parseDateFromString(dateTextField.getText());
+            Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
             if(!name.isEmpty() && date.isPresent()){
                 Transaction transaction =
@@ -77,13 +77,9 @@ public class TransactionDialogController {
         }
     }
 
-    private Optional<Date> parseDateFromString(String text) {
-        try {
-            Date date = simpleDateFormat.parse(text);
-            return Optional.of(date);
-        } catch (ParseException e) {
-            return Optional.empty();
-        }
+    private Optional<LocalDate> parseDateFromString(String text) {
+        LocalDate date = LocalDate.parse(text);
+        return Optional.of(date);
     }
 
     public void closeDialog(ActionEvent event){

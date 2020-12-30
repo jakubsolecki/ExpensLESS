@@ -10,8 +10,7 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -63,7 +62,7 @@ public class AccountDaoTest {
     public void addTransactionTest(){
         IAccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
-        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(-69.0), Date.from(Instant.now()), account);
+        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(-69.0), LocalDate.now(), account);
 
         // when
         accountDao.saveAccount(account);

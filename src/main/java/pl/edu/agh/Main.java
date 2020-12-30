@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import pl.edu.agh.controller.AccountController;
 import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
@@ -16,14 +15,12 @@ import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
 
-import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.List;
 
 public class Main extends Application {
@@ -124,17 +121,17 @@ public class Main extends Application {
     public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(new Transaction("Podatek CIT", BigDecimal.valueOf(-89.97),
-                Calendar.getInstance().getTime(), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
+                LocalDate.of(2021,10, 20), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
         transactions.add(new Transaction("Warzywa", BigDecimal.valueOf(-24.20),
-                Calendar.getInstance().getTime(), "Dla babci", accounts.get(0), subcategories.get(3)));
+                LocalDate.now(), "Dla babci", accounts.get(0), subcategories.get(3)));
         transactions.add(new Transaction("Urodziny", BigDecimal.valueOf(100.0),
-                Calendar.getInstance().getTime(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
+                LocalDate.now(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
         transactions.add(new Transaction("Kwiaty", BigDecimal.valueOf(-42.21),
-                Calendar.getInstance().getTime(), "Dla żony", accounts.get(1), subcategories.get(1)));
+                LocalDate.now(), "Dla żony", accounts.get(1), subcategories.get(1)));
         transactions.add(new Transaction("Podatek", BigDecimal.valueOf(-59.90),
-                Calendar.getInstance().getTime(), "Znowu", accounts.get(2), subcategories.get(6)));
+                LocalDate.now(), "Znowu", accounts.get(2), subcategories.get(6)));
         transactions.add(new Transaction("Przelew", BigDecimal.valueOf(200.0),
-                Calendar.getInstance().getTime(), "Za buty", accounts.get(3), subcategories.get(4)));
+                LocalDate.now(), "Za buty", accounts.get(3), subcategories.get(4)));
 
         for (Transaction transaction : transactions){
             accountService.addTransaction(transaction.getAccount(), transaction);

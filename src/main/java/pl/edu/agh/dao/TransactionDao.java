@@ -8,11 +8,9 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.DateParser;
 import pl.edu.agh.util.SessionUtil;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.Month;
-import java.time.Year;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class TransactionDao implements ITransactionDao {
@@ -41,13 +39,13 @@ public class TransactionDao implements ITransactionDao {
         Session session = SessionUtil.getSession();
 
         String pattern = "dd-MM-yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
 
-        Date startDate = simpleDateFormat.parse("01-"+DateParser.parse(month) + "-" + year);
+        LocalDate startDate = LocalDate.parse("01-" + DateParser.parse(month) + "-" + year, dateTimeFormatter);
         if (month == Month.DECEMBER){
             year++;
         }
-        Date endDate = simpleDateFormat.parse("01-"+DateParser.parseToNext(month) + "-" + year);
+        LocalDate endDate = LocalDate.parse("01-"+DateParser.parseToNext(month) + "-" + year, dateTimeFormatter);
 
 
         List<Transaction> transactions = session

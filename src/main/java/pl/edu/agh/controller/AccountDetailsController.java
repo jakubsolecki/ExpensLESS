@@ -27,7 +27,7 @@ import pl.edu.agh.util.View;
 
 import java.io.IOException;
 import java.math.RoundingMode;
-import java.text.DateFormat;
+import java.util.Comparator;
 import java.util.List;
 
 public class AccountDetailsController {
@@ -78,6 +78,7 @@ public class AccountDetailsController {
         new Thread(() -> {
             List<Category> categoryList = categoryService.getAllCategories();
             transactions = transactionService.getAllTransactionsOfAccount(account);
+            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
 
             Platform.runLater(() -> {
                 TreeItem<String> rootItem = new TreeItem<>("Categories");
@@ -109,9 +110,7 @@ public class AccountDetailsController {
         transactionsTable.setItems(FXCollections.observableList(transactions));
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
-        dateColumn.setCellValueFactory(data -> new SimpleStringProperty(DateFormat.
-                getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).
-                format(data.getValue().getDate())));
+        dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
         categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory().getName()));
     }
@@ -140,7 +139,9 @@ public class AccountDetailsController {
     }
 
     private void refresh(){
-        transactionsTable.setItems(FXCollections.observableList(transactionService.getAllTransactionsOfAccount(account)));
+        transactions = transactionService.getAllTransactionsOfAccount(account);
+        transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+        transactionsTable.setItems(FXCollections.observableList(transactions));
         balance.setText(account.getBalance() + " PLN");
         balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
     }
