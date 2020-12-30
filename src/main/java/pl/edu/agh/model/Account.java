@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,9 +29,10 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Transaction> transactions = new LinkedList<>();
 
-    public Account(String name, BigDecimal balance) {
+    public Account(String name, BigDecimal balance, Subcategory subcategory) {
         this.name = name;
         this.balance = balance;
+        transactions.add(new Transaction("Saldo początkowe", balance, LocalDate.now(), this, subcategory));
     }
 
     public void addTransaction(Transaction transaction){

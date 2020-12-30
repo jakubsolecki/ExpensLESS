@@ -40,8 +40,8 @@ public class Main extends Application {
         transactionService = injector.getInstance(TransactionService.class);
         budgetService = injector.getInstance(BudgetService.class);
         budgetService.setTransactionService(transactionService);
-        List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
+        List<Account> accounts = createMockAccounts(subcategories);
         createMockTransactions(accounts, subcategories);
         try{
             initializeMenu();
@@ -74,13 +74,12 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    public List<Account> createMockAccounts(){
-
+    public List<Account> createMockAccounts(List<Subcategory> subcategories){
         List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("Moje konto 1", BigDecimal.valueOf(21.38)));
-        accounts.add(new Account("Moje konto 2", BigDecimal.valueOf(21.36)));
-        accounts.add(new Account("Moje konto 3", BigDecimal.valueOf(21.35)));
-        accounts.add(new Account("Moje konto 4", BigDecimal.valueOf(21.21)));
+        accounts.add(new Account("Moje konto 1", BigDecimal.valueOf(21.38), subcategories.get(0)));
+        accounts.add(new Account("Moje konto 2", BigDecimal.valueOf(21.36), subcategories.get(0)));
+        accounts.add(new Account("Moje konto 3", BigDecimal.valueOf(21.35), subcategories.get(0)));
+        accounts.add(new Account("Moje konto 4", BigDecimal.valueOf(21.21), subcategories.get(0)));
 
         for (Account account : accounts){
             accountService.createAccount(account);
@@ -131,7 +130,7 @@ public class Main extends Application {
         transactions.add(new Transaction("Podatek", BigDecimal.valueOf(-59.90),
                 LocalDate.now(), "Znowu", accounts.get(2), subcategories.get(6)));
         transactions.add(new Transaction("Przelew", BigDecimal.valueOf(200.0),
-                LocalDate.now(), "Za buty", accounts.get(3), subcategories.get(4)));
+                LocalDate.now(), accounts.get(3), subcategories.get(5)));
 
         for (Transaction transaction : transactions){
             accountService.addTransaction(transaction.getAccount(), transaction);
