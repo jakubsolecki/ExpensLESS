@@ -45,6 +45,9 @@ public class AccountDetailsController {
     @FXML
     private TableColumn<Transaction, String> descriptionColumn;
     @FXML
+    private TableColumn<Transaction, String> categoryColumn;
+
+    @FXML
     @Setter
     private TableView<Transaction> transactionsTable;
 
@@ -110,6 +113,7 @@ public class AccountDetailsController {
                 getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).
                 format(data.getValue().getDate())));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
+        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory().getName()));
     }
 
     @FXML
