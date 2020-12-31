@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.ITransactionDao;
 import pl.edu.agh.dao.TransactionDao;
 import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
@@ -43,16 +45,16 @@ class TransactionDaoTest {
     @Test
     void saveTransaction() {
         // given
-        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
+        Category category = new Category("Category 1");
+        Subcategory subcategory = new Subcategory("Subcategory 1", category);
+        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0), subcategory);
         Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(100.0), LocalDate.now(), account);
-
         // when
         transactionDao.saveTransaction(transaction);
-
         // then
         Transaction result = SessionUtil.getSession()
-                .createQuery("From Transactions where id = ?1", Transaction.class)
-                .setParameter(1, transaction.getId())
+                .createQuery("From Transactions where id = :id", Transaction.class)
+                .setParameter("id", transaction.getId())
                 .getSingleResult();
         assertEquals(result, transaction);
     }

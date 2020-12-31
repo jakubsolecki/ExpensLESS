@@ -10,21 +10,20 @@ import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
+import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
 public class TransactionDialogController {
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm");
-
     @Setter
     private AccountService accountService;
     @Setter
     private TransactionService transactionService;
+    @Setter
+    private CategoryService categoryService;
     @Setter
     private Account account;
 
@@ -40,6 +39,9 @@ public class TransactionDialogController {
     @FXML
     public TextField descriptionTextField;
 
+    //@FXML
+    //public ChoiceBox categoryChoiceBox;
+
     @FXML
     public Button addButton;
 
@@ -49,8 +51,9 @@ public class TransactionDialogController {
 
     @FXML
     public void initialize() {
-        Date date = new Date(System.currentTimeMillis());
-        dateTextField.setText(simpleDateFormat.format(date));
+        //List<Category> categories = categoryService.getAllCategories();
+        //categoryChoiceBox.setItems(FXCollections.observableArrayList(categories));
+        dateTextField.setText(LocalDate.now().toString());
     }
 
     public void cancelButtonClicked(ActionEvent event) {

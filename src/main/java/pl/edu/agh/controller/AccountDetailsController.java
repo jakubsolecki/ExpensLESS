@@ -128,12 +128,12 @@ public class AccountDetailsController {
         controller.setAccount(account);
         controller.setAccountService(accountService);
         controller.setTransactionService(transactionService);
+        controller.setCategoryService(categoryService);
 
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
         dialogStage.setScene(scene);
-        controller.dateTextField.setPromptText("dd.MM.yyyy HH:mm");
         dialogStage.showAndWait();
         refresh();
     }
