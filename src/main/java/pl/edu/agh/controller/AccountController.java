@@ -21,17 +21,22 @@ import java.io.IOException;
 import java.util.List;
 
 public class AccountController {
-
-    @FXML
-    public GridPane gridPane;
-
-    @FXML
-    public Button addButton;
-
     @Setter
     private AccountService accountService;
 
+    @FXML
+    public GridPane gridPane;
+    @FXML
+    public Button addButton;
+
     private int accountsNumber = 0;
+
+    public void loadData(){
+        new Thread(() -> {
+            List<Account> accountList = accountService.getAllAccounts();
+            Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
+        }).start();
+    }
 
     AccountViewElement addAccountToPane(Account account){
         if (accountsNumber <= 10 ){
@@ -59,13 +64,6 @@ public class AccountController {
             stage.showAndWait();
     }
 
-    @FXML
-    public void initialize() {
-        new Thread(() -> {
-            List<Account> accountList = accountService.getAllAccounts();
-            Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
-        }).start();
-    }
 
     @FXML
     public void backButtonClicked(MouseEvent event) {

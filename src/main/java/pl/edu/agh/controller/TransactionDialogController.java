@@ -1,13 +1,17 @@
 package pl.edu.agh.controller;
 
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
@@ -15,6 +19,7 @@ import pl.edu.agh.service.TransactionService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public class TransactionDialogController {
@@ -39,25 +44,19 @@ public class TransactionDialogController {
     @FXML
     public TextField descriptionTextField;
 
-    //@FXML
-    //public ChoiceBox categoryChoiceBox;
-
     @FXML
-    public Button addButton;
-
-    @FXML
-    public Button cancelButton;
-
+    public ChoiceBox<Category> categoryChoiceBox;
 
     @FXML
     public void initialize() {
-        //List<Category> categories = categoryService.getAllCategories();
-        //categoryChoiceBox.setItems(FXCollections.observableArrayList(categories));
         dateTextField.setText(LocalDate.now().toString());
     }
 
-    public void cancelButtonClicked(ActionEvent event) {
-        closeDialog(event);
+    public void loadData(){
+        new Thread(() -> {
+            List<Category> categories = categoryService.getAllCategories();
+            Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
+        }).start();
     }
 
     public void okButtonClicked(ActionEvent event) {
@@ -72,11 +71,10 @@ public class TransactionDialogController {
                         new Transaction(name, price, date.get(), description, account);
                 transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
+                closeDialog(event);
             }
         } catch (Exception e){
             System.out.println("Wrong format");
-        } finally {
-            closeDialog(event);
         }
     }
 

@@ -44,7 +44,6 @@ public class AccountDialogController {
         if (accountController.addAccountToPane(account) != null){
             accountService.createAccount(account);
         }
-
         closeDialog(event);
     }
 

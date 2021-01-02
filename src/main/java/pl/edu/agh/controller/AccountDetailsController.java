@@ -30,7 +30,23 @@ import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
 
+// TODO Split this class to two separate classes
+// TODO Use guice instead of setters?
 public class AccountDetailsController {
+    @Setter
+    private CategoryService categoryService;
+
+    @Setter
+    private AccountService accountService;
+
+    @Setter
+    private TransactionService transactionService;
+
+    @Setter
+    private List<Transaction> transactions;
+
+    @Setter
+    private Account account;
 
     @FXML
     public Label name;
@@ -46,35 +62,12 @@ public class AccountDetailsController {
     private TableColumn<Transaction, String> descriptionColumn;
     @FXML
     private TableColumn<Transaction, String> categoryColumn;
-
     @FXML
-    @Setter
     private TableView<Transaction> transactionsTable;
-
-    @Setter
-    private CategoryService categoryService;
-
-    @Setter
-    private AccountService accountService;
-
-    @Setter
-    private TransactionService transactionService;
-
-    @Setter
-    private Account account;
-
     @FXML
     private TreeView<String> categoryTreeView = new TreeView<>();
 
-    @FXML
-    private Button addButton;
-
-    @Setter
-    private List<Transaction> transactions;
-
-    @FXML
-    public void initialize() {
-
+    public void loadData(){
         new Thread(() -> {
             List<Category> categoryList = categoryService.getAllCategories();
             transactions = transactionService.getAllTransactionsOfAccount(account);
@@ -103,7 +96,6 @@ public class AccountDetailsController {
                 name.setText(account.getName());
             });
         }).start();
-
     }
 
     private void setTableView(List<Transaction> transactions) {
@@ -112,7 +104,8 @@ public class AccountDetailsController {
         priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
-        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory().getName()));
+        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ? data.getValue().getSubCategory().getName() : ""));
+
     }
 
     @FXML
@@ -120,6 +113,7 @@ public class AccountDetailsController {
         Router.routeTo(View.MENU);
     }
 
+    @FXML
     public void addButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
         Pane page = loader.load();
@@ -129,6 +123,7 @@ public class AccountDetailsController {
         controller.setAccountService(accountService);
         controller.setTransactionService(transactionService);
         controller.setCategoryService(categoryService);
+        controller.loadData();
 
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -146,3 +141,5 @@ public class AccountDetailsController {
         balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
     }
 }
+
+

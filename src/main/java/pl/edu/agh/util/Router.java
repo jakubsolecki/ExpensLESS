@@ -40,6 +40,7 @@ public class Router {
                     Pane pane = fxmlLoader.load();
                     AccountController controller = fxmlLoader.getController();
                     controller.setAccountService(accountService);
+                    controller.loadData();
                     mainScene.setRoot(pane);
                 }
                 case ACCOUNT_DETAILS -> {
@@ -55,6 +56,7 @@ public class Router {
                     controller.setCategoryService(categoryService);
                     controller.setAccountService(accountService);
                     controller.setTransactionService(transactionService);
+                    controller.loadData();
                     mainScene.setRoot(pane);
                 }
                 case MENU -> {
