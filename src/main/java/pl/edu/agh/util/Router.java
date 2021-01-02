@@ -14,9 +14,6 @@ import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.viewelements.BudgetViewElement;
-
-import java.io.Serial;
 
 
 public class Router {
@@ -83,7 +80,7 @@ public class Router {
                     BudgetDetailsController controller = fxmlLoader.getController();
                     controller.setBudget((Budget)object);
                     controller.setBudgetService(budgetService);
-                    controller.load();
+                    controller.loadData();
                     mainScene.setRoot(pane);
                 }
             }

@@ -24,18 +24,37 @@ public class AccountController {
     @Setter
     private AccountService accountService;
 
-    @FXML
-    public GridPane gridPane;
-    @FXML
-    public Button addButton;
-
     private int accountsNumber = 0;
+
+    @FXML
+    private GridPane gridPane;
 
     public void loadData(){
         new Thread(() -> {
             List<Account> accountList = accountService.getAllAccounts();
             Platform.runLater(() -> accountList.forEach(this::addAccountToPane));
         }).start();
+    }
+
+    @FXML
+    private void handleAddAction(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
+        Pane pane = fxmlLoader.load();
+        AccountDialogController controller = fxmlLoader.getController();
+        controller.setAccountService(accountService);
+
+        controller.setAccountController(this);
+
+        Scene scene = new Scene(pane);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.setScene(scene);
+        stage.showAndWait();
+    }
+
+    @FXML
+    public void backButtonClicked(MouseEvent event) {
+        Router.routeTo(View.MENU);
     }
 
     AccountViewElement addAccountToPane(Account account){
@@ -46,28 +65,6 @@ public class AccountController {
             return accountViewElement;
         }
         return null;
-    }
-
-    @FXML
-    private void handleAddAction(ActionEvent event) throws IOException {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/accountsDialog.fxml"));
-            Pane pane = fxmlLoader.load();
-            AccountDialogController controller = fxmlLoader.getController();
-            controller.setAccountService(accountService);
-
-            controller.setAccountController(this);
-
-            Scene scene = new Scene(pane);
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setScene(scene);
-            stage.showAndWait();
-    }
-
-
-    @FXML
-    public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.MENU);
     }
 }
 

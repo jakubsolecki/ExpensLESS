@@ -34,31 +34,20 @@ public class TransactionDialogController {
 
     @FXML
     public TextField nameTextField;
-
     @FXML
     public TextField priceTextField;
-
     @FXML
     public TextField dateTextField;
-
     @FXML
     public TextField descriptionTextField;
-
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
-
     @FXML
     public void initialize() {
         dateTextField.setText(LocalDate.now().toString());
     }
 
-    public void loadData(){
-        new Thread(() -> {
-            List<Category> categories = categoryService.getAllCategories();
-            Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
-        }).start();
-    }
-
+    @FXML
     public void okButtonClicked(ActionEvent event) {
         try {
             String name = nameTextField.getText();
@@ -78,14 +67,24 @@ public class TransactionDialogController {
         }
     }
 
-    private Optional<LocalDate> parseDateFromString(String text) {
-        LocalDate date = LocalDate.parse(text);
-        return Optional.of(date);
-    }
-
+    @FXML
     public void closeDialog(ActionEvent event){
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+    public void loadData(){
+        new Thread(() -> {
+            List<Category> categories = categoryService.getAllCategories();
+            Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
+        }).start();
+    }
+
+    private Optional<LocalDate> parseDateFromString(String text) {
+        LocalDate date = LocalDate.parse(text);
+        return Optional.of(date);
+    }
+
+
 }

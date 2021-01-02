@@ -49,7 +49,7 @@ public class AccountDetailsController {
     private Account account;
 
     @FXML
-    public Label name;
+    private Label name;
     @FXML
     private Label balance;
     @FXML
@@ -66,47 +66,6 @@ public class AccountDetailsController {
     private TableView<Transaction> transactionsTable;
     @FXML
     private TreeView<String> categoryTreeView = new TreeView<>();
-
-    public void loadData(){
-        new Thread(() -> {
-            List<Category> categoryList = categoryService.getAllCategories();
-            transactions = transactionService.getAllTransactionsOfAccount(account);
-            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
-
-            Platform.runLater(() -> {
-                TreeItem<String> rootItem = new TreeItem<>("Categories");
-                rootItem.setExpanded(true);
-
-                for (Category cat : categoryList) {
-                    TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
-
-                    for (Subcategory subcat : cat.getSubcategories()) {
-                        if (subcat != null) {
-                            categoryTreeItem.getChildren().add(new TreeItem<>(subcat.getName()));
-                        }
-                    }
-                    rootItem.getChildren().add(categoryTreeItem);
-                }
-                categoryTreeView.setRoot(rootItem);
-                categoryTreeView.setShowRoot(false);
-
-                setTableView(transactions);
-                balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
-                name.setText(account.getName());
-            });
-        }).start();
-    }
-
-    private void setTableView(List<Transaction> transactions) {
-        transactionsTable.setItems(FXCollections.observableList(transactions));
-        nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
-        dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
-        descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
-        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ? data.getValue().getSubCategory().getName() : ""));
-
-    }
 
     @FXML
     public void backButtonClicked(MouseEvent event) {
@@ -131,6 +90,47 @@ public class AccountDetailsController {
         dialogStage.setScene(scene);
         dialogStage.showAndWait();
         refresh();
+    }
+
+    public void loadData(){
+        new Thread(() -> {
+            List<Category> categoryList = categoryService.getAllCategories();
+            transactions = transactionService.getAllTransactionsOfAccount(account);
+            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+
+            Platform.runLater(() -> {
+                TreeItem<String> rootItem = new TreeItem<>("Categories");
+                rootItem.setExpanded(true);
+
+                for (Category cat : categoryList) {
+                    TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
+
+                    for (Subcategory subcategory : cat.getSubcategories()) {
+                        if (subcategory != null) {
+                            categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
+                        }
+                    }
+                    rootItem.getChildren().add(categoryTreeItem);
+                }
+                categoryTreeView.setRoot(rootItem);
+                categoryTreeView.setShowRoot(false);
+
+                setTableView(transactions);
+                balance.setText(account.getBalance() + " PLN");
+                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+                name.setText(account.getName());
+            });
+        }).start();
+    }
+
+    private void setTableView(List<Transaction> transactions) {
+        transactionsTable.setItems(FXCollections.observableList(transactions));
+        nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
+        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
+        dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
+        descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
+        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ? data.getValue().getSubCategory().getName() : ""));
+
     }
 
     private void refresh(){
