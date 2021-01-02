@@ -14,17 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 public class Budget {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CategoryBudget> categoryBudgetList = new LinkedList<>();
-
-    public void addCategoryBudget(CategoryBudget categoryBudget){
-        categoryBudgetList.add(categoryBudget);
-    }
 
     @NonNull
     @NotNull
@@ -33,6 +28,10 @@ public class Budget {
     @NonNull
     @NotNull
     private Month month;
+
+    public void addCategoryBudget(CategoryBudget categoryBudget){
+        categoryBudgetList.add(categoryBudget);
+    }
 
     @Override
     public String toString() {

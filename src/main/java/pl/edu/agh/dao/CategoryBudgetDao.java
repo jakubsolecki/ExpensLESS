@@ -10,7 +10,6 @@ public class CategoryBudgetDao implements ICategoryBudgetDao {
     @Override
     public void saveCategoryBudget(CategoryBudget categoryBudget) {
         Transaction transaction = null;
-
         try {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
@@ -26,5 +25,4 @@ public class CategoryBudgetDao implements ICategoryBudgetDao {
             throw e;
         }
     }
-
 }

@@ -3,7 +3,6 @@ package pl.edu.agh.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.model.Budget;
-import pl.edu.agh.model.Category;
 import pl.edu.agh.util.SessionUtil;
 
 import java.time.Month;
@@ -11,6 +10,7 @@ import java.util.List;
 
 public class BudgetDao implements IBudgetDao {
 
+    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveBudget(Budget budget) {
         Session session = SessionUtil.getSession();

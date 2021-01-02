@@ -8,6 +8,8 @@ import javax.persistence.PersistenceException;
 import java.util.List;
 
 public class AccountDao implements IAccountDao {
+
+    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveAccount(Account account) throws PersistenceException {
         Session session = SessionUtil.getSession();

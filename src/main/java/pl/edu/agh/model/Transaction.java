@@ -37,6 +37,8 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL)
     private Subcategory subCategory;
 
+    //TODO Te konstruktory proszą o pomste do nieba
+
     public Transaction(String name, BigDecimal price, LocalDate date, Account account) {
         this.name = name;
         this.price = price;
