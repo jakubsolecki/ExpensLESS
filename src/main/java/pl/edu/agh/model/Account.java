@@ -29,10 +29,10 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Transaction> transactions = new LinkedList<>();
 
-    public Account(String name, BigDecimal balance, Subcategory subcategory) {
+    public Account(String name, BigDecimal balance) {
         this.name = name;
         this.balance = balance;
-        transactions.add(new Transaction("Saldo początkowe", balance, LocalDate.now(), this, subcategory));
+        transactions.add(new Transaction("Saldo początkowe", balance, LocalDate.now(), this));
     }
 
     public void addTransaction(Transaction transaction){

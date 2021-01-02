@@ -47,7 +47,7 @@ class TransactionDaoTest {
         // given
         Category category = new Category("Category 1");
         Subcategory subcategory = new Subcategory("Subcategory 1", category);
-        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0), subcategory);
+        Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
         Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(100.0), LocalDate.now(), account);
         // when
         transactionDao.saveTransaction(transaction);

@@ -32,7 +32,6 @@ public class AccountDaoTest {
         //Given
         IAccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
-
         //when
         accountDao.saveAccount(account);
 

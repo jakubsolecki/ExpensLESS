@@ -1,6 +1,5 @@
 package pl.edu.agh;
 
-import javafx.scene.layout.Pane;
 import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
@@ -22,8 +21,8 @@ public class MockData {
     private final TransactionService transactionService;
 
     public void init(){
+        List<Account> accounts = createMockAccounts();
         List<Subcategory> subcategories = createMockCategories();
-        List<Account> accounts = createMockAccounts(subcategories);
         createMockTransactions(accounts, subcategories);
         createMockBudget();
     }
@@ -35,12 +34,12 @@ public class MockData {
         this.transactionService = transactionService;
     }
 
-    public List<Account> createMockAccounts(List<Subcategory> subcategories){
+    public List<Account> createMockAccounts(){
         List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account("Moje konto 1", BigDecimal.valueOf(21.38), subcategories.get(0)));
-        accounts.add(new Account("Moje konto 2", BigDecimal.valueOf(21.36), subcategories.get(0)));
-        accounts.add(new Account("Moje konto 3", BigDecimal.valueOf(21.35), subcategories.get(0)));
-        accounts.add(new Account("Moje konto 4", BigDecimal.valueOf(21.21), subcategories.get(0)));
+        accounts.add(new Account("Moje konto 1", BigDecimal.valueOf(21.38)));
+        accounts.add(new Account("Moje konto 2", BigDecimal.valueOf(21.36)));
+        accounts.add(new Account("Moje konto 3", BigDecimal.valueOf(21.35)));
+        accounts.add(new Account("Moje konto 4", BigDecimal.valueOf(21.21)));
 
         for (Account account : accounts){
             accountService.createAccount(account);
