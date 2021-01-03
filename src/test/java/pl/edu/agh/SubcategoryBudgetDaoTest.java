@@ -5,25 +5,26 @@ import org.hibernate.Transaction;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.edu.agh.dao.CategoryBudgetDao;
-import pl.edu.agh.dao.ICategoryBudgetDao;
+import pl.edu.agh.dao.SubcategoryBudgetDao;
+import pl.edu.agh.dao.ISubcategoryBudgetDao;
 import pl.edu.agh.model.Category;
-import pl.edu.agh.model.CategoryBudget;
+import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CategoryBudgetDaoTest {
+public class SubcategoryBudgetDaoTest {
 
-    private ICategoryBudgetDao categoryBudgetDao;
+    private ISubcategoryBudgetDao categoryBudgetDao;
     private boolean clearDBAfterEveryTest = true;
 
     @BeforeEach
     public void beforeEach() {
         SessionUtil.openSession();
-        categoryBudgetDao = new CategoryBudgetDao();
+        categoryBudgetDao = new SubcategoryBudgetDao();
     }
 
     @AfterEach
@@ -37,7 +38,7 @@ public class CategoryBudgetDaoTest {
                 tx.begin();
             }
 
-            session.createQuery("DELETE FROM CategoryBudgets").executeUpdate();
+            session.createQuery("DELETE FROM SubcategoryBudgets").executeUpdate();
             session.createQuery("DELETE FROM Categories").executeUpdate();
             tx.commit();
         }
@@ -49,14 +50,15 @@ public class CategoryBudgetDaoTest {
     public void saveCategoryBudgetTest() {
         // given
         Category category = new Category("Category 1");
-        CategoryBudget categoryBudget = new CategoryBudget(category, new BigDecimal(100));
+        Subcategory subcategory = new Subcategory("subcategory a", category);
+        SubcategoryBudget subcategoryBudget = new SubcategoryBudget(subcategory, new BigDecimal(100));
 
         // when
-        categoryBudgetDao.saveCategoryBudget(categoryBudget);
+        categoryBudgetDao.saveSubcategoryBudget(subcategoryBudget);
 
         // then
-        CategoryBudget result = SessionUtil.getSession()
-                .createQuery("from CategoryBudgets", CategoryBudget.class).getSingleResult();
-        assertEquals(categoryBudget, result);
+        SubcategoryBudget result = SessionUtil.getSession()
+                .createQuery("from SubcategoryBudgets", SubcategoryBudget.class).getSingleResult();
+        assertEquals(subcategoryBudget, result);
     }
 }

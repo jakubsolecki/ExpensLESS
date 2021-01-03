@@ -2,10 +2,7 @@ package pl.edu.agh.service;
 
 import com.google.inject.Inject;
 import pl.edu.agh.dao.*;
-import pl.edu.agh.model.Budget;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.CategoryBudget;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
@@ -13,7 +10,7 @@ import java.util.List;
 
 public class BudgetService {
 
-    private final ICategoryBudgetDao categoryBudgetDao;
+    private final ISubcategoryBudgetDao categoryBudgetDao;
 
     private final IBudgetDao budgetDao;
 
@@ -21,15 +18,15 @@ public class BudgetService {
 
 
     @Inject
-    public BudgetService(CategoryBudgetDao categoryBudgetDao, BudgetDao budgetDao, TransactionDao transactionDao) {
-        this.categoryBudgetDao = categoryBudgetDao;
+    public BudgetService(SubcategoryBudgetDao subcategoryBudgetDao, BudgetDao budgetDao, TransactionDao transactionDao) {
+        this.categoryBudgetDao = subcategoryBudgetDao;
         this.budgetDao = budgetDao;
         this.transactionDao = transactionDao;
     }
 
-    public void createCategoryBudget(CategoryBudget categoryBudget) {
+    public void createCategoryBudget(SubcategoryBudget subcategoryBudget) {
         SessionUtil.openSession();
-        categoryBudgetDao.saveCategoryBudget(categoryBudget);
+        categoryBudgetDao.saveSubcategoryBudget(subcategoryBudget);
         SessionUtil.closeSession();
     }
 
@@ -39,10 +36,10 @@ public class BudgetService {
         SessionUtil.closeSession();
     }
 
-    public BigDecimal calculateBudgetBalance(Budget budget, Category category){
+    public BigDecimal calculateBudgetBalance(Budget budget, Subcategory subcategory){
         BigDecimal balance = BigDecimal.ZERO;
         SessionUtil.openSession();
-        List<Transaction> transactions = transactionDao.findTransactionByYearMonthCategory( category, budget.getYear(), budget.getMonth());
+        List<Transaction> transactions = transactionDao.findTransactionByYearMonthSubcategory( subcategory, budget.getYear(), budget.getMonth());
         SessionUtil.closeSession();
         for (Transaction t : transactions) {
             balance = balance.add(t.getPrice());

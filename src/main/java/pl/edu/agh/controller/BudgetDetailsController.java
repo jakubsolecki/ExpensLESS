@@ -12,9 +12,11 @@ import javafx.scene.text.Text;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 import pl.edu.agh.model.Budget;
-import pl.edu.agh.model.CategoryBudget;
+import pl.edu.agh.model.Category;
+import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.BudgetService;
+import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
@@ -26,6 +28,8 @@ public class BudgetDetailsController {
     private BudgetService budgetService;
     @Setter
     private Budget budget;
+    @Setter
+    private CategoryService categoryService;
 
     @FXML
     private Label nameLabel;
@@ -37,28 +41,28 @@ public class BudgetDetailsController {
         Router.routeTo(View.MENU);
     }
 
-    public void loadData(){
+    public void loadData() {
         nameLabel.setText(budget.toString());
         new Thread(() -> {
-            Hibernate.initialize(budget.getCategoryBudgetList());
-            List<CategoryBudget> categoryBudgetList = budget.getCategoryBudgetList();
+            Hibernate.initialize(budget.getSubcategoryBudgetList());
+            List<SubcategoryBudget> subcategoryBudgetList = budget.getSubcategoryBudgetList();
             TreeItem<Object> rootItem = new TreeItem<>("Categories");
             rootItem.setExpanded(true);
+            List<Category> categories = categoryService.getAllCategories();
 
-            for (CategoryBudget cat : categoryBudgetList) {
-                BigDecimal balance = budgetService.calculateBudgetBalance(budget, cat.getCategory());
-                Text text = new Text(balance+" / "+cat.getPlannedBudget().toString());
-                text.setFill(cat.getPlannedBudget().subtract(balance).doubleValue() >= 0 ? Color.GREEN : Color.RED);
-                GridPane gridPane = new GridPane();
-                gridPane.add(new Text(cat.getCategory().getName()), 0, 0);
-                gridPane.add(text, 1, 0);
-                gridPane.setHgap(30);
+            for (Category cat : categories) {
+                TreeItem<Object> categoryTreeItem = new TreeItem<>(cat.getName());
+                for (SubcategoryBudget subcat : subcategoryBudgetList) {
+                    if (subcat.getSubcategory().getCategory().getId().equals(cat.getId())) {
+                        BigDecimal balance = budgetService.calculateBudgetBalance(budget, subcat.getSubcategory());
+                        Text text = new Text(balance + " / " + subcat.getPlannedBudget().toString());
+                        text.setFill(subcat.getPlannedBudget().subtract(balance).doubleValue() >= 0 ? Color.GREEN : Color.RED);
+                        GridPane gridPane = new GridPane();
+                        gridPane.add(new Text(subcat.getSubcategory().getName()), 0, 0);
+                        gridPane.add(text, 1, 0);
+                        gridPane.setHgap(30);
 
-                TreeItem<Object> categoryTreeItem = new TreeItem<>(gridPane);
-
-                for (Subcategory subcategory : cat.getCategory().getSubcategories()) {
-                    if (subcategory != null) {
-                        categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
+                        categoryTreeItem.getChildren().add(new TreeItem<>(gridPane));
                     }
                 }
                 rootItem.getChildren().add(categoryTreeItem);
