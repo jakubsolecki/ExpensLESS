@@ -19,7 +19,7 @@ public class TransactionDao implements ITransactionDao {
     public void saveTransaction(Transaction transaction) {
         Session session = SessionUtil.getSession();
         org.hibernate.Transaction hibernateTransaction = session.beginTransaction();
-        session.save(transaction);
+        session.saveOrUpdate(transaction);
         hibernateTransaction.commit();
     }
 

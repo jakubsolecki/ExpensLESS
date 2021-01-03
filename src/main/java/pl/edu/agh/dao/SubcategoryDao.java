@@ -19,7 +19,7 @@ public class SubcategoryDao implements ISubcategoryDao {
         try {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-            session.save(subcategory);
+            session.saveOrUpdate(subcategory);
             transaction.commit();
 
         } catch (Exception e) {

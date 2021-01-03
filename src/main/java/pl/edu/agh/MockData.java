@@ -1,10 +1,12 @@
 package pl.edu.agh;
 
+import org.hibernate.Session;
 import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
+import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -12,6 +14,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MockData {
     private final AccountService accountService;
@@ -22,9 +25,11 @@ public class MockData {
 
     public void init(){
         List<Account> accounts = createMockAccounts();
-        List<Subcategory> subcategories = createMockCategories();
-        createMockTransactions(accounts, subcategories);
+        createMockCategories();
+        createMockTransactions(accounts);
         createMockBudget();
+        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
+
     }
 
     public MockData(AccountService accountService, BudgetService budgetService, CategoryService categoryService, TransactionService transactionService) {
@@ -48,7 +53,7 @@ public class MockData {
         return accounts;
     }
 
-    public List<Subcategory> createMockCategories() {
+    public void createMockCategories() {
         categoryList = Arrays.asList(
                 new Category("Category 1"),
                 new Category("Category 2"),
@@ -73,22 +78,21 @@ public class MockData {
         for (Subcategory subcategory : subcategories){
             categoryService.createSubcategory(subcategory);
         }
-
-        return subcategories;
     }
 
-    public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
+    public void createMockTransactions(List<Account> accounts){
+        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(Transaction.builder().
                 name("Podatek CIT").price(BigDecimal.valueOf(-89.97)).date(LocalDate.now()).description("Zapłacone za mandat").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
         transactions.add(Transaction.builder().
-                name("Warzywa").price(BigDecimal.valueOf(-23.97)).date(LocalDate.now()).description("Dla babci").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
+                name("Warzywa").price(BigDecimal.valueOf(-23.97)).date(LocalDate.now()).description("Dla babci").account(accounts.get(0)).subCategory(subcategories.get(1)).build());
         transactions.add(Transaction.builder().
-                name("Urodziny").price(BigDecimal.valueOf(100.0)).date(LocalDate.now()).description("U cioci na imieninach").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
+                name("Urodziny").price(BigDecimal.valueOf(100.0)).date(LocalDate.now()).description("U cioci na imieninach").account(accounts.get(0)).subCategory(subcategories.get(2)).build());
         transactions.add(Transaction.builder().
-                name("Kwiaty").price(BigDecimal.valueOf(23.0)).date(LocalDate.now()).description("Dla żony").account(accounts.get(1)).subCategory(subcategories.get(2)).build());
+                name("Kwiaty").price(BigDecimal.valueOf(23.0)).date(LocalDate.now()).description("Dla żony").account(accounts.get(1)).subCategory(subcategories.get(3)).build());
         transactions.add(Transaction.builder().
-                name("Podatek").price(BigDecimal.valueOf(-200.0)).date(LocalDate.now()).description("No cóż").account(accounts.get(2)).subCategory(subcategories.get(6)).build());
+                name("Podatek").price(BigDecimal.valueOf(-200.0)).date(LocalDate.now()).description("No cóż").account(accounts.get(2)).subCategory(subcategories.get(4)).build());
         transactions.add(Transaction.builder().
                 name("Przelew").price(BigDecimal.valueOf(10.0)).date(LocalDate.now()).description("Za buty").account(accounts.get(3)).subCategory(subcategories.get(5)).build());
 
