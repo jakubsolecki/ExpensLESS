@@ -6,13 +6,13 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity(name = "CategoryBudgets")
+@Entity(name = "SubcategoryBudgets")
 @RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class CategoryBudget {
+public class SubcategoryBudget {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,7 +21,7 @@ public class CategoryBudget {
     @NonNull
     @NotNull
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    private Category category;
+    private Subcategory subcategory;
 
     @NonNull
     @NotNull
@@ -33,8 +33,8 @@ public class CategoryBudget {
     @ManyToOne
     private Budget budget;
 
-    public CategoryBudget(Category category, BigDecimal bigDecimal) {
-        this.category = category;
+    public SubcategoryBudget(Subcategory subcategory, BigDecimal bigDecimal) {
+        this.subcategory = subcategory;
         this.plannedBudget = bigDecimal;
     }
 }

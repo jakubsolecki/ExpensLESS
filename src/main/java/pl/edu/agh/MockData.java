@@ -1,12 +1,10 @@
 package pl.edu.agh;
 
-import org.hibernate.Session;
 import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -20,6 +18,7 @@ public class MockData {
     private final AccountService accountService;
     private final BudgetService budgetService;
     private List<Category> categoryList;
+    private List<Subcategory> subcategories;
     private final CategoryService categoryService;
     private final TransactionService transactionService;
 
@@ -65,7 +64,7 @@ public class MockData {
             categoryService.createCategory(category);
         }
 
-        List<Subcategory> subcategories = new ArrayList<>();
+        subcategories = new ArrayList<>();
         subcategories.add(new Subcategory("Subcategory a", categoryList.get(0)));
         subcategories.add(new Subcategory("Subcategory b", categoryList.get(0)));
         subcategories.add(new Subcategory("Subcategory c", categoryList.get(0)));
@@ -105,11 +104,12 @@ public class MockData {
         Budget budget = new Budget();
         budget.setMonth(Month.JANUARY);
         budget.setYear(2021);
-        budget.setCategoryBudgetList(new ArrayList<>());
-        for (Category category : categoryList){
+        budget.setSubcategoryBudgetList(new ArrayList<>());
+
+        for (Subcategory subcategory : subcategories){
             BigDecimal plannedBudget = new BigDecimal(200);
             if (!plannedBudget.equals(BigDecimal.ZERO)){
-                budget.addCategoryBudget(new CategoryBudget(category, plannedBudget));
+                budget.addSubcategoryBudget(new SubcategoryBudget(subcategory, plannedBudget));
             }
         }
 

@@ -3,6 +3,7 @@ package pl.edu.agh.dao;
 import org.hibernate.Session;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
@@ -44,7 +45,7 @@ public class TransactionDao implements ITransactionDao {
     }
 
     @Override
-    public List<Transaction> findTransactionByYearMonthCategory(Category category, int year, Month month) {
+    public List<Transaction> findTransactionByYearMonthSubcategory(Subcategory subcategory, int year, Month month) {
         org.hibernate.Transaction tr = null;
 
         String pattern = "dd-MM-yyyy";
@@ -59,8 +60,8 @@ public class TransactionDao implements ITransactionDao {
         try {
             Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
-            List<Transaction> res = session.createQuery("SELECT T FROM Transactions T inner join T.subCategory sc where sc.category = :category and T.date >= :start and T.date <= :end ", Transaction.class)
-                    .setParameter("category", category)
+            List<Transaction> res = session.createQuery("SELECT T FROM Transactions T where T.subCategory = :subcategory and T.date >= :start and T.date <= :end ", Transaction.class)
+                    .setParameter("subcategory", subcategory)
                     .setParameter("start", startDate)
                     .setParameter("end", endDate)
                     .getResultList();

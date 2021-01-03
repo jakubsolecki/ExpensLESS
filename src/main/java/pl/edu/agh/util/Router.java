@@ -80,6 +80,7 @@ public class Router {
                     BudgetDetailsController controller = fxmlLoader.getController();
                     controller.setBudget((Budget)object);
                     controller.setBudgetService(budgetService);
+                    controller.setCategoryService(categoryService);
                     controller.loadData();
                     mainScene.setRoot(pane);
                 }
