@@ -49,5 +49,13 @@ public class CategoryService {
         return category;
     }
 
+    public List<Subcategory> getSubcategoriesFromCategory(Category category) {
+        SessionUtil.openSession();
+        List<Subcategory> subcategoryList = subcategoryDao.getSubcategoriesFromCategory(category);
+        SessionUtil.closeSession();
+
+        return subcategoryList;
+    }
+
 
 }

@@ -20,34 +20,34 @@ import java.time.Month;
 import java.util.*;
 
 public class BudgetDialogController {
-    @FXML
-    public ChoiceBox monthBox;
-    public VBox mainBox;
-
-    private Map<Category, TextField> textFieldMap = new HashMap<>();
+    private final Map<Category, TextField> textFieldMap = new HashMap<>();
 
     @Setter
     private CategoryService categoryService;
-
     @Setter
     private BudgetService budgetService;
-
     @Setter
     private BudgetController budgetController;
-
     @Setter
     private int year;
 
+    @FXML
+    public ChoiceBox<Month> monthBox;
+    @FXML
+    public VBox mainBox;
+
+    @FXML
     public void cancelButtonClicked(ActionEvent event) {
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
+    @FXML
     public void okButtonClicked(ActionEvent event) {
         try {
             Budget budget = new Budget();
-            budget.setMonth((Month) monthBox.getValue());
+            budget.setMonth(monthBox.getValue());
             budget.setYear(year);
             budget.setCategoryBudgetList(new ArrayList<>());
             for (Category category : textFieldMap.keySet()){
@@ -59,27 +59,23 @@ public class BudgetDialogController {
                     budget.addCategoryBudget(new CategoryBudget(category, plannedBudget));
                 }
             }
-
             budgetService.createBudget(budget);
 
         } catch (NumberFormatException e){
             System.out.println("Wrong format!");
             return;
         }
-
         budgetController.refreshData();
 
-        Node source = (Node)  event.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
-
+        cancelButtonClicked(event);
     }
 
+    @FXML
     public void initialize(){
         monthBox.setItems(FXCollections.observableArrayList(Month.values()));
     }
 
-    public void loadMonths(){
+    public void loadData(){
         for (Category category : categoryService.getAllCategories()){
             TextField textField = new TextField();
             textField.setPromptText("Budżet na " + category.getName() );
@@ -87,4 +83,6 @@ public class BudgetDialogController {
             mainBox.getChildren().add(textField);
         }
     }
+
+
 }

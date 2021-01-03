@@ -34,6 +34,5 @@ public class AccountService {
         SessionUtil.openSession();
         accountDao.addTransaction(account, transaction);
         SessionUtil.closeSession();
-
     }
 }

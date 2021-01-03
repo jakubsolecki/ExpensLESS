@@ -20,7 +20,6 @@ public class CategoryBudget {
 
     @NonNull
     @NotNull
-//    @Column(nullable = false)
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     private Category category;
 

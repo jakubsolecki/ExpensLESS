@@ -17,14 +17,13 @@ public class AccountDialogController {
     @Setter
     private AccountService accountService;
 
-    @FXML
-    public TextField nameTextField;
-
-    @FXML
-    public TextField balanceTextField;
-
     @Setter
     private AccountController accountController;
+
+    @FXML
+    private TextField nameTextField;
+    @FXML
+    private TextField balanceTextField;
 
     @FXML
     public void handleCancelAction(ActionEvent event) {
@@ -44,7 +43,6 @@ public class AccountDialogController {
         if (accountController.addAccountToPane(account) != null){
             accountService.createAccount(account);
         }
-
         closeDialog(event);
     }
 

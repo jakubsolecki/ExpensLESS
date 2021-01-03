@@ -1,7 +1,6 @@
 package pl.edu.agh.service;
 
 import com.google.inject.Inject;
-import org.hibernate.Session;
 import pl.edu.agh.dao.ITransactionDao;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
@@ -9,7 +8,6 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
 import java.time.Month;
-import java.util.LinkedList;
 import java.util.List;
 
 public class TransactionService {
@@ -31,10 +29,5 @@ public class TransactionService {
         List<Transaction> transactionList = transactionDao.getAllTransactionsOfAccount(account);
         SessionUtil.closeSession();
         return transactionList;
-    }
-
-    public List<Transaction> findTransactionsByYearMonthCategory(int year, Month month, Category category) {
-        SessionUtil.openSession();
-        return transactionDao.findTransactionByYearMonthCategory(category, year, month);
     }
 }

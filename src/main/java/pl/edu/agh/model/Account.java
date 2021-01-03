@@ -4,13 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
 @Entity(name = "Accounts")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Account {
@@ -31,10 +31,16 @@ public class Account {
     public Account(String name, BigDecimal balance) {
         this.name = name;
         this.balance = balance;
+        transactions.add(Transaction.builder().name("Saldo początkowe").price(balance).date(LocalDate.now()).account(this).build());
     }
 
     public void addTransaction(Transaction transaction){
         transactions.add(transaction);
         setBalance(balance.add(transaction.getPrice()));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
