@@ -32,10 +32,9 @@ public class AccountDialogController {
 
     @FXML
     public void handleAddAction(ActionEvent event) {
-        Account account = new Account();
+        Account account;
         try {
-            account.setName(nameTextField.getText());
-            account.setBalance(new BigDecimal(balanceTextField.getText()));
+            account = new Account(nameTextField.getText(), new BigDecimal(balanceTextField.getText()));
         } catch (NumberFormatException e){
             System.out.println("Wrong format!");
             return;
