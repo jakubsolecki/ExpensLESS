@@ -11,7 +11,6 @@ import java.util.List;
 @Entity(name = "Accounts")
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Account {
@@ -38,5 +37,10 @@ public class Account {
     public void addTransaction(Transaction transaction){
         transactions.add(transaction);
         setBalance(balance.add(transaction.getPrice()));
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

@@ -1,5 +1,6 @@
 package pl.edu.agh.dao;
 
+import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 
 import java.util.List;
@@ -10,4 +11,5 @@ public interface ISubcategoryDao {
 
     List<Subcategory> getAllSubcategories();
 
+    List<Subcategory> getSubcategoriesFromCategory(Category category);
 }

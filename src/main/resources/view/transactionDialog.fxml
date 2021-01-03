@@ -74,6 +74,11 @@
                   <Insets left="5.0" />
                </GridPane.margin>
             </ChoiceBox>
+                <ChoiceBox prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="subcategoryChoiceBox">
+                    <GridPane.margin>
+                        <Insets left="5.0" />
+                    </GridPane.margin>
+                </ChoiceBox>
             </children>
         </GridPane>
     </center>

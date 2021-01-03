@@ -9,6 +9,7 @@
         <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
         <property name="connection.username"/>
         <property name="connection.password"/>
+        <property name="connection.pool_size">10</property>
 
         <!-- DB schema will be updated if needed -->
         <property name="hbm2ddl.auto">create</property>

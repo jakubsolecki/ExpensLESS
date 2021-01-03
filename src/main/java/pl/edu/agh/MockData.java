@@ -80,9 +80,9 @@ public class MockData {
     public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(new Transaction("Podatek CIT", BigDecimal.valueOf(-89.97),
-                LocalDate.of(2021,10, 20), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
+                LocalDate.of(19,10, 20), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
         transactions.add(new Transaction("Warzywa", BigDecimal.valueOf(-24.20),
-                LocalDate.now(), "Dla babci", accounts.get(0), subcategories.get(3)));
+                LocalDate.now(), "Dla babci", accounts.get(0), subcategories.get(0)));
         transactions.add(new Transaction("Urodziny", BigDecimal.valueOf(100.0),
                 LocalDate.now(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
         transactions.add(new Transaction("Kwiaty", BigDecimal.valueOf(-42.21),

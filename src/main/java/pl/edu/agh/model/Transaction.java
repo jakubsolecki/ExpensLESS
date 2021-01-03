@@ -34,7 +34,7 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL)
     private Account account;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Subcategory subCategory;
 
     //TODO Te konstruktory proszą o pomste do nieba

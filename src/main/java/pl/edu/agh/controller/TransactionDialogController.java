@@ -5,13 +5,13 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
@@ -43,8 +43,12 @@ public class TransactionDialogController {
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
     @FXML
+    public ChoiceBox<Subcategory> subcategoryChoiceBox;
+    @FXML
     public void initialize() {
         dateTextField.setText(LocalDate.now().toString());
+        categoryChoiceBox.setOnAction(event -> subcategoryChoiceBox.
+                setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories())));
     }
 
     @FXML
@@ -55,9 +59,9 @@ public class TransactionDialogController {
 
             Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
-            if(!name.isEmpty() && date.isPresent()){
-                Transaction transaction =
-                        new Transaction(name, price, date.get(), description, account);
+            Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
+            if(!name.isEmpty() && date.isPresent() && subcategory != null){
+                Transaction transaction = new Transaction(name, price, date.get(), description, account, subcategory);
                 transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
                 closeDialog(event);
@@ -85,6 +89,4 @@ public class TransactionDialogController {
         LocalDate date = LocalDate.parse(text);
         return Optional.of(date);
     }
-
-
 }
