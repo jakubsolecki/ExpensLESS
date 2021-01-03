@@ -10,26 +10,9 @@ import java.util.List;
 
 public class SubcategoryDao implements ISubcategoryDao {
 
-    // TODO: make common save method for this and CategoryDao)?
-
     @Override
     public void saveSubcategory(Subcategory subcategory) {
-        Transaction transaction = null;
-
-        try {
-            Session session = SessionUtil.getSession();
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(subcategory);
-            transaction.commit();
-
-        } catch (Exception e) {
-
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        CommonDaoSave.save(subcategory);
     }
 
     @Override
@@ -39,11 +22,11 @@ public class SubcategoryDao implements ISubcategoryDao {
         try {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
+            List<Subcategory> res = session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
+            transaction.commit();
 
-            return session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
-
+            return res;
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -59,13 +42,13 @@ public class SubcategoryDao implements ISubcategoryDao {
         try {
             Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-
-            return session.createQuery("FROM Subcategories where category.id = :id", Subcategory.class).
+            List<Subcategory> res =  session.createQuery("FROM Subcategories where category.id = :id", Subcategory.class).
                     setParameter("id", category.getId()).
                     getResultList();
+            transaction.commit();
 
+            return res;
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }

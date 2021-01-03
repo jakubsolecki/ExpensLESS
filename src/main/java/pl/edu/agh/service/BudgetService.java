@@ -1,8 +1,6 @@
 package pl.edu.agh.service;
 
 import com.google.inject.Inject;
-import lombok.Setter;
-import org.hibernate.Session;
 import pl.edu.agh.dao.*;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.Category;
@@ -11,8 +9,6 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
-import java.time.Month;
-import java.time.Year;
 import java.util.List;
 
 public class BudgetService {
@@ -55,7 +51,11 @@ public class BudgetService {
     }
 
     public List<Budget> getBudgetsByYear(int year) {
-        return budgetDao.getBudgetsByYear(year);
+        SessionUtil.openSession();
+        List<Budget> budgetList = budgetDao.getBudgetsByYear(year);
+        SessionUtil.closeSession();
+
+        return budgetList;
     }
 
 

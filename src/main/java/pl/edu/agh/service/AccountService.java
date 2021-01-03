@@ -27,6 +27,7 @@ public class AccountService {
         SessionUtil.openSession();
         var list = accountDao.getAllAccounts();
         SessionUtil.closeSession();
+
         return list;
     }
 

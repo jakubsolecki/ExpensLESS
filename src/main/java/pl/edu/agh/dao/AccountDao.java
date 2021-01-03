@@ -5,33 +5,55 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
 import javax.persistence.PersistenceException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AccountDao implements IAccountDao {
 
-    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
-    public void saveAccount(Account account) throws PersistenceException {
-        Session session = SessionUtil.getSession();
-        org.hibernate.Transaction transaction = session.beginTransaction();
-        session.save(account);
-        transaction.commit();
+    public void saveAccount(Account account) {
+        CommonDaoSave.save(account);
     }
 
     @Override
     public List<Account> getAllAccounts() throws PersistenceException {
-        Session session = SessionUtil.getSession();
-        List<Account> accountList = session.createQuery("FROM Accounts", Account.class).getResultList();
-        session.close();
-        return accountList;
+        org.hibernate.Transaction tr = null;
+        List<Account> accountList = new ArrayList<>();
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            accountList.addAll(session.createQuery("FROM Accounts", Account.class).getResultList()); // to avoid optional
+            tr.commit();
+
+            return accountList;
+
+        } catch (Exception e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
     }
 
     @Override
     public void addTransaction(Account account, Transaction transaction){
-        Session session = SessionUtil.getSession();
-        org.hibernate.Transaction hibernateTransaction = session.beginTransaction();
-        account.addTransaction(transaction);
-        session.update(account);
-        hibernateTransaction.commit();
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            account.addTransaction(transaction);
+            session.update(account);
+            tr.commit();
+
+        } catch (Exception e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
     }
 }

@@ -10,29 +10,35 @@ import java.util.List;
 
 public class BudgetDao implements IBudgetDao {
 
-    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveBudget(Budget budget) {
-        Session session = SessionUtil.getSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(budget);
-        transaction.commit();
+        CommonDaoSave.save(budget);
     }
 
     @Override
     public List<Budget> getBudgetsByYear(int year) {
-        SessionUtil.openSession();
-        Session session = SessionUtil.getSession();
-                List<Budget> result = session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
-                .setParameter("year", year)
-                .getResultList();
-        session.close();
+        Transaction transaction = null;
 
-        return result;
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+             List <Budget> res = session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
+                    .setParameter("year", year)
+                    .getResultList();
+            transaction.commit();
+
+             return res;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
     }
 
     @Override
     public Budget getBudgetByMonth(int year, Month month) {
-        return null;
+        return null; // FIXME bruh
     }
 }
