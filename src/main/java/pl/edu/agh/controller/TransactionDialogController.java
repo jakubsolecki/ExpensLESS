@@ -61,7 +61,9 @@ public class TransactionDialogController {
             String description = descriptionTextField.getText();
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
             if(!name.isEmpty() && date.isPresent() && subcategory != null){
-                Transaction transaction = new Transaction(name, price, date.get(), description, account, subcategory);
+                Transaction transaction = Transaction.builder().
+                        name(name).price(price).date(date.get()).
+                        description(description).account(account).subCategory(subcategory).build();
                 transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
                 closeDialog(event);

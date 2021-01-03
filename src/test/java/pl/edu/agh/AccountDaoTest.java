@@ -61,8 +61,7 @@ public class AccountDaoTest {
     public void addTransactionTest(){
         IAccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
-        Transaction transaction = new Transaction("Warzywa", BigDecimal.valueOf(-69.0), LocalDate.now(), account);
-
+        Transaction transaction = Transaction.builder().name("Warzywa").price(BigDecimal.valueOf(-69.0)).date(LocalDate.now()).account(account).build();
         // when
         accountDao.saveAccount(account);
         accountDao.addTransaction(account, transaction);

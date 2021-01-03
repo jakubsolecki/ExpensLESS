@@ -79,18 +79,18 @@ public class MockData {
 
     public void createMockTransactions(List<Account> accounts, List<Subcategory> subcategories){
         List<Transaction> transactions = new ArrayList<>();
-        transactions.add(new Transaction("Podatek CIT", BigDecimal.valueOf(-89.97),
-                LocalDate.of(19,10, 20), "Zapłacone za mandat", accounts.get(0), subcategories.get(0)));
-        transactions.add(new Transaction("Warzywa", BigDecimal.valueOf(-24.20),
-                LocalDate.now(), "Dla babci", accounts.get(0), subcategories.get(0)));
-        transactions.add(new Transaction("Urodziny", BigDecimal.valueOf(100.0),
-                LocalDate.now(), "U cioci na imieninach", accounts.get(1), subcategories.get(2)));
-        transactions.add(new Transaction("Kwiaty", BigDecimal.valueOf(-42.21),
-                LocalDate.now(), "Dla żony", accounts.get(1), subcategories.get(1)));
-        transactions.add(new Transaction("Podatek", BigDecimal.valueOf(-59.90),
-                LocalDate.now(), "Znowu", accounts.get(2), subcategories.get(6)));
-        transactions.add(new Transaction("Przelew", BigDecimal.valueOf(200.0),
-                LocalDate.now(), accounts.get(3), subcategories.get(5)));
+        transactions.add(Transaction.builder().
+                name("Podatek CIT").price(BigDecimal.valueOf(-89.97)).date(LocalDate.now()).description("Zapłacone za mandat").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
+        transactions.add(Transaction.builder().
+                name("Warzywa").price(BigDecimal.valueOf(-23.97)).date(LocalDate.now()).description("Dla babci").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
+        transactions.add(Transaction.builder().
+                name("Urodziny").price(BigDecimal.valueOf(100.0)).date(LocalDate.now()).description("U cioci na imieninach").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
+        transactions.add(Transaction.builder().
+                name("Kwiaty").price(BigDecimal.valueOf(23.0)).date(LocalDate.now()).description("Dla żony").account(accounts.get(1)).subCategory(subcategories.get(2)).build());
+        transactions.add(Transaction.builder().
+                name("Podatek").price(BigDecimal.valueOf(-200.0)).date(LocalDate.now()).description("No cóż").account(accounts.get(2)).subCategory(subcategories.get(6)).build());
+        transactions.add(Transaction.builder().
+                name("Przelew").price(BigDecimal.valueOf(10.0)).date(LocalDate.now()).description("Za buty").account(accounts.get(3)).subCategory(subcategories.get(5)).build());
 
         for (Transaction transaction : transactions){
             accountService.addTransaction(transaction.getAccount(), transaction);

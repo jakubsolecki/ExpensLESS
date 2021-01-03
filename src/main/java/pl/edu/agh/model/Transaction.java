@@ -13,7 +13,9 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @EqualsAndHashCode
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@Builder
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,38 +38,4 @@ public class Transaction {
 
     @ManyToOne
     private Subcategory subCategory;
-
-    //TODO Te konstruktory proszą o pomste do nieba
-
-    public Transaction(String name, BigDecimal price, LocalDate date, Account account) {
-        this.name = name;
-        this.price = price;
-        this.date = date;
-        this.account = account;
-    }
-
-    public Transaction(String name, BigDecimal price, LocalDate date, Account account, Subcategory subcategory) {
-        this.name = name;
-        this.price = price;
-        this.date = date;
-        this.account = account;
-        this.subCategory = subcategory;
-    }
-
-    public Transaction(String name, BigDecimal price, LocalDate date, String description, Account account, Subcategory subcategory) {
-        this.name = name;
-        this.price = price;
-        this.date = date;
-        this.description = description;
-        this.account = account;
-        this.subCategory = subcategory;
-    }
-
-    public Transaction(String name, BigDecimal price, LocalDate date, String description, Account account) {
-        this.name = name;
-        this.price = price;
-        this.date = date;
-        this.description = description;
-        this.account = account;
-    }
 }
