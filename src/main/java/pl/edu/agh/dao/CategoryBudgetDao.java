@@ -10,10 +10,11 @@ public class CategoryBudgetDao implements ICategoryBudgetDao {
     @Override
     public void saveCategoryBudget(CategoryBudget categoryBudget) {
         Transaction transaction = null;
-        try {
-            Session session = SessionUtil.getSession();
+        SessionUtil.openSession();
+
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
-            session.save(categoryBudget);
+            session.saveOrUpdate(categoryBudget);
             transaction.commit();
 
         } catch (Exception e) {

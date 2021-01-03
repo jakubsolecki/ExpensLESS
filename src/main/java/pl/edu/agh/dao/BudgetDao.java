@@ -6,6 +6,7 @@ import pl.edu.agh.model.Budget;
 import pl.edu.agh.util.SessionUtil;
 
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetDao implements IBudgetDao {
@@ -13,22 +14,45 @@ public class BudgetDao implements IBudgetDao {
     //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveBudget(Budget budget) {
-        Session session = SessionUtil.getSession();
-        Transaction transaction = session.beginTransaction();
-        session.save(budget);
-        transaction.commit();
+        Transaction transaction = null;
+        SessionUtil.openSession();
+
+        try (Session session = SessionUtil.getSession()) {
+            transaction = session.beginTransaction();
+            session.saveOrUpdate(budget);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
+
     }
 
     @Override
     public List<Budget> getBudgetsByYear(int year) {
+        List<Budget> result = new ArrayList<>();
+        Transaction transaction = null;
         SessionUtil.openSession();
-        Session session = SessionUtil.getSession();
-                List<Budget> result = session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
-                .setParameter("year", year)
-                .getResultList();
-        session.close();
 
-        return result;
+        try (Session session = SessionUtil.getSession()) {
+            transaction = session.beginTransaction();
+             result.addAll(session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
+                    .setParameter("year", year)
+                    .getResultList()
+             );
+            transaction.commit();
+
+             return result;
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
     }
 
     @Override

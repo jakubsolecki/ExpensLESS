@@ -15,11 +15,11 @@ public class CategoryDao implements ICategoryDao {
     @Override
     public void saveCategory(Category category) {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
-            session.save(category);
+            session.saveOrUpdate(category);
             transaction.commit();
 
         } catch (Exception e) {
@@ -35,9 +35,9 @@ public class CategoryDao implements ICategoryDao {
     @Override
     public List<Category> getAllCategories() {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
 
             return session.createQuery("FROM Categories", Category.class).getResultList();
@@ -55,9 +55,9 @@ public class CategoryDao implements ICategoryDao {
     @Override
     public Category findCategoryByName(String name) {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
 
             return (Category) session.createQuery("FROM Categories where name = :name")

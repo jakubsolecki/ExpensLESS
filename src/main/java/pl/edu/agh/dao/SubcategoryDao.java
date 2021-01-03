@@ -15,9 +15,9 @@ public class SubcategoryDao implements ISubcategoryDao {
     @Override
     public void saveSubcategory(Subcategory subcategory) {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
             session.saveOrUpdate(subcategory);
             transaction.commit();
@@ -35,9 +35,9 @@ public class SubcategoryDao implements ISubcategoryDao {
     @Override
     public List<Subcategory> getAllSubcategories() {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
 
             return session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
@@ -55,9 +55,9 @@ public class SubcategoryDao implements ISubcategoryDao {
     @Override
     public List<Subcategory> getSubcategoriesFromCategory(Category category) {
         Transaction transaction = null;
+        SessionUtil.openSession();
 
-        try {
-            Session session = SessionUtil.getSession();
+        try (Session session = SessionUtil.getSession()) {
             transaction = session.beginTransaction();
 
             return session.createQuery("FROM Subcategories where category.id = :id", Subcategory.class).
