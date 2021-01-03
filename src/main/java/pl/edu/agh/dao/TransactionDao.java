@@ -2,7 +2,6 @@ package pl.edu.agh.dao;
 
 import org.hibernate.Session;
 import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
@@ -12,14 +11,8 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class TransactionDao implements ITransactionDao {
+public class TransactionDao extends Dao {
 
-    @Override
-    public void saveTransaction(Transaction transaction) {
-        CommonDaoSave.save(transaction);
-    }
-
-    @Override
     public List<Transaction> getAllTransactionsOfAccount(Account account) {
         org.hibernate.Transaction tr = null;
 
@@ -44,7 +37,6 @@ public class TransactionDao implements ITransactionDao {
 
     }
 
-    @Override
     public List<Transaction> findTransactionByYearMonthSubcategory(Subcategory subcategory, int year, Month month) {
         org.hibernate.Transaction tr = null;
 

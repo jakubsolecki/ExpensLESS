@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
 import pl.edu.agh.dao.CategoryDao;
-import pl.edu.agh.dao.ICategoryDao;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.util.SessionUtil;
 
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CategoryDaoTest {
 
-    private ICategoryDao categoryDao;
+    private CategoryDao categoryDao;
     private boolean clearDBAfterEveryTest = true; // Constraint on category name. Examples can also be changed
 
 
@@ -49,7 +48,7 @@ public class CategoryDaoTest {
         Category category = new Category("Category 1");
 
         // when
-        categoryDao.saveCategory(category);
+        categoryDao.save(category);
 
         // then
         Category result = SessionUtil.getSession()
@@ -64,8 +63,8 @@ public class CategoryDaoTest {
         Category category3 = new Category("Category 3");
 
         // when
-        categoryDao.saveCategory(category2);
-        categoryDao.saveCategory(category3);
+        categoryDao.save(category2);
+        categoryDao.save(category3);
 
         // then
         List<Category> result = categoryDao.getAllCategories();
@@ -79,8 +78,8 @@ public class CategoryDaoTest {
         Category category5 = new Category("Category 5");
 
         // when
-        categoryDao.saveCategory(category4);
-        categoryDao.saveCategory(category5);
+        categoryDao.save(category4);
+        categoryDao.save(category5);
 
         // then
         Category resultCategory = categoryDao.findCategoryByName("Category 5");

@@ -3,9 +3,9 @@ package pl.edu.agh.dao;
 import org.hibernate.Session;
 import pl.edu.agh.util.SessionUtil;
 
-public abstract class CommonDaoSave {
+public abstract class Dao {
 
-    public static <T> void save(T entity) {
+    public <T> void save(T entity) {
         org.hibernate.Transaction tr = null;
 
         try {

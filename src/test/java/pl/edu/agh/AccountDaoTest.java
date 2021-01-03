@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.AccountDao;
-import pl.edu.agh.dao.IAccountDao;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
@@ -30,10 +29,10 @@ public class AccountDaoTest {
     @Test
     public void saveAccountTest(){
         //Given
-        IAccountDao accountDao = new AccountDao();
+        AccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
         //when
-        accountDao.saveAccount(account);
+        accountDao.save(account);
 
         //then
         Account result = SessionUtil.getSession()
@@ -44,13 +43,13 @@ public class AccountDaoTest {
     @Test
     public void getAllAccountsTest(){
         //Given
-        IAccountDao accountDao = new AccountDao();
+        AccountDao accountDao = new AccountDao();
         Account account1 = new Account("Moje konto1", BigDecimal.valueOf(100.0));
         Account account2 = new Account("Moje konto2", BigDecimal.valueOf(100.0));
 
         //when
-        accountDao.saveAccount(account1);
-        accountDao.saveAccount(account2);
+        accountDao.save(account1);
+        accountDao.save(account2);
 
         //then
         List<Account> result = accountDao.getAllAccounts();
@@ -59,11 +58,11 @@ public class AccountDaoTest {
 
     @Test
     public void addTransactionTest(){
-        IAccountDao accountDao = new AccountDao();
+        AccountDao accountDao = new AccountDao();
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
         Transaction transaction = Transaction.builder().name("Warzywa").price(BigDecimal.valueOf(-69.0)).date(LocalDate.now()).account(account).build();
         // when
-        accountDao.saveAccount(account);
+        accountDao.save(account);
         accountDao.addTransaction(account, transaction);
 
         //then

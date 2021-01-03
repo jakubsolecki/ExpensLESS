@@ -6,7 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.SubcategoryBudgetDao;
-import pl.edu.agh.dao.ISubcategoryBudgetDao;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.SubcategoryBudget;
@@ -18,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SubcategoryBudgetDaoTest {
 
-    private ISubcategoryBudgetDao categoryBudgetDao;
+    private SubcategoryBudgetDao categoryBudgetDao;
     private boolean clearDBAfterEveryTest = true;
 
     @BeforeEach
@@ -54,7 +53,7 @@ public class SubcategoryBudgetDaoTest {
         SubcategoryBudget subcategoryBudget = new SubcategoryBudget(subcategory, new BigDecimal(100));
 
         // when
-        categoryBudgetDao.saveSubcategoryBudget(subcategoryBudget);
+        categoryBudgetDao.save(subcategoryBudget);
 
         // then
         SubcategoryBudget result = SessionUtil.getSession()

@@ -10,29 +10,29 @@ import java.util.List;
 
 public class BudgetService {
 
-    private final ISubcategoryBudgetDao categoryBudgetDao;
+    private final SubcategoryBudgetDao subcategoryBudgetDao;
 
-    private final IBudgetDao budgetDao;
+    private final BudgetDao budgetDao;
 
-    private final ITransactionDao transactionDao;
+    private final TransactionDao transactionDao;
 
 
     @Inject
     public BudgetService(SubcategoryBudgetDao subcategoryBudgetDao, BudgetDao budgetDao, TransactionDao transactionDao) {
-        this.categoryBudgetDao = subcategoryBudgetDao;
+        this.subcategoryBudgetDao = subcategoryBudgetDao;
         this.budgetDao = budgetDao;
         this.transactionDao = transactionDao;
     }
 
     public void createCategoryBudget(SubcategoryBudget subcategoryBudget) {
         SessionUtil.openSession();
-        categoryBudgetDao.saveSubcategoryBudget(subcategoryBudget);
+        subcategoryBudgetDao.save(subcategoryBudget);
         SessionUtil.closeSession();
     }
 
     public void createBudget(Budget budget){
         SessionUtil.openSession();
-        budgetDao.saveBudget(budget);
+        budgetDao.save(budget);
         SessionUtil.closeSession();
     }
 

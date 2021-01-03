@@ -8,14 +8,8 @@ import pl.edu.agh.util.SessionUtil;
 import java.util.List;
 
 
-public class CategoryDao implements ICategoryDao {
+public class CategoryDao extends Dao {
 
-    @Override
-    public void saveCategory(Category category) {
-        CommonDaoSave.save(category);
-    }
-
-    @Override
     public List<Category> getAllCategories() {
         Transaction transaction = null;
 
@@ -34,7 +28,6 @@ public class CategoryDao implements ICategoryDao {
         }
     }
 
-    @Override
     public Category findCategoryByName(String name) {
         Transaction transaction = null;
 

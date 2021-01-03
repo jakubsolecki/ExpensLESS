@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.agh.dao.CategoryDao;
-import pl.edu.agh.dao.ICategoryDao;
-import pl.edu.agh.dao.ISubcategoryDao;
 import pl.edu.agh.dao.SubcategoryDao;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
@@ -20,8 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SubcategoryDaoTest {
 
-    private ISubcategoryDao subcategoryDao;
-    private ICategoryDao categoryDao;
+    private SubcategoryDao subcategoryDao;
+    private CategoryDao categoryDao;
     private boolean clearDBAfterEveryTest = true; // Constraint on category name. Examples can also be changed
 
     @BeforeEach
@@ -57,7 +55,7 @@ public class SubcategoryDaoTest {
         Subcategory subcategory = new Subcategory("Subcategory 1", category);
 
         // when
-        subcategoryDao.saveSubcategory(subcategory);
+        subcategoryDao.save(subcategory);
 
         // then
         Subcategory result = SessionUtil.getSession()
@@ -74,8 +72,8 @@ public class SubcategoryDaoTest {
         Subcategory subcategory2 = new Subcategory("Subcategory 2", category);
 
         // when
-        subcategoryDao.saveSubcategory(subcategory1);
-        subcategoryDao.saveSubcategory(subcategory2);
+        subcategoryDao.save(subcategory1);
+        subcategoryDao.save(subcategory2);
 
         // then
         List<Subcategory> result = subcategoryDao.getAllSubcategories();

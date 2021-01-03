@@ -1,8 +1,8 @@
 package pl.edu.agh.service;
 
 import com.google.inject.Inject;
-import pl.edu.agh.dao.ICategoryDao;
-import pl.edu.agh.dao.ISubcategoryDao;
+import pl.edu.agh.dao.CategoryDao;
+import pl.edu.agh.dao.SubcategoryDao;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.util.SessionUtil;
@@ -11,24 +11,24 @@ import java.util.List;
 
 public class CategoryService {
 
-    private final ICategoryDao categoryDao;
-    private final ISubcategoryDao subcategoryDao;
+    private final CategoryDao categoryDao;
+    private final SubcategoryDao subcategoryDao;
 
     @Inject
-    public CategoryService(ICategoryDao categoryDao, ISubcategoryDao subcategoryDao) {
+    public CategoryService(CategoryDao categoryDao, SubcategoryDao subcategoryDao) {
         this.categoryDao = categoryDao;
         this.subcategoryDao = subcategoryDao;
     }
 
     public void createCategory(Category category) {
         SessionUtil.openSession();
-        categoryDao.saveCategory(category);
+        categoryDao.save(category);
         SessionUtil.closeSession();
     }
 
     public void createSubcategory(Subcategory subcategory) {
         SessionUtil.openSession();
-        subcategoryDao.saveSubcategory(subcategory);
+        subcategoryDao.save(subcategory);
         SessionUtil.closeSession();
     }
 

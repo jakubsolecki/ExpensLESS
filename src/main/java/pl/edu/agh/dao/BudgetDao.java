@@ -8,14 +8,8 @@ import pl.edu.agh.util.SessionUtil;
 import java.time.Month;
 import java.util.List;
 
-public class BudgetDao implements IBudgetDao {
+public class BudgetDao extends Dao {
 
-    @Override
-    public void saveBudget(Budget budget) {
-        CommonDaoSave.save(budget);
-    }
-
-    @Override
     public List<Budget> getBudgetsByYear(int year) {
         Transaction transaction = null;
 
@@ -37,7 +31,6 @@ public class BudgetDao implements IBudgetDao {
         }
     }
 
-    @Override
     public Budget getBudgetByMonth(int year, Month month) {
         return null; // FIXME bruh
     }
