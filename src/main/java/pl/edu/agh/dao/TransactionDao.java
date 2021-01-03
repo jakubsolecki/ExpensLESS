@@ -20,10 +20,10 @@ public class TransactionDao implements ITransactionDao {
 
     @Override
     public List<Transaction> getAllTransactionsOfAccount(Account account) {
-        SessionUtil.openSession();
         org.hibernate.Transaction tr = null;
 
-        try (Session session = SessionUtil.getSession();) {
+        try {
+            Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             List<Transaction> transactionList = session.
                     createQuery("FROM Transactions WHERE account.id = :id", Transaction.class).
@@ -56,9 +56,8 @@ public class TransactionDao implements ITransactionDao {
         }
         LocalDate endDate = LocalDate.parse("01-" + (month.plus(1).getValue() < 10 ? "0" + month.plus(1).getValue() : month.plus(1).getValue()) + "-" + year, dateTimeFormatter);
 
-        SessionUtil.openSession();
-
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             List<Transaction> res = session.createQuery("SELECT T FROM Transactions T inner join T.subCategory sc where sc.category = :category and T.date >= :start and T.date <= :end ", Transaction.class)
                     .setParameter("category", category)

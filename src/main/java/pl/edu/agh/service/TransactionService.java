@@ -3,11 +3,9 @@ package pl.edu.agh.service;
 import com.google.inject.Inject;
 import pl.edu.agh.dao.ITransactionDao;
 import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
 
-import java.time.Month;
 import java.util.List;
 
 public class TransactionService {
@@ -28,6 +26,7 @@ public class TransactionService {
         SessionUtil.openSession();
         List<Transaction> transactionList = transactionDao.getAllTransactionsOfAccount(account);
         SessionUtil.closeSession();
+
         return transactionList;
     }
 }

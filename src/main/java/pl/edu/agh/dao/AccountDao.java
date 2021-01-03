@@ -20,10 +20,13 @@ public class AccountDao implements IAccountDao {
         org.hibernate.Transaction tr = null;
         List<Account> accountList = new ArrayList<>();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             accountList.addAll(session.createQuery("FROM Accounts", Account.class).getResultList()); // to avoid optional
             tr.commit();
+
+            return accountList;
 
         } catch (Exception e) {
             if (tr != null) {
@@ -32,16 +35,14 @@ public class AccountDao implements IAccountDao {
 
             throw e;
         }
-
-        return accountList;
     }
 
     @Override
     public void addTransaction(Account account, Transaction transaction){
         org.hibernate.Transaction tr = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             account.addTransaction(transaction);
             session.update(account);

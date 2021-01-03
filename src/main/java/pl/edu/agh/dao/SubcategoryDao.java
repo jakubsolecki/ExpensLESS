@@ -18,15 +18,15 @@ public class SubcategoryDao implements ISubcategoryDao {
     @Override
     public List<Subcategory> getAllSubcategories() {
         Transaction transaction = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
+            List<Subcategory> res = session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
+            transaction.commit();
 
-            return session.createQuery("FROM Subcategories", Subcategory.class).getResultList();
-
+            return res;
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -38,17 +38,17 @@ public class SubcategoryDao implements ISubcategoryDao {
     @Override
     public List<Subcategory> getSubcategoriesFromCategory(Category category) {
         Transaction transaction = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-
-            return session.createQuery("FROM Subcategories where category.id = :id", Subcategory.class).
+            List<Subcategory> res =  session.createQuery("FROM Subcategories where category.id = :id", Subcategory.class).
                     setParameter("id", category.getId()).
                     getResultList();
+            transaction.commit();
 
+            return res;
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }

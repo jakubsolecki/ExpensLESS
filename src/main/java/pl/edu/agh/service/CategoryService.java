@@ -1,7 +1,6 @@
 package pl.edu.agh.service;
 
 import com.google.inject.Inject;
-import lombok.RequiredArgsConstructor;
 import pl.edu.agh.dao.ICategoryDao;
 import pl.edu.agh.dao.ISubcategoryDao;
 import pl.edu.agh.model.Category;

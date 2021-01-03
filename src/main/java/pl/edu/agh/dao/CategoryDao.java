@@ -18,9 +18,9 @@ public class CategoryDao implements ICategoryDao {
     @Override
     public List<Category> getAllCategories() {
         Transaction transaction = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
 
             return session.createQuery("FROM Categories", Category.class).getResultList();
@@ -37,15 +37,17 @@ public class CategoryDao implements ICategoryDao {
     @Override
     public Category findCategoryByName(String name) {
         Transaction transaction = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
 
-            return (Category) session.createQuery("FROM Categories where name = :name")
+            Category res = (Category) session.createQuery("FROM Categories where name = :name")
                     .setParameter("name", name)
                     .getSingleResult();
+            transaction.commit();
 
+            return res;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

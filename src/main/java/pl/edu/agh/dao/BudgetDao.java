@@ -6,7 +6,6 @@ import pl.edu.agh.model.Budget;
 import pl.edu.agh.util.SessionUtil;
 
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 public class BudgetDao implements IBudgetDao {
@@ -18,19 +17,17 @@ public class BudgetDao implements IBudgetDao {
 
     @Override
     public List<Budget> getBudgetsByYear(int year) {
-        List<Budget> result = new ArrayList<>();
         Transaction transaction = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             transaction = session.beginTransaction();
-             result.addAll(session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
+             List <Budget> res = session.createQuery("FROM Budget B where B.year = :year ", Budget.class)
                     .setParameter("year", year)
-                    .getResultList()
-             );
+                    .getResultList();
             transaction.commit();
 
-             return result;
+             return res;
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -42,6 +39,6 @@ public class BudgetDao implements IBudgetDao {
 
     @Override
     public Budget getBudgetByMonth(int year, Month month) {
-        return null;
+        return null; // FIXME bruh
     }
 }

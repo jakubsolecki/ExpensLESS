@@ -7,13 +7,12 @@ public abstract class CommonDaoSave {
 
     public static <T> void save(T entity) {
         org.hibernate.Transaction tr = null;
-        SessionUtil.openSession();
 
-        try (Session session = SessionUtil.getSession()) {
+        try {
+            Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             session.saveOrUpdate(entity);
             tr.commit();
-
         } catch (Exception e) {
             if (tr != null) {
                 tr.rollback();
