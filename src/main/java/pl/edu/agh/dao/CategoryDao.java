@@ -10,26 +10,9 @@ import java.util.List;
 
 public class CategoryDao implements ICategoryDao {
 
-    // TODO: make common save method for this and SubcategoryDao?
-
     @Override
     public void saveCategory(Category category) {
-        Transaction transaction = null;
-        SessionUtil.openSession();
-
-        try (Session session = SessionUtil.getSession()) {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(category);
-            transaction.commit();
-
-        } catch (Exception e) {
-
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        CommonDaoSave.save(category);
     }
 
     @Override
@@ -43,7 +26,6 @@ public class CategoryDao implements ICategoryDao {
             return session.createQuery("FROM Categories", Category.class).getResultList();
 
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -65,7 +47,6 @@ public class CategoryDao implements ICategoryDao {
                     .getSingleResult();
 
         } catch (Exception e) {
-
             if (transaction != null) {
                 transaction.rollback();
             }

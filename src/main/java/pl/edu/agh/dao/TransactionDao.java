@@ -13,25 +13,9 @@ import java.util.List;
 
 public class TransactionDao implements ITransactionDao {
 
-    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveTransaction(Transaction transaction) {
-        org.hibernate.Transaction tr = null;
-        SessionUtil.openSession();
-
-        try (Session session = SessionUtil.getSession()) {
-            tr = session.beginTransaction();
-            session.saveOrUpdate(transaction);
-            tr.commit();
-        } catch (Exception e) {
-
-            if (tr != null) {
-                tr.rollback();
-            }
-
-            throw e;
-        }
-
+        CommonDaoSave.save(transaction);
     }
 
     @Override
@@ -92,20 +76,4 @@ public class TransactionDao implements ITransactionDao {
             throw e;
         }
     }
-
-//        String pattern = "dd-MM-yyyy";
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
-//
-//        LocalDate startDate = LocalDate.parse("01-" + (month.getValue() < 10 ? "0" + month.getValue() : month.getValue()) + "-" + year, dateTimeFormatter);
-//        if (month == Month.DECEMBER){
-//            year++;
-//        }
-//        LocalDate endDate = LocalDate.parse("01-"+ (month.plus(1).getValue() < 10 ? "0" + month.plus(1).getValue() : month.plus(1).getValue()) + "-" + year, dateTimeFormatter);
-
-//        return session
-//                .createQuery("SELECT T FROM Transactions T inner join T.subCategory sc where sc.category = :category and T.date >= :start and T.date <= :end ", Transaction.class)
-//                .setParameter("category", category)
-//                .setParameter("start", startDate)
-//                .setParameter("end", endDate)
-//                .getResultList();
 }

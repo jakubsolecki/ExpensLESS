@@ -11,24 +11,9 @@ import java.util.List;
 
 public class BudgetDao implements IBudgetDao {
 
-    //TODO JAKUB ZRÓB REFACTOR :((((((
     @Override
     public void saveBudget(Budget budget) {
-        Transaction transaction = null;
-        SessionUtil.openSession();
-
-        try (Session session = SessionUtil.getSession()) {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(budget);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
-
+        CommonDaoSave.save(budget);
     }
 
     @Override

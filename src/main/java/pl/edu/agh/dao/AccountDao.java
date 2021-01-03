@@ -11,21 +11,8 @@ import java.util.List;
 public class AccountDao implements IAccountDao {
 
     @Override
-    public void saveAccount(Account account) throws PersistenceException {
-        org.hibernate.Transaction tr = null;
-
-        try (Session session = SessionUtil.getSession()) {
-            tr = session.beginTransaction();
-            session.saveOrUpdate(account);
-            tr.commit();
-
-        } catch (Exception e) {
-            if (tr != null) {
-                tr.rollback();
-            }
-
-            throw e;
-        }
+    public void saveAccount(Account account) {
+        CommonDaoSave.save(account);
     }
 
     @Override

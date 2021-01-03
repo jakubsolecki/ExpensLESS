@@ -10,26 +10,9 @@ import java.util.List;
 
 public class SubcategoryDao implements ISubcategoryDao {
 
-    // TODO: make common save method for this and CategoryDao)?
-
     @Override
     public void saveSubcategory(Subcategory subcategory) {
-        Transaction transaction = null;
-        SessionUtil.openSession();
-
-        try (Session session = SessionUtil.getSession()) {
-            transaction = session.beginTransaction();
-            session.saveOrUpdate(subcategory);
-            transaction.commit();
-
-        } catch (Exception e) {
-
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-            throw e;
-        }
+        CommonDaoSave.save(subcategory);
     }
 
     @Override
