@@ -2,8 +2,6 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.AccountDetailsController">
@@ -58,29 +56,6 @@
     </right>
    <top>
       <VBox prefHeight="137.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
-          <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="600.0" style="-fx-background-color: #275DAD;" styleClass="top">
-              <children>
-                  <ImageView fitHeight="60.0" fitWidth="200.0" onMouseClicked="#backButtonClicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
-                      <image>
-                          <Image url="@../logo.jpeg" />
-                      </image>
-                      <HBox.margin>
-                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                      </HBox.margin>
-                  </ImageView>
-                  <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="ExpensLESS">
-                      <font>
-                          <Font size="40.0" />
-                      </font>
-                      <HBox.margin>
-                          <Insets left="5.0" />
-                      </HBox.margin>
-                  </Text>
-              </children>
-              <BorderPane.margin>
-                  <Insets bottom="20.0" />
-              </BorderPane.margin>
-          </HBox>
          <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="1149.0">
             <children>
                <GridPane prefHeight="55.0" prefWidth="1270.0">

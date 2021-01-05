@@ -7,23 +7,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import pl.edu.agh.controller.MainViewController;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.Router;
+import pl.edu.agh.util.View;
 
 import java.io.IOException;
 
 
 public class Main extends Application {
+
     private Pane mainPane;
 
+    private FXMLLoader fxmlLoader;
 
     @Override
     public void start(Stage primaryStage) {
-        Injector injector = Guice.createInjector(/*new AppModule()*/);
+        Injector injector = Guice.createInjector();
 
+        // TODO consider injection everywhere
         var accountService = injector.getInstance(AccountService.class);
         var categoryService = injector.getInstance(CategoryService.class);
         var transactionService = injector.getInstance(TransactionService.class);
@@ -40,20 +45,23 @@ public class Main extends Application {
 
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
-        Router.setMainScene(mainScene);
-        Router.setAccountService(accountService);
-        Router.setCategoryService(categoryService);
-        Router.setTransactionService(transactionService);
-        Router.setBudgetService(budgetService);
+
+        MainViewController mainViewController = fxmlLoader.getController();
+        Router.setMainViewController(mainViewController);
+        mainViewController.setAccountService(accountService);
+        mainViewController.setBudgetService(budgetService);
+        mainViewController.setCategoryService(categoryService);
+        mainViewController.setTransactionService(transactionService);
+        mainViewController.setCenterScene(View.ACCOUNTS, null);
+
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
         primaryStage.show();
     }
 
     private void initializeMenu() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/view/menuView.fxml"));
-        Pane accountsPane = fxmlLoader.load();
-        mainPane = accountsPane;
+        fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/view/mainView.fxml"));
+        mainPane = fxmlLoader.load();
     }
 }

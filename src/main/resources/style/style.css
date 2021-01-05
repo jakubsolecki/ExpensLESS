@@ -31,3 +31,7 @@
     -fx-alignment: center;
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 }
+
+.menu-button {
+
+}
