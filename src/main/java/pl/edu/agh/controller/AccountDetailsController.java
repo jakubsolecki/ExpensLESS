@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
@@ -30,8 +31,7 @@ import java.math.RoundingMode;
 import java.util.Comparator;
 import java.util.List;
 
-// TODO Split this class to two separate classes
-// TODO Use guice instead of setters?
+// TODO This class is too long!
 public class AccountDetailsController {
     @Setter
     private CategoryService categoryService;
@@ -99,21 +99,7 @@ public class AccountDetailsController {
             transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
 
             Platform.runLater(() -> {
-                TreeItem<String> rootItem = new TreeItem<>("Categories");
-                rootItem.setExpanded(true);
-
-                for (Category cat : categoryList) {
-                    TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
-
-                    for (Subcategory subcategory : cat.getSubcategories()) {
-                        if (subcategory != null) {
-                            categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
-                        }
-                    }
-                    rootItem.getChildren().add(categoryTreeItem);
-                }
-                categoryTreeView.setRoot(rootItem);
-                categoryTreeView.setShowRoot(false);
+                refreshCategoryTree(categoryList);
 
                 setTableView(transactions);
                 balance.setText(account.getBalance() + " PLN");
@@ -133,12 +119,57 @@ public class AccountDetailsController {
 
     }
 
-    private void refresh(){
-        transactions = transactionService.getAllTransactionsOfAccount(account);
-        transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
-        transactionsTable.setItems(FXCollections.observableList(transactions));
-        balance.setText(account.getBalance() + " PLN");
-        balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+    void refresh(){
+        new Thread(() -> {
+            transactions = transactionService.getAllTransactionsOfAccount(account);
+            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+            List<Category> categoryList = categoryService.getAllCategories();
+            Platform.runLater(() -> {
+                refreshCategoryTree(categoryList);
+                transactionsTable.setItems(FXCollections.observableList(transactions));
+                balance.setText(account.getBalance() + " PLN");
+                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+            });
+        }).start();
+
+    }
+
+    public void addSubcategory(ActionEvent event) throws IOException {
+//        showCategoryDialog("Dodaj podkategorię");
+    }
+
+    public void addCategory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/categoryDialog.fxml"));
+        Pane page = loader.load();
+
+        CategoryDialogController controller = loader.getController();
+        controller.setCategoryService(categoryService);
+        controller.setAccountDetailsController(this);
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+        refresh();
+    }
+
+    private void refreshCategoryTree(List<Category> categoryList){
+        categoryTreeView.setRoot(null);
+        TreeItem<String> rootItem = new TreeItem<>("Categories");
+        rootItem.setExpanded(true);
+
+        for (Category cat : categoryList) {
+            TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
+
+            for (Subcategory subcategory : cat.getSubcategories()) {
+                if (subcategory != null) {
+                    categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
+                }
+            }
+            rootItem.getChildren().add(categoryTreeItem);
+        }
+        categoryTreeView.setRoot(rootItem);
+        categoryTreeView.setShowRoot(false);
     }
 }
 
