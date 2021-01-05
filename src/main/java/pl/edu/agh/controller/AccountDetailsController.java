@@ -135,7 +135,19 @@ public class AccountDetailsController {
     }
 
     public void addSubcategory(ActionEvent event) throws IOException {
-//        showCategoryDialog("Dodaj podkategorię");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/subcategoryDialog.fxml"));
+        Pane page = loader.load();
+
+        SubcategoryDialogController controller = loader.getController();
+        controller.setCategoryService(categoryService);
+        controller.setAccountDetailsController(this);
+        controller.loadData();
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+        refresh();
     }
 
     public void addCategory(ActionEvent event) throws IOException {
