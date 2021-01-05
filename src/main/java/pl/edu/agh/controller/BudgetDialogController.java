@@ -50,15 +50,15 @@ public class BudgetDialogController {
             budget.setMonth(monthBox.getValue());
             budget.setYear(year);
             budget.setSubcategoryBudgetList(new ArrayList<>());
-            for (Category category : textFieldMap.keySet()){
-                if (textFieldMap.get(category).getText().equals("")){
-                    continue;
-                }
-                BigDecimal plannedBudget = new BigDecimal(textFieldMap.get(category).getText());
+//            for (Category category : textFieldMap.keySet()){
+//                if (textFieldMap.get(category).getText().equals("")){
+//                    continue;
+//                }
+//                BigDecimal plannedBudget = new BigDecimal(textFieldMap.get(category).getText());
 //                if (!plannedBudget.equals(BigDecimal.ZERO)){
 //                    budget.addSubcategoryBudget(new SubcategoryBudget(category, plannedBudget));
 //                }
-            }
+//            }
             budgetService.createBudget(budget);
 
         } catch (NumberFormatException e){
@@ -76,12 +76,12 @@ public class BudgetDialogController {
     }
 
     public void loadData(){
-        for (Category category : categoryService.getAllCategories()){
-            TextField textField = new TextField();
-            textField.setPromptText("Budżet na " + category.getName() );
-            textFieldMap.put(category, textField);
-            mainBox.getChildren().add(textField);
-        }
+//        for (Category category : categoryService.getAllCategories()){
+//            TextField textField = new TextField();
+//            textField.setPromptText("Budżet na " + category.getName() );
+////            textFieldMap.put(category, textField);
+//            mainBox.getChildren().add(textField);
+//        }
     }
 
 

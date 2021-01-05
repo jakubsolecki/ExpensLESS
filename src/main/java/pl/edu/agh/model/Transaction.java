@@ -39,3 +39,12 @@ public class Transaction {
     @ManyToOne
     private Subcategory subCategory;
 }
+
+
+
+
+
+
+
+
+

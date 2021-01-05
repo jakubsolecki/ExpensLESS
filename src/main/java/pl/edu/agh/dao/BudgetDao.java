@@ -3,6 +3,7 @@ package pl.edu.agh.dao;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.model.Budget;
+import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.util.SessionUtil;
 
 import java.time.Month;
@@ -33,5 +34,24 @@ public class BudgetDao extends Dao {
 
     public Budget getBudgetByMonth(int year, Month month) {
         return null; // FIXME bruh
+    }
+
+    public void addSubcategoryBudget(Budget budget, SubcategoryBudget subcategoryBudget){
+        Transaction transaction = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+            budget.addSubcategoryBudget(subcategoryBudget);
+            session.update(budget);
+            transaction.commit();
+        }catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
+
     }
 }

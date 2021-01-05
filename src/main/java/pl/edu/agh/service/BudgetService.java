@@ -24,7 +24,7 @@ public class BudgetService {
         this.transactionDao = transactionDao;
     }
 
-    public void createCategoryBudget(SubcategoryBudget subcategoryBudget) {
+    public void createSubcategoryBudget(SubcategoryBudget subcategoryBudget) {
         SessionUtil.openSession();
         subcategoryBudgetDao.save(subcategoryBudget);
         SessionUtil.closeSession();
@@ -33,6 +33,12 @@ public class BudgetService {
     public void createBudget(Budget budget){
         SessionUtil.openSession();
         budgetDao.save(budget);
+        SessionUtil.closeSession();
+    }
+
+    public void addSubcategoryBudget(SubcategoryBudget subcategoryBudget, Budget budget){
+        SessionUtil.openSession();
+        budgetDao.addSubcategoryBudget(budget, subcategoryBudget);
         SessionUtil.closeSession();
     }
 
