@@ -7,7 +7,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import pl.edu.agh.guice.AppModule;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
@@ -23,7 +22,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Injector injector = Guice.createInjector(new AppModule());
+        Injector injector = Guice.createInjector(/*new AppModule()*/);
 
         var accountService = injector.getInstance(AccountService.class);
         var categoryService = injector.getInstance(CategoryService.class);

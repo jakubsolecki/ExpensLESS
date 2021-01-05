@@ -8,14 +8,7 @@ import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AccountDao implements IAccountDao {
-
-    @Override
-    public void saveAccount(Account account) {
-        CommonDaoSave.save(account);
-    }
-
-    @Override
+public class AccountDao extends Dao {
     public List<Account> getAllAccounts() throws PersistenceException {
         org.hibernate.Transaction tr = null;
         List<Account> accountList = new ArrayList<>();
@@ -37,7 +30,6 @@ public class AccountDao implements IAccountDao {
         }
     }
 
-    @Override
     public void addTransaction(Account account, Transaction transaction){
         org.hibernate.Transaction tr = null;
 

@@ -2,10 +2,7 @@ package pl.edu.agh.service;
 
 import com.google.inject.Inject;
 import pl.edu.agh.dao.*;
-import pl.edu.agh.model.Budget;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.CategoryBudget;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.util.SessionUtil;
 
 import java.math.BigDecimal;
@@ -13,36 +10,42 @@ import java.util.List;
 
 public class BudgetService {
 
-    private final ICategoryBudgetDao categoryBudgetDao;
+    private final SubcategoryBudgetDao subcategoryBudgetDao;
 
-    private final IBudgetDao budgetDao;
+    private final BudgetDao budgetDao;
 
-    private final ITransactionDao transactionDao;
+    private final TransactionDao transactionDao;
 
 
     @Inject
-    public BudgetService(CategoryBudgetDao categoryBudgetDao, BudgetDao budgetDao, TransactionDao transactionDao) {
-        this.categoryBudgetDao = categoryBudgetDao;
+    public BudgetService(SubcategoryBudgetDao subcategoryBudgetDao, BudgetDao budgetDao, TransactionDao transactionDao) {
+        this.subcategoryBudgetDao = subcategoryBudgetDao;
         this.budgetDao = budgetDao;
         this.transactionDao = transactionDao;
     }
 
-    public void createCategoryBudget(CategoryBudget categoryBudget) {
+    public void createSubcategoryBudget(SubcategoryBudget subcategoryBudget) {
         SessionUtil.openSession();
-        categoryBudgetDao.saveCategoryBudget(categoryBudget);
+        subcategoryBudgetDao.save(subcategoryBudget);
         SessionUtil.closeSession();
     }
 
     public void createBudget(Budget budget){
         SessionUtil.openSession();
-        budgetDao.saveBudget(budget);
+        budgetDao.save(budget);
         SessionUtil.closeSession();
     }
 
-    public BigDecimal calculateBudgetBalance(Budget budget, Category category){
+    public void addSubcategoryBudget(SubcategoryBudget subcategoryBudget, Budget budget){
+        SessionUtil.openSession();
+        budgetDao.addSubcategoryBudget(budget, subcategoryBudget);
+        SessionUtil.closeSession();
+    }
+
+    public BigDecimal calculateBudgetBalance(Budget budget, Subcategory subcategory){
         BigDecimal balance = BigDecimal.ZERO;
         SessionUtil.openSession();
-        List<Transaction> transactions = transactionDao.findTransactionByYearMonthCategory( category, budget.getYear(), budget.getMonth());
+        List<Transaction> transactions = transactionDao.findTransactionByYearMonthSubcategory( subcategory, budget.getYear(), budget.getMonth());
         SessionUtil.closeSession();
         for (Transaction t : transactions) {
             balance = balance.add(t.getPrice());

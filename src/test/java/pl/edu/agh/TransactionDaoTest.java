@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.edu.agh.dao.ITransactionDao;
 import pl.edu.agh.dao.TransactionDao;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
@@ -18,7 +17,7 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactionDaoTest {
-    private ITransactionDao transactionDao;
+    private TransactionDao transactionDao;
     private boolean clearDBAfterEveryTest = true;
 
     @BeforeEach
@@ -50,7 +49,7 @@ class TransactionDaoTest {
         Account account = new Account("Moje konto", BigDecimal.valueOf(100.0));
         Transaction transaction = Transaction.builder().name("Warzywa").price(BigDecimal.valueOf(-69.0)).date(LocalDate.now()).account(account).build();
         // when
-        transactionDao.saveTransaction(transaction);
+        transactionDao.save(transaction);
         // then
         Transaction result = SessionUtil.getSession()
                 .createQuery("From Transactions where id = :id", Transaction.class)

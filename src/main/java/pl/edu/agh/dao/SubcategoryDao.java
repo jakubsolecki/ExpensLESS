@@ -8,14 +8,8 @@ import pl.edu.agh.util.SessionUtil;
 
 import java.util.List;
 
-public class SubcategoryDao implements ISubcategoryDao {
+public class SubcategoryDao extends Dao {
 
-    @Override
-    public void saveSubcategory(Subcategory subcategory) {
-        CommonDaoSave.save(subcategory);
-    }
-
-    @Override
     public List<Subcategory> getAllSubcategories() {
         Transaction transaction = null;
 
@@ -35,7 +29,6 @@ public class SubcategoryDao implements ISubcategoryDao {
         }
     }
 
-    @Override
     public List<Subcategory> getSubcategoriesFromCategory(Category category) {
         Transaction transaction = null;
 

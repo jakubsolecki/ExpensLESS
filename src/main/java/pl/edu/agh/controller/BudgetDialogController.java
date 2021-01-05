@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.Category;
-import pl.edu.agh.model.CategoryBudget;
+import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 
@@ -49,16 +49,16 @@ public class BudgetDialogController {
             Budget budget = new Budget();
             budget.setMonth(monthBox.getValue());
             budget.setYear(year);
-            budget.setCategoryBudgetList(new ArrayList<>());
-            for (Category category : textFieldMap.keySet()){
-                if (textFieldMap.get(category).getText().equals("")){
-                    continue;
-                }
-                BigDecimal plannedBudget = new BigDecimal(textFieldMap.get(category).getText());
-                if (!plannedBudget.equals(BigDecimal.ZERO)){
-                    budget.addCategoryBudget(new CategoryBudget(category, plannedBudget));
-                }
-            }
+            budget.setSubcategoryBudgetList(new ArrayList<>());
+//            for (Category category : textFieldMap.keySet()){
+//                if (textFieldMap.get(category).getText().equals("")){
+//                    continue;
+//                }
+//                BigDecimal plannedBudget = new BigDecimal(textFieldMap.get(category).getText());
+//                if (!plannedBudget.equals(BigDecimal.ZERO)){
+//                    budget.addSubcategoryBudget(new SubcategoryBudget(category, plannedBudget));
+//                }
+//            }
             budgetService.createBudget(budget);
 
         } catch (NumberFormatException e){
@@ -76,12 +76,12 @@ public class BudgetDialogController {
     }
 
     public void loadData(){
-        for (Category category : categoryService.getAllCategories()){
-            TextField textField = new TextField();
-            textField.setPromptText("Budżet na " + category.getName() );
-            textFieldMap.put(category, textField);
-            mainBox.getChildren().add(textField);
-        }
+//        for (Category category : categoryService.getAllCategories()){
+//            TextField textField = new TextField();
+//            textField.setPromptText("Budżet na " + category.getName() );
+////            textFieldMap.put(category, textField);
+//            mainBox.getChildren().add(textField);
+//        }
     }
 
 

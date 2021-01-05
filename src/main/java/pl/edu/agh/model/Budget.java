@@ -19,7 +19,7 @@ public class Budget {
     private Long id;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<CategoryBudget> categoryBudgetList = new LinkedList<>();
+    private List<SubcategoryBudget> subcategoryBudgetList = new LinkedList<>();
 
     @NonNull
     @NotNull
@@ -29,12 +29,12 @@ public class Budget {
     @NotNull
     private Month month;
 
-    public void addCategoryBudget(CategoryBudget categoryBudget){
-        categoryBudgetList.add(categoryBudget);
+    public void addSubcategoryBudget(SubcategoryBudget subcategoryBudget){
+        subcategoryBudgetList.add(subcategoryBudget);
     }
 
     @Override
     public String toString() {
-        return Integer.toString(year) + " " + month.toString();
+        return year + " " + month.toString();
     }
 }
