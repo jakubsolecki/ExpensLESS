@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity(name = "SubcategoryBudgets")
-@RequiredArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -20,18 +19,13 @@ public class SubcategoryBudget {
 
     @NonNull
     @NotNull
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     private Subcategory subcategory;
 
     @NonNull
     @NotNull
     @Column(nullable = false)
     private BigDecimal plannedBudget;
-
-    @NonNull
-    @NotNull
-    @ManyToOne
-    private Budget budget;
 
     public SubcategoryBudget(Subcategory subcategory, BigDecimal bigDecimal) {
         this.subcategory = subcategory;
