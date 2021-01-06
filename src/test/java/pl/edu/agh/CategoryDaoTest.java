@@ -22,7 +22,7 @@ public class CategoryDaoTest {
     @BeforeEach
     public void beforeEach() {
         SessionUtil.openSession();
-        categoryDao = new CategoryDao(null);
+        categoryDao = new CategoryDao();
     }
 
     @AfterEach
