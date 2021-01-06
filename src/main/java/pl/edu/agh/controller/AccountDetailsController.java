@@ -22,8 +22,6 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -66,11 +64,6 @@ public class AccountDetailsController {
     private TableView<Transaction> transactionsTable;
     @FXML
     private TreeView<String> categoryTreeView = new TreeView<>();
-
-    @FXML
-    public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.MENU);
-    }
 
     @FXML
     public void addButtonClicked(ActionEvent event) throws IOException {

@@ -12,7 +12,6 @@ import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
 import java.io.IOException;
@@ -47,12 +46,12 @@ public class Main extends Application {
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
         MainViewController mainViewController = fxmlLoader.getController();
-        Router.setMainViewController(mainViewController);
         mainViewController.setAccountService(accountService);
         mainViewController.setBudgetService(budgetService);
         mainViewController.setCategoryService(categoryService);
         mainViewController.setTransactionService(transactionService);
         mainViewController.setCenterScene(View.ACCOUNTS, null);
+        mainViewController.setMvc(mainViewController);
 
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);

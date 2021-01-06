@@ -15,8 +15,6 @@ import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 import pl.edu.agh.viewelements.BudgetViewElement;
 
 import java.io.IOException;
@@ -41,11 +39,6 @@ public class BudgetController {
     public void initialize(){
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         this.yearLabel.setText(Integer.toString(currentYear));
-    }
-
-    @FXML
-    public void backButtonClicked(MouseEvent mouseEvent) {
-        Router.routeTo(View.MENU);
     }
 
     @FXML

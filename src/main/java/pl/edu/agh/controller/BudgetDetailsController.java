@@ -19,11 +19,8 @@ import org.hibernate.Hibernate;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.SubcategoryBudget;
-import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -45,7 +42,7 @@ public class BudgetDetailsController {
 
     @FXML
     public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.MENU);
+//        Router.routeTo(View.MENU);
     }
 
     @FXML

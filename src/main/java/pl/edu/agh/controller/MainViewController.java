@@ -13,7 +13,6 @@ import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.util.Router;
 import pl.edu.agh.util.View;
 
 public class MainViewController {
@@ -26,6 +25,8 @@ public class MainViewController {
     private TransactionService transactionService;
     @Setter
     private BudgetService budgetService;
+    @Setter
+    private static MainViewController mvc;
 
     private Scene scene; // TODO remove?
 
@@ -47,12 +48,16 @@ public class MainViewController {
         setCenterScene(View.BUDGETS, null);
     }
 
+    public static void routeTo(View view, Object object) {
+        mvc.setCenterScene(view, object);
+    }
+
     public void setCenterScene(View view, Object object) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (view) {
                 case ACCOUNTS -> {
-                    fxmlLoader.setLocation(Router.class.getResource("/view/accountsView.fxml"));
+                    fxmlLoader.setLocation(MainViewController.class.getResource("/view/accountsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountController controller = fxmlLoader.getController();
                     controller.setAccountService(accountService);
@@ -66,7 +71,7 @@ public class MainViewController {
                     }
 
                     Account account = (Account) object;
-                    fxmlLoader.setLocation(Router.class.getResource("/view/categoriesView.fxml"));
+                    fxmlLoader.setLocation(MainViewController.class.getResource("/view/categoriesView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountDetailsController controller = fxmlLoader.getController();
                     controller.setAccount(account);
@@ -78,14 +83,14 @@ public class MainViewController {
                     scene.setRoot(pane);
                 }
                 case MENU -> { // TODO remove
-                    fxmlLoader.setLocation(Router.class.getResource("/view/menuView.fxml"));
+                    fxmlLoader.setLocation(MainViewController.class.getResource("/view/menuView.fxml"));
                     Pane pane = fxmlLoader.load();
                     borderPane.setCenter(pane);
                     scene.setRoot(pane);
                 }
                 case BUDGETS -> {
 
-                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetsView.fxml"));
+                    fxmlLoader.setLocation(MainViewController.class.getResource("/view/budgetsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetController budgetController = fxmlLoader.getController();
                     budgetController.setBudgetService(budgetService);
@@ -99,7 +104,7 @@ public class MainViewController {
                         throw new IllegalArgumentException("Account is required");
                     }
 
-                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetDetailsView.fxml"));
+                    fxmlLoader.setLocation(MainViewController.class.getResource("/view/budgetDetailsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetDetailsController controller = fxmlLoader.getController();
                     controller.setBudget((Budget)object);
