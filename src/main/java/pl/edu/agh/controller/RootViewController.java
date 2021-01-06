@@ -34,7 +34,7 @@ public class RootViewController {
     @Setter
     private View previousView;
 
-    private Scene scene; // TODO remove?
+    private Scene scene; // tbh dunno why do I use this
 
     @FXML
     private BorderPane borderPane;

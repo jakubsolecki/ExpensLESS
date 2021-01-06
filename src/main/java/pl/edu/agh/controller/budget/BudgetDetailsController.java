@@ -41,11 +41,6 @@ public class BudgetDetailsController {
     private TreeView<Object> categoryTree;
 
     @FXML
-    public void backButtonClicked(MouseEvent event) {
-//        Router.routeTo(View.MENU);
-    }
-
-    @FXML
     public void addButtonClicked(MouseEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/budgetDetailsDialog.fxml"));
         Pane pane = fxmlLoader.load();
@@ -73,7 +68,6 @@ public class BudgetDetailsController {
             List<Category> categories = categoryService.getAllCategories();
 
             for (Category cat : categories) {
-//                TreeItem<Object> categoryTreeItem = new TreeItem<>(cat.getName());
                 List<TreeItem<Object>> tmp_items = new LinkedList<>();
                 BigDecimal sumBalance = BigDecimal.ZERO;
                 BigDecimal sumPlanned = BigDecimal.ZERO;
@@ -89,8 +83,6 @@ public class BudgetDetailsController {
                         gridPane.add(text, 1, 0);
                         gridPane.setHgap(30);
                         tmp_items.add(new TreeItem<>(gridPane));
-
-//                        categoryTreeItem.getChildren().add(new TreeItem<>(gridPane));
                     }
                 }
                 Text text = new Text(sumBalance + " / " + sumPlanned);
@@ -114,10 +106,4 @@ public class BudgetDetailsController {
             });
         }).start();
     }
-
-    private void refresh() {
-
-    }
-
-
 }
