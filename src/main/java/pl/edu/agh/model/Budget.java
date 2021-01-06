@@ -33,6 +33,10 @@ public class Budget {
         subcategoryBudgetList.add(subcategoryBudget);
     }
 
+    public void removeSubcategoryBudget(SubcategoryBudget subcategoryBudget){
+        subcategoryBudgetList.remove(subcategoryBudget);
+    }
+
     @Override
     public String toString() {
         return year + " " + month.toString();

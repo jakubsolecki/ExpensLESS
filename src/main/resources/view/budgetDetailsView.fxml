@@ -58,6 +58,22 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </opaqueInsets>
             <children>
+                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked" styleClass="subcategory-budget-delete-button" text="+">
+                    <VBox.margin>
+                        <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
+                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#editButtonClicked" styleClass="subcategory-budget-edit-button" text="+">
+                    <VBox.margin>
+                        <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
+                    </VBox.margin>
+                    <opaqueInsets>
+                        <Insets />
+                    </opaqueInsets>
+                </Button>
                 <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addButtonClicked" styleClass="account-view-add-button" text="+">
                     <VBox.margin>
                         <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />

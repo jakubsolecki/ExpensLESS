@@ -17,8 +17,8 @@ import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class BudgetDetailsDialogController {
 
@@ -45,30 +45,41 @@ public class BudgetDetailsDialogController {
     }
 
     @FXML
-    public void handleAddAction(ActionEvent event){
+    public void handleAddAction(ActionEvent event) {
         BigDecimal budgetAmount = new BigDecimal(budgetField.getText());
         Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
 
-        if(subcategory != null){
-            SubcategoryBudget subcategoryBudget = new SubcategoryBudget(subcategory, budgetAmount);
-            budgetService.createSubcategoryBudget(subcategoryBudget);
-            budgetService.addSubcategoryBudget(subcategoryBudget, budget);
+        if (subcategory != null) {
+            Optional<SubcategoryBudget> subcategoryBudgetOptional = budgetService.findSubcategoryBudget(subcategory, budget);
+            if (subcategoryBudgetOptional.isPresent()){
+                SubcategoryBudget subcategoryBudget = subcategoryBudgetOptional.get();
+                subcategoryBudget.setPlannedBudget(budgetAmount);
+                budgetService.saveSubcategoryBudget(subcategoryBudget);
+            } else {
+                SubcategoryBudget subcategoryBudget = new SubcategoryBudget(subcategory, budgetAmount);
+                budgetService.saveSubcategoryBudget(subcategoryBudget);
+                budgetService.addSubcategoryBudget(subcategoryBudget, budget);
+            }
             budgetDetailsController.loadData();
             closeDialog(event);
         }
     }
 
     @FXML
-    public void closeDialog(ActionEvent event){
-        Node source = (Node)  event.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
+    public void closeDialog(ActionEvent event) {
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
-    public void loadData() {
+    public void loadData(Subcategory subcategory) {
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();
             Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
+            if (subcategory != null) {
+                categoryChoiceBox.setValue(subcategory.getCategory());
+                subcategoryChoiceBox.setValue(subcategory);
+            }
         }).start();
     }
 }
