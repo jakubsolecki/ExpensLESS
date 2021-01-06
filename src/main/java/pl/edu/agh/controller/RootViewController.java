@@ -2,10 +2,10 @@ package pl.edu.agh.controller;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import lombok.Setter;
 import pl.edu.agh.controller.account.AccountController;
 import pl.edu.agh.controller.account.AccountDetailsController;
@@ -34,13 +34,15 @@ public class RootViewController {
     @Setter
     private View previousView;
 
-    private Scene scene; // tbh dunno why do I use this
+    @FXML
+    private Text backButton;
 
     @FXML
     private BorderPane borderPane;
 
     @FXML
     public void backButtonClicked(MouseEvent event) {
+        toggleBackBtnVisibility(false);
         setMainScene(previousView, null);
     }
 
@@ -54,8 +56,13 @@ public class RootViewController {
         setMainScene(View.BUDGETS, null);
     }
 
+    public void toggleBackBtnVisibility(boolean isVisible) {
+        backButton.setVisible(isVisible);
+    }
+
     public static void routeTo(View prevView, View view, Object object) {
         mvc.setPreviousView(prevView);
+        mvc.toggleBackBtnVisibility(true);
         mvc.setMainScene(view, object);
     }
 
@@ -74,7 +81,6 @@ public class RootViewController {
                     controller.setAccountService(accountService);
                     controller.loadData();
                     borderPane.setCenter(pane);
-                    scene.setRoot(pane);
                 }
                 case ACCOUNT_DETAILS -> {
                     if (object == null) {
@@ -91,7 +97,6 @@ public class RootViewController {
                     controller.setTransactionService(transactionService);
                     controller.loadData();
                     borderPane.setCenter(pane);
-                    scene.setRoot(pane);
                 }
                 case BUDGETS -> {
 
@@ -102,7 +107,6 @@ public class RootViewController {
                     budgetController.setCategoryService(categoryService);
                     budgetController.refreshData();
                     borderPane.setCenter(pane);
-                    scene.setRoot(pane);
                 }
                 case BUDGET_DETAILS -> {
                     if (object == null) {
@@ -117,7 +121,6 @@ public class RootViewController {
                     controller.setCategoryService(categoryService);
                     controller.loadData();
                     borderPane.setCenter(pane);
-                    scene.setRoot(pane);
                 }
             }
         } catch (Exception e){

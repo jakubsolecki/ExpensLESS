@@ -46,7 +46,7 @@
                         <Insets left="45.0" />
                     </HBox.margin>
                 </Text>
-                <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Wstecz">
+                <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Wstecz" fx:id="backButton">
                     <font>
                         <Font size="40.0" />
                     </font>

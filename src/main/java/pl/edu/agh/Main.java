@@ -45,11 +45,13 @@ public class Main extends Application {
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
+        // root view setup, would be nice to simplify a bit
         RootViewController rootViewController = fxmlLoader.getController();
         rootViewController.setAccountService(accountService);
         rootViewController.setBudgetService(budgetService);
         rootViewController.setCategoryService(categoryService);
         rootViewController.setTransactionService(transactionService);
+        rootViewController.toggleBackBtnVisibility(false);
         RootViewController.setMvc(rootViewController);
         RootViewController.routeTo(View.ACCOUNTS);
 
