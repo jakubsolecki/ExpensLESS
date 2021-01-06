@@ -3,6 +3,7 @@ package pl.edu.agh.controller;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
@@ -29,6 +30,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class BudgetDetailsController {
     @Setter
@@ -49,15 +51,55 @@ public class BudgetDetailsController {
     }
 
     @FXML
+    public void editButtonClicked(MouseEvent event) throws IOException {
+        GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
+
+        for (Node node : selected.getChildren()) {
+            if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0) {
+                Text text = (Text) node;
+                Subcategory subcategory = categoryService.getSubcategoryByName(text.getText());
+                if (subcategory != null){
+                    openSubcategoryBudgetDialog(subcategory);
+                }
+            }
+        }
+    }
+
+    @FXML
     public void addButtonClicked(MouseEvent event) throws IOException {
+        openSubcategoryBudgetDialog(null);
+    }
+
+    @FXML
+    public void deleteButtonClicked(MouseEvent event) throws IOException {
+        GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
+
+        for (Node node : selected.getChildren()) {
+            if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0) {
+                Text text = (Text) node;
+                Subcategory subcategory = categoryService.getSubcategoryByName(text.getText());
+                if (subcategory != null){
+                    Optional<SubcategoryBudget> subcategoryBudgetOptional = budgetService.findSubcategoryBudget(subcategory, budget);
+                    if (subcategoryBudgetOptional.isPresent()) {
+                        SubcategoryBudget subcategoryBudget = subcategoryBudgetOptional.get();
+                        budgetService.deleteSubcategoryBudget(subcategoryBudget, budget);
+                        loadData();
+                    }
+                }
+            }
+        }
+    }
+
+    private void openSubcategoryBudgetDialog(Subcategory subcategory) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/budgetDetailsDialog.fxml"));
         Pane pane = fxmlLoader.load();
         BudgetDetailsDialogController controller = fxmlLoader.getController();
         controller.setBudgetService(budgetService);
         controller.setCategoryService(categoryService);
         controller.setBudget(budget);
-        controller.loadData();
+        controller.loadData(subcategory);
         controller.setBudgetDetailsController(this);
+
 
         Scene scene = new Scene(pane);
         Stage stage = new Stage();
@@ -76,7 +118,6 @@ public class BudgetDetailsController {
             List<Category> categories = categoryService.getAllCategories();
 
             for (Category cat : categories) {
-//                TreeItem<Object> categoryTreeItem = new TreeItem<>(cat.getName());
                 List<TreeItem<Object>> tmp_items = new LinkedList<>();
                 BigDecimal sumBalance = BigDecimal.ZERO;
                 BigDecimal sumPlanned = BigDecimal.ZERO;
@@ -92,8 +133,6 @@ public class BudgetDetailsController {
                         gridPane.add(text, 1, 0);
                         gridPane.setHgap(30);
                         tmp_items.add(new TreeItem<>(gridPane));
-
-//                        categoryTreeItem.getChildren().add(new TreeItem<>(gridPane));
                     }
                 }
                 Text text = new Text(sumBalance + " / " + sumPlanned);
@@ -104,7 +143,7 @@ public class BudgetDetailsController {
                 gridPane.setHgap(30);
                 TreeItem<Object> categoryTreeItem = new TreeItem<>(gridPane);
 
-                for (TreeItem<Object> pane : tmp_items){
+                for (TreeItem<Object> pane : tmp_items) {
                     categoryTreeItem.getChildren().add(pane);
                 }
 

@@ -54,4 +54,22 @@ public class BudgetDao extends Dao {
         }
 
     }
+    public void removeSubcategoryBudget(Budget budget, SubcategoryBudget subcategoryBudget){
+        Transaction transaction = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+            budget.removeSubcategoryBudget(subcategoryBudget);
+            session.update(budget);
+            transaction.commit();
+        }catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+
+            throw e;
+        }
+
+    }
 }

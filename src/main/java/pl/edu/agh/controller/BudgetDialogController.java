@@ -38,8 +38,8 @@ public class BudgetDialogController {
 
     @FXML
     public void cancelButtonClicked(ActionEvent event) {
-        Node source = (Node)  event.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
+        Node source = (Node) event.getSource();
+        Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
 
@@ -50,18 +50,9 @@ public class BudgetDialogController {
             budget.setMonth(monthBox.getValue());
             budget.setYear(year);
             budget.setSubcategoryBudgetList(new ArrayList<>());
-//            for (Category category : textFieldMap.keySet()){
-//                if (textFieldMap.get(category).getText().equals("")){
-//                    continue;
-//                }
-//                BigDecimal plannedBudget = new BigDecimal(textFieldMap.get(category).getText());
-//                if (!plannedBudget.equals(BigDecimal.ZERO)){
-//                    budget.addSubcategoryBudget(new SubcategoryBudget(category, plannedBudget));
-//                }
-//            }
             budgetService.createBudget(budget);
 
-        } catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             System.out.println("Wrong format!");
             return;
         }
@@ -71,17 +62,11 @@ public class BudgetDialogController {
     }
 
     @FXML
-    public void initialize(){
-        monthBox.setItems(FXCollections.observableArrayList(Month.values()));
+    public void initialize() {
     }
 
-    public void loadData(){
-//        for (Category category : categoryService.getAllCategories()){
-//            TextField textField = new TextField();
-//            textField.setPromptText("Budżet na " + category.getName() );
-////            textFieldMap.put(category, textField);
-//            mainBox.getChildren().add(textField);
-//        }
+    public void loadData() {
+        monthBox.setItems(FXCollections.observableArrayList(budgetService.getFreeMonths(year)));
     }
 
 
