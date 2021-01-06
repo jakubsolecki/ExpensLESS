@@ -45,14 +45,24 @@
                </children>
             </AnchorPane>
             <TreeView fx:id="categoryTreeView" prefHeight="5000.0" prefWidth="150.0" />
-            <Button mnemonicParsing="false" prefHeight="28.0" prefWidth="140.0" text="Dodaj kategorie" onAction="#addCategory">
+            <Button mnemonicParsing="false" onAction="#addCategory" prefHeight="28.0" prefWidth="140.0" text="Dodaj kategorie">
                <VBox.margin>
                   <Insets top="5.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Dodaj podkategorie" onAction="#addSubcategory">
+            <Button mnemonicParsing="false" onAction="#addSubcategory" text="Dodaj podkategorie">
                <VBox.margin>
-                  <Insets bottom="5.0" top="5.0" />
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Usuń" onAction="#deleteCategory">
+               <VBox.margin>
+                  <Insets top="5.0" />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Edytuj" onAction="#editCategory">
+               <VBox.margin>
+                  <Insets top="5.0" />
                </VBox.margin>
             </Button>
          </children>

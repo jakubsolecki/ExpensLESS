@@ -183,6 +183,38 @@ public class AccountDetailsController {
         categoryTreeView.setRoot(rootItem);
         categoryTreeView.setShowRoot(false);
     }
+
+    public void editCategory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editCategoryDialog.fxml"));
+        Pane page = loader.load();
+
+        EditCategoryDialogController controller = loader.getController();
+        controller.setCategoryService(categoryService);
+        controller.setAccountDetailsController(this);
+        controller.loadData();
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+        refresh();
+    }
+
+    public void deleteCategory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/deleteCategoryDialog.fxml"));
+        Pane page = loader.load();
+
+        DeleteCategoryDialogController controller = loader.getController();
+        controller.setCategoryService(categoryService);
+        controller.setAccountDetailsController(this);
+        controller.loadData();
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+        refresh();
+    }
 }
 
 

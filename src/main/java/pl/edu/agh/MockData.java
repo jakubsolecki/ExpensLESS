@@ -80,7 +80,7 @@ public class MockData {
     }
 
     public void createMockTransactions(List<Account> accounts){
-        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
+
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(Transaction.builder().
                 name("Podatek CIT").price(BigDecimal.valueOf(-89.97)).date(LocalDate.now()).description("Zapłacone za mandat").account(accounts.get(0)).subCategory(subcategories.get(0)).build());
