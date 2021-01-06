@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.jupiter.api.*;
 import pl.edu.agh.dao.CategoryDao;
+import pl.edu.agh.dao.SubcategoryDao;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.util.SessionUtil;
 
@@ -21,7 +22,7 @@ public class CategoryDaoTest {
     @BeforeEach
     public void beforeEach() {
         SessionUtil.openSession();
-        categoryDao = new CategoryDao();
+        categoryDao = new CategoryDao(null);
     }
 
     @AfterEach

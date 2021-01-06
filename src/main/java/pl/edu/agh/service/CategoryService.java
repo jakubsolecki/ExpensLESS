@@ -56,5 +56,15 @@ public class CategoryService {
         return subcategoryList;
     }
 
+    public void deleteCategory(Category category){
+        SessionUtil.openSession();
+        categoryDao.deleteCategory(category);
+        SessionUtil.closeSession();
+    }
 
+    public void deleteSubcategory(Subcategory subcategory){
+        SessionUtil.openSession();
+        subcategoryDao.deleteSubcategory(subcategory);
+        SessionUtil.closeSession();
+    }
 }

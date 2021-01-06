@@ -49,4 +49,24 @@ public class SubcategoryDao extends Dao {
             throw e;
         }
     }
+
+    public void deleteSubcategory(Subcategory subcategory){
+        Transaction transaction = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+            subcategory.getCategory().getSubcategories().remove(subcategory);
+            subcategory.setCategory(null);
+            session.flush();
+            session.remove(subcategory);
+            String sql = String.format("UPDATE Transactions SET subCategory_id = null WHERE subCategory_id = %d", subcategory.getId());
+            session.createNativeQuery(sql).executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+    }
 }

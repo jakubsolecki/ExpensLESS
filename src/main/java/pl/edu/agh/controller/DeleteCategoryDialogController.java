@@ -15,20 +15,24 @@ import pl.edu.agh.service.CategoryService;
 
 import java.util.List;
 
-public class SubcategoryDialogController {
-    @FXML
-    public TextField nameTextField;
+public class DeleteCategoryDialogController {
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
+    @FXML
+    public ChoiceBox<Subcategory> subcategoryChoiceBox;
     @Setter
     private CategoryService categoryService;
     @Setter
     private AccountDetailsController accountDetailsController;
 
-    public void closeDialog(ActionEvent event){
-        Node source = (Node)  event.getSource();
-        Stage stage  = (Stage) source.getScene().getWindow();
-        stage.close();
+    @FXML
+    public void initialize() {
+        categoryChoiceBox.setOnAction(event -> subcategoryChoiceBox.
+                setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories())));
+    }
+
+    public void handleCancelAction(ActionEvent event) {
+        closeDialog(event);
     }
 
     public void loadData() {
@@ -38,20 +42,33 @@ public class SubcategoryDialogController {
         }).start();
     }
 
-    public void handleCancelAction(ActionEvent event) {
-        closeDialog(event);
-    }
+    public void handleDeleteAction(ActionEvent event) {
 
-    public void handleAddAction(ActionEvent event) {
-        Subcategory subcategory;
         try {
-            subcategory = new Subcategory(nameTextField.getText(), categoryChoiceBox.getValue());
+            Category category = categoryChoiceBox.getValue();
+            Subcategory subcategory = subcategoryChoiceBox.getValue();
+            if (subcategory != null){
+                categoryService.deleteSubcategory(subcategory);
+            } else {
+                categoryService.deleteCategory(category);
+            }
+
+
         } catch (NumberFormatException | NullPointerException e ){
             System.out.println("Wrong format!");
             return;
         }
-        categoryService.createSubcategory(subcategory);
         accountDetailsController.refresh();
         closeDialog(event);
     }
+
+    public void closeDialog(ActionEvent event){
+        Node source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
+    }
+
+
+
+
 }

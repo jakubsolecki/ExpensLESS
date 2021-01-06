@@ -26,7 +26,7 @@ public class SubcategoryDaoTest {
     public void before() {
         SessionUtil.openSession();
         subcategoryDao = new SubcategoryDao();
-        categoryDao = new CategoryDao();
+        categoryDao = new CategoryDao(null);
     }
 
     @AfterEach
