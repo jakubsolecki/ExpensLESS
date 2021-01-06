@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import pl.edu.agh.controller.MainViewController;
+import pl.edu.agh.controller.NavbarController;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
@@ -45,13 +45,14 @@ public class Main extends Application {
         Scene mainScene = new Scene(mainPane);
         mainScene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
 
-        MainViewController mainViewController = fxmlLoader.getController();
-        mainViewController.setAccountService(accountService);
-        mainViewController.setBudgetService(budgetService);
-        mainViewController.setCategoryService(categoryService);
-        mainViewController.setTransactionService(transactionService);
-        mainViewController.setCenterScene(View.ACCOUNTS, null);
-        mainViewController.setMvc(mainViewController);
+        NavbarController navbarController = fxmlLoader.getController();
+        navbarController.setAccountService(accountService);
+        navbarController.setBudgetService(budgetService);
+        navbarController.setCategoryService(categoryService);
+        navbarController.setTransactionService(transactionService);
+        NavbarController.setMvc(navbarController);
+        NavbarController.routeTo(View.ACCOUNTS);
+
 
         primaryStage.setTitle("ExpensLESS");
         primaryStage.setScene(mainScene);
@@ -60,7 +61,7 @@ public class Main extends Application {
 
     private void initializeMenu() throws IOException {
         fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/view/mainView.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("/view/navbar.fxml"));
         mainPane = fxmlLoader.load();
     }
 }
