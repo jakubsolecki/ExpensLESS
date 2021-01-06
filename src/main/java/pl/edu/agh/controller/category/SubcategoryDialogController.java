@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.category;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;

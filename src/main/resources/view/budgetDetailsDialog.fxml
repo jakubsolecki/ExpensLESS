@@ -14,7 +14,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <BorderPane stylesheets="style/style.css" prefHeight="187.0" prefWidth="364.0" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.BudgetDetailsDialogController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsDialogController">
     <center>
         <GridPane prefHeight="119.0" prefWidth="364.0" BorderPane.alignment="CENTER">
             <columnConstraints>

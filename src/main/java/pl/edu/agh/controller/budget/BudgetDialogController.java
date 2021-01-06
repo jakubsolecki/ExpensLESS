@@ -1,27 +1,21 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Budget;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 
-import java.math.BigDecimal;
 import java.time.Month;
 import java.util.*;
 
 public class BudgetDialogController {
-    private final Map<Category, TextField> textFieldMap = new HashMap<>();
-
     @Setter
     private CategoryService categoryService;
     @Setter
@@ -68,6 +62,4 @@ public class BudgetDialogController {
     public void loadData() {
         monthBox.setItems(FXCollections.observableArrayList(budgetService.getFreeMonths(year)));
     }
-
-
 }

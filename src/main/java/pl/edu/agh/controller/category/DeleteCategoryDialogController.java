@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.category;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,20 +9,18 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;
 
 import java.util.List;
 
-public class EditCategoryDialogController {
+public class DeleteCategoryDialogController {
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
     @FXML
     public ChoiceBox<Subcategory> subcategoryChoiceBox;
-    @FXML
-    public TextField nameTextField;
-
     @Setter
     private CategoryService categoryService;
     @Setter
@@ -45,17 +43,15 @@ public class EditCategoryDialogController {
         }).start();
     }
 
-    public void handleEditAction(ActionEvent event) {
+    public void handleDeleteAction(ActionEvent event) {
+
         try {
             Category category = categoryChoiceBox.getValue();
             Subcategory subcategory = subcategoryChoiceBox.getValue();
-            String name = nameTextField.getText();
             if (subcategory != null){
-                subcategory.setName(name);
-                categoryService.createSubcategory(subcategory);
+                categoryService.deleteSubcategory(subcategory);
             } else {
-                category.setName(name);
-                categoryService.createCategory(category);
+                categoryService.deleteCategory(category);
             }
 
 
@@ -67,10 +63,13 @@ public class EditCategoryDialogController {
         closeDialog(event);
     }
 
-
     public void closeDialog(ActionEvent event){
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+
+
+
 }

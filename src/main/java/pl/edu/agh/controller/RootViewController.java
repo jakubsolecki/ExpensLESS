@@ -1,44 +1,87 @@
-package pl.edu.agh.util;
+package pl.edu.agh.controller;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import lombok.Setter;
-import pl.edu.agh.controller.AccountController;
-import pl.edu.agh.controller.AccountDetailsController;
-import pl.edu.agh.controller.BudgetController;
-import pl.edu.agh.controller.BudgetDetailsController;
+import pl.edu.agh.controller.account.AccountController;
+import pl.edu.agh.controller.account.AccountDetailsController;
+import pl.edu.agh.controller.budget.BudgetController;
+import pl.edu.agh.controller.budget.BudgetDetailsController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
+import pl.edu.agh.util.View;
 
+public class RootViewController {
 
-public class Router {
     @Setter
-    private static Scene mainScene;
+    private CategoryService categoryService;
     @Setter
-    private static CategoryService categoryService;
+    private AccountService accountService;
     @Setter
-    private static AccountService accountService;
+    private TransactionService transactionService;
     @Setter
-    private static TransactionService transactionService;
+    private BudgetService budgetService;
     @Setter
-    private static BudgetService budgetService;
+    private static RootViewController mvc;
+    @Setter
+    private View previousView;
 
-    public static void routeTo(View view, Object object){
-        try{
+    @FXML
+    private Text backButton;
+
+    @FXML
+    private BorderPane borderPane;
+
+    @FXML
+    public void backButtonClicked(MouseEvent event) {
+        toggleBackBtnVisibility(false);
+        setMainScene(previousView, null);
+    }
+
+    @FXML
+    public void accountsButtonClicked(MouseEvent mouseEvent) {
+        setMainScene(View.ACCOUNTS, null);
+    }
+
+    @FXML
+    public void budgetsButtonClicked(MouseEvent mouseEvent) {
+        setMainScene(View.BUDGETS, null);
+    }
+
+    public void toggleBackBtnVisibility(boolean isVisible) {
+        backButton.setVisible(isVisible);
+    }
+
+    public static void routeTo(View prevView, View view, Object object) {
+        mvc.setPreviousView(prevView);
+        mvc.toggleBackBtnVisibility(true);
+        mvc.setMainScene(view, object);
+    }
+
+    public static void routeTo(View view) {
+        mvc.setMainScene(view, null);
+    }
+
+    public void setMainScene(View view, Object object) {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (view) {
                 case ACCOUNTS -> {
-                    fxmlLoader.setLocation(Router.class.getResource("/view/accountsView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/accountsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountController controller = fxmlLoader.getController();
                     controller.setAccountService(accountService);
                     controller.loadData();
-                    mainScene.setRoot(pane);
+                    mvc.toggleBackBtnVisibility(false);
+                    borderPane.setCenter(pane);
                 }
                 case ACCOUNT_DETAILS -> {
                     if (object == null) {
@@ -46,7 +89,7 @@ public class Router {
                     }
 
                     Account account = (Account) object;
-                    fxmlLoader.setLocation(Router.class.getResource("/view/categoriesView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/categoriesView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountDetailsController controller = fxmlLoader.getController();
                     controller.setAccount(account);
@@ -54,43 +97,36 @@ public class Router {
                     controller.setAccountService(accountService);
                     controller.setTransactionService(transactionService);
                     controller.loadData();
-                    mainScene.setRoot(pane);
-                }
-                case MENU -> {
-                    fxmlLoader.setLocation(Router.class.getResource("/view/menuView.fxml"));
-                    Pane pane = fxmlLoader.load();
-                    mainScene.setRoot(pane);
+                    borderPane.setCenter(pane);
                 }
                 case BUDGETS -> {
 
-                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetsView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/budgetsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetController budgetController = fxmlLoader.getController();
                     budgetController.setBudgetService(budgetService);
                     budgetController.setCategoryService(categoryService);
                     budgetController.refreshData();
-                    mainScene.setRoot(pane);
+                    mvc.toggleBackBtnVisibility(false);
+                    borderPane.setCenter(pane);
                 }
                 case BUDGET_DETAILS -> {
                     if (object == null) {
                         throw new IllegalArgumentException("Account is required");
                     }
-                    fxmlLoader.setLocation(Router.class.getResource("/view/budgetDetailsView.fxml"));
+
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/budgetDetailsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetDetailsController controller = fxmlLoader.getController();
                     controller.setBudget((Budget)object);
                     controller.setBudgetService(budgetService);
                     controller.setCategoryService(categoryService);
                     controller.loadData();
-                    mainScene.setRoot(pane);
+                    borderPane.setCenter(pane);
                 }
             }
         } catch (Exception e){
             e.printStackTrace();
         }
-    }
-
-    public static void routeTo(View view){
-        routeTo(view, null);
     }
 }

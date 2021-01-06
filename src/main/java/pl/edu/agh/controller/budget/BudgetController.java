@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -15,8 +14,6 @@ import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 import pl.edu.agh.viewelements.BudgetViewElement;
 
 import java.io.IOException;
@@ -41,11 +38,6 @@ public class BudgetController {
     public void initialize(){
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         this.yearLabel.setText(Integer.toString(currentYear));
-    }
-
-    @FXML
-    public void backButtonClicked(MouseEvent mouseEvent) {
-        Router.routeTo(View.MENU);
     }
 
     @FXML

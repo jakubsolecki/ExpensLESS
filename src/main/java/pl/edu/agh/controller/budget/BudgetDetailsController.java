@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -19,12 +19,10 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.Category;
-import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -46,12 +44,11 @@ public class BudgetDetailsController {
     private TreeView<Object> categoryTree;
 
     @FXML
-    public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.MENU);
-    }
-
-    @FXML
     public void editButtonClicked(MouseEvent event) throws IOException {
+        if (categoryTree.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+
         GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
 
         for (Node node : selected.getChildren()) {
@@ -72,6 +69,10 @@ public class BudgetDetailsController {
 
     @FXML
     public void deleteButtonClicked(MouseEvent event) throws IOException {
+        if (categoryTree.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+
         GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
 
         for (Node node : selected.getChildren()) {
@@ -156,6 +157,4 @@ public class BudgetDetailsController {
             });
         }).start();
     }
-
-
 }

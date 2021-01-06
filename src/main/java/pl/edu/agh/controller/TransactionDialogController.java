@@ -56,8 +56,6 @@ public class TransactionDialogController {
         try {
             String name = nameTextField.getText();
             BigDecimal price = new BigDecimal(priceTextField.getText());
-            List<Category> categories = categoryService.getAllCategories();
-
 
             Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();

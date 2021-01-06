@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.category;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.service.CategoryService;

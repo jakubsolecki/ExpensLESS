@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.account;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -9,13 +9,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.*;
+import pl.edu.agh.controller.category.CategoryDialogController;
+import pl.edu.agh.controller.category.DeleteCategoryDialogController;
+import pl.edu.agh.controller.category.EditCategoryDialogController;
+import pl.edu.agh.controller.category.SubcategoryDialogController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
@@ -23,8 +26,6 @@ import pl.edu.agh.model.Transaction;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
-import pl.edu.agh.util.Router;
-import pl.edu.agh.util.View;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -66,11 +67,6 @@ public class AccountDetailsController {
     private TableView<Transaction> transactionsTable;
     @FXML
     private TreeView<String> categoryTreeView = new TreeView<>();
-
-    @FXML
-    public void backButtonClicked(MouseEvent event) {
-        Router.routeTo(View.MENU);
-    }
 
     @FXML
     public void addButtonClicked(ActionEvent event) throws IOException {
@@ -119,7 +115,7 @@ public class AccountDetailsController {
 
     }
 
-    void refresh(){
+    public void refresh(){
         new Thread(() -> {
             transactions = transactionService.getAllTransactionsOfAccount(account);
             transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
@@ -131,7 +127,6 @@ public class AccountDetailsController {
                 balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
             });
         }).start();
-
     }
 
     public void addSubcategory(ActionEvent event) throws IOException {
