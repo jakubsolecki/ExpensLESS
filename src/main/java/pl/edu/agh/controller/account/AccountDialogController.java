@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.account;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.service.AccountService;
-import pl.edu.agh.viewelements.AccountViewElement;
 
 import java.math.BigDecimal;
 

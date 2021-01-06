@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.account;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.TransactionDialogController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;

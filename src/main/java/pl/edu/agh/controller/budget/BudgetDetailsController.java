@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;

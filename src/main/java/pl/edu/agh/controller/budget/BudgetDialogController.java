@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,11 +11,9 @@ import javafx.stage.Stage;
 import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.Category;
-import pl.edu.agh.model.SubcategoryBudget;
 import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 
-import java.math.BigDecimal;
 import java.time.Month;
 import java.util.*;
 

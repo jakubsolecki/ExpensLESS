@@ -19,7 +19,7 @@ public class BudgetViewElement extends VBox {
         this.setSpacing(20);
         button.getStyleClass().add("standard-button");
         button.setOnAction(event ->
-                        RootViewController.routeTo(View.BUDGETS, View.BUDGET_DETAILS, budget)
+            RootViewController.routeTo(View.BUDGETS, View.BUDGET_DETAILS, budget)
         );
     }
 

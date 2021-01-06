@@ -1,4 +1,4 @@
-package pl.edu.agh.controller;
+package pl.edu.agh.controller.budget;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -17,7 +17,6 @@ import pl.edu.agh.service.BudgetService;
 import pl.edu.agh.service.CategoryService;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 public class BudgetDetailsDialogController {
