@@ -3,7 +3,7 @@ package pl.edu.agh.viewelements;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import pl.edu.agh.controller.NavbarController;
+import pl.edu.agh.controller.RootViewController;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.util.View;
 
@@ -19,7 +19,7 @@ public class BudgetViewElement extends VBox {
         this.setSpacing(20);
         button.getStyleClass().add("standard-button");
         button.setOnAction(event ->
-                        NavbarController.routeTo(View.BUDGET_DETAILS, budget)
+                        RootViewController.routeTo(View.BUDGETS, View.BUDGET_DETAILS, budget)
         );
     }
 

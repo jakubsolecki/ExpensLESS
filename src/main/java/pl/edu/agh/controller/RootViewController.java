@@ -15,7 +15,7 @@ import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
 import pl.edu.agh.util.View;
 
-public class NavbarController {
+public class RootViewController {
 
     @Setter
     private CategoryService categoryService;
@@ -26,7 +26,9 @@ public class NavbarController {
     @Setter
     private BudgetService budgetService;
     @Setter
-    private static NavbarController mvc;
+    private static RootViewController mvc;
+    @Setter
+    private View previousView;
 
     private Scene scene; // TODO remove?
 
@@ -35,7 +37,7 @@ public class NavbarController {
 
     @FXML
     public void backButtonClicked(MouseEvent event) {
-        setMainScene(View.MENU, null);
+        setMainScene(previousView, null);
     }
 
     @FXML
@@ -48,7 +50,8 @@ public class NavbarController {
         setMainScene(View.BUDGETS, null);
     }
 
-    public static void routeTo(View view, Object object) {
+    public static void routeTo(View prevView, View view, Object object) {
+        mvc.setPreviousView(prevView);
         mvc.setMainScene(view, object);
     }
 
@@ -61,7 +64,7 @@ public class NavbarController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             switch (view) {
                 case ACCOUNTS -> {
-                    fxmlLoader.setLocation(NavbarController.class.getResource("/view/accountsView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/accountsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountController controller = fxmlLoader.getController();
                     controller.setAccountService(accountService);
@@ -75,7 +78,7 @@ public class NavbarController {
                     }
 
                     Account account = (Account) object;
-                    fxmlLoader.setLocation(NavbarController.class.getResource("/view/categoriesView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/categoriesView.fxml"));
                     Pane pane = fxmlLoader.load();
                     AccountDetailsController controller = fxmlLoader.getController();
                     controller.setAccount(account);
@@ -88,7 +91,7 @@ public class NavbarController {
                 }
                 case BUDGETS -> {
 
-                    fxmlLoader.setLocation(NavbarController.class.getResource("/view/budgetsView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/budgetsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetController budgetController = fxmlLoader.getController();
                     budgetController.setBudgetService(budgetService);
@@ -102,7 +105,7 @@ public class NavbarController {
                         throw new IllegalArgumentException("Account is required");
                     }
 
-                    fxmlLoader.setLocation(NavbarController.class.getResource("/view/budgetDetailsView.fxml"));
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/budgetDetailsView.fxml"));
                     Pane pane = fxmlLoader.load();
                     BudgetDetailsController controller = fxmlLoader.getController();
                     controller.setBudget((Budget)object);

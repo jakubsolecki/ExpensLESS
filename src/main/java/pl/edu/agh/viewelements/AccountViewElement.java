@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import pl.edu.agh.controller.NavbarController;
+import pl.edu.agh.controller.RootViewController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.util.View;
 
@@ -20,7 +20,7 @@ public class AccountViewElement extends VBox {
         balanceText.setFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
 
         button.setOnAction((event ->
-                NavbarController.routeTo(View.ACCOUNT_DETAILS, account)
+                RootViewController.routeTo(View.ACCOUNTS, View.ACCOUNT_DETAILS, account)
         ));
         accountName = new Text(account.getName());
         getChildren().addAll(accountName, balanceText, button);
