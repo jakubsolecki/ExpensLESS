@@ -20,7 +20,6 @@ public class Category {
 
     @NotNull
     @NonNull
-    @Column(unique = true)
     private String name;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

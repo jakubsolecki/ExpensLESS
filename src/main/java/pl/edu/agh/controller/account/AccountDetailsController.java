@@ -116,17 +116,14 @@ public class AccountDetailsController {
     }
 
     public void refresh(){
-        new Thread(() -> {
             transactions = transactionService.getAllTransactionsOfAccount(account);
             transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
             List<Category> categoryList = categoryService.getAllCategories();
-            Platform.runLater(() -> {
                 refreshCategoryTree(categoryList);
                 transactionsTable.setItems(FXCollections.observableList(transactions));
                 balance.setText(account.getBalance() + " PLN");
                 balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
-            });
-        }).start();
+
     }
 
     public void addSubcategory(ActionEvent event) throws IOException {
