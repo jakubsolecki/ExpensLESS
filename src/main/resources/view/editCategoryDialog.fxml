@@ -55,10 +55,13 @@
             </VBox>
             <ChoiceBox fx:id="categoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" />
             <ChoiceBox fx:id="subcategoryChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="nameTextField"/>
+            <TextField fx:id="nameTextField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nazwa: ">
+                     <font>
+                        <Font size="17.0" />
+                     </font></Text>
                </children>
             </VBox>
          </children>
@@ -67,7 +70,7 @@
    <top>
       <VBox alignment="CENTER" prefHeight="46.0" prefWidth="364.0" BorderPane.alignment="CENTER">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Usuń">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Edytuj">
                <font>
                   <Font size="24.0" />
                </font>
