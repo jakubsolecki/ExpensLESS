@@ -41,7 +41,12 @@ public class Account {
 
     public void addTransaction(Transaction transaction){
         transactions.add(transaction);
-        setBalance(balance.add(transaction.getPrice()));
+        if (transaction.getType() == Type.EXPENSE){
+            setBalance(balance.add(transaction.getPrice().multiply(BigDecimal.valueOf(-1))));
+        } else {
+            setBalance(balance.add(transaction.getPrice()));
+        }
+
     }
 
     @Override
