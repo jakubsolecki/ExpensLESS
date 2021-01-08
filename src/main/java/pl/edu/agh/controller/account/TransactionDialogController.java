@@ -9,10 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
-import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
@@ -62,8 +59,14 @@ public class TransactionDialogController {
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
             if(!name.isEmpty() && date.isPresent() && subcategory != null){
                 Transaction transaction = Transaction.builder().
-                        name(name).price(price).date(date.get()).
-                        description(description).account(account).subCategory(subcategory).build();
+                        name(name)
+                        .price(price)
+                        .date(date.get()).
+                        description(description)
+                        .account(account)
+                        .subCategory(subcategory)
+                        .type(subcategory.getCategory().getType())
+                        .build();
                 transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
                 closeDialog(event);
