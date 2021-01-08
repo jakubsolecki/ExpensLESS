@@ -114,7 +114,7 @@ public class AccountDetailsController {
         });
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
-        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ? data.getValue().getSubCategory().getName() : ""));
+        categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ?  data.getValue().getSubCategory().getCategory().getName()+ " / " + data.getValue().getSubCategory().getName() : ""));
 
 
     }
