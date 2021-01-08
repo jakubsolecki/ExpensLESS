@@ -7,6 +7,7 @@ import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.util.SessionUtil;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class CategoryService {
@@ -73,6 +74,14 @@ public class CategoryService {
     }
 
     public void deleteCategory(Category category){
+        var i = category.getSubcategories().size();
+
+        for (Subcategory subcategory : category.getSubcategories()) {
+            SessionUtil.openSession();
+            subcategoryDao.mergeTransactionsToOther(subcategory);
+            SessionUtil.closeSession();
+        }
+
         SessionUtil.openSession();
         categoryDao.deleteCategory(category);
         SessionUtil.closeSession();

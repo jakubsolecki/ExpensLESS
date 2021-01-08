@@ -55,14 +55,7 @@ public class CategoryDao extends Dao {
 
         try {
             Session session = SessionUtil.getSession();
-
-
             transaction = session.beginTransaction();
-            for (Subcategory subcategory : category.getSubcategories()){
-                String sql = String.format("UPDATE Transactions SET subCategory_id = null WHERE subCategory_id = %d", subcategory.getId());
-                session.createNativeQuery(sql).executeUpdate();
-            }
-
             session.remove(category);
             transaction.commit();
         } catch (Exception e) {
