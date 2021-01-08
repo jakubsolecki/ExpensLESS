@@ -9,6 +9,7 @@ import lombok.Setter;
 import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Type;
 import pl.edu.agh.service.CategoryService;
 
 import java.math.BigDecimal;
@@ -32,7 +33,7 @@ public class CategoryDialogController {
     public void handleAddAction(ActionEvent event) {
         Category category;
         try {
-            category = new Category(nameTextField.getText());
+            category = new Category(nameTextField.getText(), Type.EXPENSE);
         } catch (NumberFormatException e){
             System.out.println("Wrong format!");
             return;

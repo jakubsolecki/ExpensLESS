@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane prefWidth="300.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.TransactionDialogController">
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.account.TransactionDialogController">
     <center>
         <GridPane hgap="5.0" vgap="5.0" BorderPane.alignment="CENTER">
             <columnConstraints>

@@ -31,7 +31,12 @@ public class Account {
     public Account(String name, BigDecimal balance) {
         this.name = name;
         this.balance = balance;
-        transactions.add(Transaction.builder().name("Saldo początkowe").price(balance).date(LocalDate.now()).account(this).build());
+        transactions.add(Transaction.builder()
+                .name("Saldo początkowe")
+                .price(balance)
+                .date(LocalDate.now())
+                .account(this)
+                .build());
     }
 
     public void addTransaction(Transaction transaction){

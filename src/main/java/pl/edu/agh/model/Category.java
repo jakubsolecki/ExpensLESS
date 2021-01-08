@@ -22,6 +22,10 @@ public class Category {
     @NonNull
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @NonNull
+    private Type type;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subcategory> subcategories = new LinkedList<>();
 

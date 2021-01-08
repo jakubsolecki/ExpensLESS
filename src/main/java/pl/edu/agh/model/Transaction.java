@@ -13,8 +13,8 @@ import java.time.LocalDate;
 @Setter
 @ToString
 @EqualsAndHashCode
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
-@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class Transaction {
     @Id
@@ -31,6 +31,9 @@ public class Transaction {
 
     @Column(nullable = false)
     private LocalDate date;
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)

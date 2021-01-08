@@ -11,18 +11,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
-import pl.edu.agh.controller.*;
 import pl.edu.agh.controller.category.CategoryDialogController;
 import pl.edu.agh.controller.category.DeleteCategoryDialogController;
 import pl.edu.agh.controller.category.EditCategoryDialogController;
 import pl.edu.agh.controller.category.SubcategoryDialogController;
-import pl.edu.agh.model.Account;
-import pl.edu.agh.model.Category;
-import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.model.Transaction;
+import pl.edu.agh.model.*;
 import pl.edu.agh.service.AccountService;
 import pl.edu.agh.service.CategoryService;
 import pl.edu.agh.service.TransactionService;
@@ -108,10 +105,17 @@ public class AccountDetailsController {
     private void setTableView(List<Transaction> transactions) {
         transactionsTable.setItems(FXCollections.observableList(transactions));
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
-        priceColumn.setCellValueFactory(data -> new SimpleObjectProperty(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString()));
+        priceColumn.setCellValueFactory(data -> {
+            var text = new Text(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString());
+            if (data.getValue().getType() != null){
+                text.setFill(data.getValue().getType() == Type.INCOME ? Color.GREEN : Color.RED);
+            }
+            return new SimpleObjectProperty(text);
+        });
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
         categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ? data.getValue().getSubCategory().getName() : ""));
+
 
     }
 
