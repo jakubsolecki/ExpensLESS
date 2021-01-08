@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.Type;
 import pl.edu.agh.util.SessionUtil;
 
 import javax.persistence.NoResultException;
@@ -83,10 +84,42 @@ public class SubcategoryDao extends Dao {
             transaction = session.beginTransaction();
             subcategory.getCategory().getSubcategories().remove(subcategory);
             subcategory.setCategory(null);
-            session.flush();
             session.remove(subcategory);
-            String sql = String.format("UPDATE Transactions SET subCategory_id = null WHERE subCategory_id = %d", subcategory.getId());
-            session.createNativeQuery(sql).executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        }
+    }
+
+    public void mergeTransactionsToOther(Subcategory subcategory){
+        Transaction transaction = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            transaction = session.beginTransaction();
+            List<pl.edu.agh.model.Transaction> transactions = session.createQuery("FROM Transactions T where T.subCategory = :subcategory", pl.edu.agh.model.Transaction.class)
+                    .setParameter("subcategory", subcategory)
+                    .getResultList();
+            Subcategory otherExpense = session.createQuery("FROM Subcategories S WHERE S.canBeDeleted = false AND S.category.type = :type", Subcategory.class)
+                    .setParameter("type", Type.EXPENSE)
+                    .getSingleResult();
+
+            Subcategory otherIncome = session.createQuery("FROM Subcategories S WHERE S.canBeDeleted = false AND S.category.type = :type", Subcategory.class)
+                    .setParameter("type", Type.INCOME)
+                    .getSingleResult();
+
+            for (pl.edu.agh.model.Transaction tran : transactions){
+                if (tran.getType() == Type.INCOME) {
+                    tran.setSubCategory(otherIncome);
+                } else {
+                    tran.setSubCategory(otherExpense);
+                }
+
+                session.update(tran);
+            }
+
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

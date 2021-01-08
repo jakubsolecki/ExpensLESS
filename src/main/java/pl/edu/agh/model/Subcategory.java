@@ -19,6 +19,8 @@ public class Subcategory {
     @NotNull
     private String name;
 
+    private boolean canBeDeleted = true;
+
     @NotNull
     @ManyToOne(cascade = CascadeType.ALL)
     private Category category;

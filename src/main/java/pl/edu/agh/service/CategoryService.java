@@ -80,7 +80,13 @@ public class CategoryService {
 
     public void deleteSubcategory(Subcategory subcategory){
         SessionUtil.openSession();
+        subcategoryDao.mergeTransactionsToOther(subcategory);
+        SessionUtil.closeSession();
+
+        SessionUtil.openSession();
         subcategoryDao.deleteSubcategory(subcategory);
         SessionUtil.closeSession();
+
+
     }
 }

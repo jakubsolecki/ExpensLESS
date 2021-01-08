@@ -57,6 +57,8 @@ public class MockData {
                 new Category("Przychody", Type.INCOME),
                 new Category("Wydatki", Type.EXPENSE)
         );
+        categoryList.get(0).setCanBeDeleted(false);
+        categoryList.get(1).setCanBeDeleted(false);
 
         for (Category category : categoryList) {
             categoryService.createCategory(category);
@@ -65,6 +67,8 @@ public class MockData {
         subcategories = new ArrayList<>();
         subcategories.add(new Subcategory("Inne", categoryList.get(0)));
         subcategories.add(new Subcategory("Inne", categoryList.get(1)));
+        subcategories.get(0).setCanBeDeleted(false);
+        subcategories.get(1).setCanBeDeleted(false);
 
         for (Subcategory subcategory : subcategories){
             categoryService.createSubcategory(subcategory);
@@ -80,8 +84,8 @@ public class MockData {
                 .date(LocalDate.now())
                 .description("Zapłacone za mandat")
                 .account(accounts.get(0))
-                .subCategory(subcategories.get(0))
-                .type(Type.EXPENSE)
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
                 .build());
         transactions.add(Transaction.builder()
                 .name("Warzywa")
@@ -89,8 +93,8 @@ public class MockData {
                 .date(LocalDate.now())
                 .description("Dla babci")
                 .account(accounts.get(0))
-                .subCategory(subcategories.get(0))
-                .type(Type.EXPENSE)
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
                 .build());
         transactions.add(Transaction.builder()
                 .name("Urodziny")
@@ -98,8 +102,8 @@ public class MockData {
                 .date(LocalDate.now())
                 .description("U cioci na imieninach")
                 .account(accounts.get(0))
-                .subCategory(subcategories.get(1))
-                .type(Type.INCOME)
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
                 .build());
 
         for (Transaction transaction : transactions){

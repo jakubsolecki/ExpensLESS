@@ -14,7 +14,9 @@ import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.service.CategoryService;
 
+import java.util.IllegalFormatException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DeleteCategoryDialogController {
     @FXML
@@ -29,7 +31,7 @@ public class DeleteCategoryDialogController {
     @FXML
     public void initialize() {
         categoryChoiceBox.setOnAction(event -> subcategoryChoiceBox.
-                setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories())));
+                setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories().stream().filter(Subcategory::isCanBeDeleted).collect(Collectors.toList()))));
     }
 
     public void handleCancelAction(ActionEvent event) {
@@ -49,13 +51,18 @@ public class DeleteCategoryDialogController {
             Category category = categoryChoiceBox.getValue();
             Subcategory subcategory = subcategoryChoiceBox.getValue();
             if (subcategory != null){
+                if (!subcategory.isCanBeDeleted()){
+                    throw new IllegalArgumentException();
+                }
                 categoryService.deleteSubcategory(subcategory);
             } else {
+                if (!category.isCanBeDeleted()){
+                    throw new IllegalArgumentException();
+                }
                 categoryService.deleteCategory(category);
             }
 
-
-        } catch (NumberFormatException | NullPointerException e ){
+        } catch (NullPointerException | IllegalArgumentException e ){
             System.out.println("Wrong format!");
             return;
         }

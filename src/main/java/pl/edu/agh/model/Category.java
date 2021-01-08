@@ -26,6 +26,8 @@ public class Category {
     @NonNull
     private Type type;
 
+    private boolean canBeDeleted = true;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Subcategory> subcategories = new LinkedList<>();
 
