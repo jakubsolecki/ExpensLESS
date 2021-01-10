@@ -12,52 +12,52 @@
     <center>
     </center>
     <top>
-        <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="600.0" style="-fx-background-color: #275DAD;" styleClass="top">
-            <children>
-                <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                    <image>
-                        <Image url="@../logo.jpeg" />
-                    </image>
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </HBox.margin>
-                </ImageView>
-                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ExpensLESS">
-                    <font>
-                        <Font size="40.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="5.0" />
-                    </HBox.margin>
-                </Text>
-                <Text fill="WHITE" onMouseClicked="#accountsButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Konta">
-                    <font>
-                        <Font size="40.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="45.0" />
-                    </HBox.margin>
-                </Text>
-                <Text fill="WHITE" onMouseClicked="#budgetsButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Budżety">
-                    <font>
-                        <Font size="40.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="45.0" />
-                    </HBox.margin>
-                </Text>
-                <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Wstecz" fx:id="backButton">
-                    <font>
-                        <Font size="40.0" />
-                    </font>
-                    <HBox.margin>
-                        <Insets left="45.0" />
-                    </HBox.margin>
-                </Text>
-            </children>
+        <HBox alignment="CENTER_LEFT" prefHeight="54.0" prefWidth="600.0" style="-fx-background-color: #275DAD;"
+              styleClass="top">
             <BorderPane.margin>
-                <Insets bottom="20.0" />
+                <Insets bottom="20.0"/>
             </BorderPane.margin>
+            <ImageView fitHeight="60.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                <HBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </HBox.margin>
+                <Image url="@../logo.jpeg"/>
+            </ImageView>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ExpensLESS">
+                <font>
+                    <Font size="40.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets left="5.0"/>
+                </HBox.margin>
+            </Text>
+            <Text fill="WHITE" onMouseClicked="#accountsButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0"
+                  style="-fx-cursor: hand" text="Konta">
+                <font>
+                    <Font size="40.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets left="45.0"/>
+                </HBox.margin>
+            </Text>
+            <Text fill="WHITE" onMouseClicked="#budgetsButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0"
+                  style="-fx-cursor: hand" text="Budżety">
+                <font>
+                    <Font size="40.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets left="45.0"/>
+                </HBox.margin>
+            </Text>
+            <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0"
+                  style="-fx-cursor: hand" text="Wstecz" fx:id="backButton">
+                <font>
+                    <Font size="40.0"/>
+                </font>
+                <HBox.margin>
+                    <Insets left="45.0"/>
+                </HBox.margin>
+            </Text>
         </HBox>
     </top>
 

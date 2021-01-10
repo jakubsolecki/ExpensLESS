@@ -147,7 +147,7 @@ public class BudgetDetailsController {
                 for (TreeItem<Object> pane : tmp_items) {
                     categoryTreeItem.getChildren().add(pane);
                 }
-
+                categoryTreeItem.setExpanded(true);
                 rootItem.getChildren().add(categoryTreeItem);
             }
 
