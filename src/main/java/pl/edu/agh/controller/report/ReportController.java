@@ -1,12 +1,19 @@
 package pl.edu.agh.controller.report;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.SubcategoryBudget;
@@ -19,6 +26,7 @@ import java.math.BigDecimal;
 import java.time.Month;
 import java.time.Year;
 import java.util.*;
+import java.util.zip.DeflaterOutputStream;
 
 public class ReportController {
     @Setter
@@ -64,14 +72,14 @@ public class ReportController {
     public void loadData() {
         new Thread(() -> {
             List<Budget> budgetList = budgetService.getBudgetsByYear(currentYear);
-            List<XYChart.Series<String, Double>> seriesList= new LinkedList<>();
+//            List<XYChart.Series<String, Double>> seriesList = new LinkedList<>();
+
+            XYChart.Series<String, Double> series = new XYChart.Series<>();
+            series.setName("Wydano");
 
             for (Budget budget : budgetList) {
                 BigDecimal sumPlanned = BigDecimal.ZERO;
                 BigDecimal sumBalance = BigDecimal.ZERO;
-
-                XYChart.Series<String, Double> series = new XYChart.Series<>();
-                series.setName("Wydano");
 
                 for (SubcategoryBudget subcatBud : budget.getSubcategoryBudgetList()) {
                     BigDecimal balance = budgetService.calculateBudgetBalance(budget, subcatBud.getSubcategory());
@@ -81,20 +89,55 @@ public class ReportController {
 
                 sumBalance = sumBalance.multiply(new BigDecimal(-1));
 
-                series.getData().add(new XYChart.Data<>(budget.getMonth().toString(), sumBalance.doubleValue()));
+                XYChart.Data<String, Double> data = new XYChart.Data<>(budget.getMonth().toString(), sumBalance.doubleValue());
+                data.nodeProperty().addListener(new ChangeListener<Node>() {
+                    @Override public void changed(ObservableValue<? extends Node> ov, Node oldNode, final Node node) {
+                        if (node != null) {
+                            displayLabelForData(data);
+                        }
+                    }
+                });
+                series.getData().add(data);
 
-                seriesList.add(series);
+
             }
 
             Platform.runLater(() -> {
-                barChart.getData().addAll(seriesList);
-                barChart.setCategoryGap(0.0);
+
+                barChart.getData().add(series);
+                barChart.setCategoryGap(10);
             });
         }).start();
     }
 
     private void addBudgetDataToChart(Budget budget) {
 
+    }
+
+    private void displayLabelForData(XYChart.Data<String, Double> data) {
+        final Node node = data.getNode();
+        final Text dataText = new Text(data.getYValue() + "");
+        node.parentProperty().addListener(new ChangeListener<Parent>() {
+            @Override public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
+                Group parentGroup = (Group) parent;
+                parentGroup.getChildren().add(dataText);
+            }
+        });
+
+        node.boundsInParentProperty().addListener(new ChangeListener<Bounds>() {
+            @Override public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
+                dataText.setLayoutX(
+                        Math.round(
+                                bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+                        )
+                );
+                dataText.setLayoutY(
+                        Math.round(
+                                bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+                        )
+                );
+            }
+        });
     }
 
 }

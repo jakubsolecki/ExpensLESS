@@ -112,18 +112,21 @@ public class MockData {
     }
 
     public void createMockBudget(){
-        Budget budget = new Budget();
-        budget.setMonth(Month.JANUARY);
-        budget.setYear(2021);
-        budget.setSubcategoryBudgetList(new ArrayList<>());
+        for (Month m : Month.values()) {
+            Budget budget = new Budget();
+            budget.setMonth(m);
+            budget.setYear(2021);
+            budget.setSubcategoryBudgetList(new ArrayList<>());
 
-        for (Subcategory subcategory : subcategories){
-            BigDecimal plannedBudget = new BigDecimal(200);
-            if (!plannedBudget.equals(BigDecimal.ZERO)){
-                budget.addSubcategoryBudget(new SubcategoryBudget(subcategory, plannedBudget));
+            for (Subcategory subcategory : subcategories){
+                BigDecimal plannedBudget = new BigDecimal(200);
+                if (!plannedBudget.equals(BigDecimal.ZERO)){
+                    budget.addSubcategoryBudget(new SubcategoryBudget(subcategory, plannedBudget));
+                }
             }
+
+            budgetService.createBudget(budget);
         }
 
-        budgetService.createBudget(budget);
     }
 }
