@@ -137,7 +137,7 @@ public class RootViewController {
                     ReportController controller = fxmlLoader.getController();
                     controller.setBudgetService(budgetService);
                     controller.setCategoryService(categoryService);
-//                    controller.loadData();
+                    controller.loadData();
                     borderPane.setCenter(pane);
                 }
             }

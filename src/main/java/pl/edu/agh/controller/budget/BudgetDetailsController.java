@@ -101,7 +101,6 @@ public class BudgetDetailsController {
         controller.loadData(subcategory);
         controller.setBudgetDetailsController(this);
 
-
         Scene scene = new Scene(pane);
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
