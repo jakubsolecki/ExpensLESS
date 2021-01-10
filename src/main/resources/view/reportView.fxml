@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
@@ -12,17 +13,18 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<?import javafx.scene.chart.StackedBarChart?>
-<BorderPane prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.report.ReportController" fx:id="pane">
+
+<?import javafx.scene.chart.BarChart?>
+<BorderPane fx:id="pane" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.report.ReportController">
    <center>
-      <StackedBarChart BorderPane.alignment="CENTER" fx:id="barChart">
+      <BarChart fx:id="barChart" animated="false" BorderPane.alignment="CENTER">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxis"/>
+          <CategoryAxis side="BOTTOM" fx:id="xAxis" />
         </xAxis>
         <yAxis>
-          <NumberAxis side="LEFT" fx:id="yAxis"/>
+          <NumberAxis fx:id="yAxis" side="LEFT" />
         </yAxis>
-      </StackedBarChart>
+      </BarChart>
    </center>
    <right>
       <GridPane BorderPane.alignment="CENTER">
@@ -85,7 +87,7 @@
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label alignment="CENTER" text="Podsumowanie budżetu na rok 20XX" fx:id="reportHeader">
+            <Label fx:id="reportHeader" alignment="CENTER" text="Podsumowanie budżetu na rok 20XX">
                <font>
                   <Font size="40.0" />
                </font>

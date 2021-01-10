@@ -45,7 +45,7 @@ public class ReportController {
     @FXML
     private Label reportHeader;
     @FXML
-    private StackedBarChart<String, Double> barChart;
+    private BarChart<String, Double> barChart;
     @FXML
     private CategoryAxis xAxis;
     @FXML
@@ -64,16 +64,14 @@ public class ReportController {
     public void loadData() {
         new Thread(() -> {
             List<Budget> budgetList = budgetService.getBudgetsByYear(currentYear);
-
-            xAxis.getCategories().addAll("Wydano", "Limit");
+            List<XYChart.Series<String, Double>> seriesList= new LinkedList<>();
 
             for (Budget budget : budgetList) {
                 BigDecimal sumPlanned = BigDecimal.ZERO;
                 BigDecimal sumBalance = BigDecimal.ZERO;
+
                 XYChart.Series<String, Double> series = new XYChart.Series<>();
-                XYChart.Series<String, Double> series2 = new XYChart.Series<>();
                 series.setName("Wydano");
-                series2.setName("Zaplanowano");
 
                 for (SubcategoryBudget subcatBud : budget.getSubcategoryBudgetList()) {
                     BigDecimal balance = budgetService.calculateBudgetBalance(budget, subcatBud.getSubcategory());
@@ -81,20 +79,16 @@ public class ReportController {
                     sumPlanned = sumPlanned.add(subcatBud.getPlannedBudget());
                 }
 
-                series.getData().add(new XYChart.Data<>("Kwota", sumBalance.doubleValue()));
+                sumBalance = sumBalance.multiply(new BigDecimal(-1));
 
-                double delta = sumPlanned.subtract(sumBalance).doubleValue();
+                series.getData().add(new XYChart.Data<>(budget.getMonth().toString(), sumBalance.doubleValue()));
 
-                if(delta > 0) {
-                    series2.getData().add(new XYChart.Data<>("Kwota", delta));
-                }
-
-                barChart.getData().add(series);
-                barChart.getData().add(series2);
+                seriesList.add(series);
             }
 
             Platform.runLater(() -> {
-                barChart.setCategoryGap(20);
+                barChart.getData().addAll(seriesList);
+                barChart.setCategoryGap(0.0);
             });
         }).start();
     }
