@@ -27,7 +27,7 @@ public class MockData {
         createMockCategories();
         createMockTransactions(accounts);
         createMockBudget();
-        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
+//        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
 
     }
 
