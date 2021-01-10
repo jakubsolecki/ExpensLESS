@@ -1,6 +1,7 @@
 package pl.edu.agh.controller.report;
 
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -45,7 +46,7 @@ public class ReportController {
     @FXML
     private Label balance;
     @FXML
-    private Label reportHeader;
+    private Label yearLabel;
     @FXML
     private BarChart<String, Double> barChart;
     @FXML
@@ -57,7 +58,9 @@ public class ReportController {
 
     public void initialize() {
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
-        reportHeader.setText("Podsumowanie budżetu na rok " + currentYear);
+        yearLabel.setText(String.valueOf(currentYear));
+
+        // TODO show actual month
 
         xAxis.setLabel("Miesiąc");
         yAxis.setLabel("Kwota");
@@ -107,6 +110,7 @@ public class ReportController {
             BigDecimal finalTotalOutcome = totalOutcome;
             BigDecimal finalTotalIncome = totalIncome;
             BigDecimal finalBalance = totalIncome.subtract(totalOutcome);
+
             Platform.runLater(() -> {
                 outcome.setText(finalTotalOutcome.toString());
                 income.setText(finalTotalIncome.toString());
@@ -137,6 +141,20 @@ public class ReportController {
                     )
             );
         });
+    }
+
+    private void refreshData() {
+        yearLabel.setText(String.valueOf(currentYear));
+    }
+
+    public void nextYear(ActionEvent event) {
+        currentYear++;
+        refreshData();
+    }
+
+    public void prevYear(ActionEvent event) {
+        currentYear--;
+        refreshData();
     }
 
 }
