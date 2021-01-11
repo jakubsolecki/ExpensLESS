@@ -52,7 +52,7 @@ public class ReportController {
     @FXML
     private Label yearLabel;
     @FXML
-    private BarChart<String, Double> barChart;
+    private CustomBarChart<String, Double> barChart;
     @FXML
     private CategoryAxis xAxis;
     @FXML
@@ -109,7 +109,7 @@ public class ReportController {
                 var data = new XYChart.Data<>(budget.getMonth().toString(), monthOutcome.doubleValue());
                 data.nodeProperty().addListener((ov, oldNode, node) -> {
                     if (node != null) {
-                        displayLabelForData(data);
+//                        displayLabelForData(data);
                     }
                 });
 
@@ -130,50 +130,39 @@ public class ReportController {
         }).start();
     }
 
-    public void myListener() {
 
-    }
-
-
-    private void displayLabelForData(XYChart.Data<String, Double> data) {
-        Node node = data.getNode();
-        Text dataText = new Text(String.valueOf(data.getYValue()));
-
-        ChangeListener<Parent> cl = new ChangeListener<>() {
-            @Override
-            public void changed(ObservableValue<? extends Parent> ov, Parent oldParent, Parent parent) {
-                if (parent != null) {
-                    Group parentGroup = (Group) parent;
-                    parentGroup.getChildren().add(dataText);
-                    dataLabelsMap.put(dataText, parentGroup);
-                }
-            }
-        };
-
-        cl1Map.put(node, cl);
-
-        node.parentProperty().addListener(cl);
-
-        ChangeListener<Bounds> cl2 = new ChangeListener<>() {
-            @Override public void changed(ObservableValue<? extends Bounds> ov, Bounds oldBounds, Bounds bounds) {
-                dataText.setLayoutX(
-                        Math.round(
-                                bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
-                        )
-                );
-                dataText.setLayoutY(
-                        Math.round(
-                                bounds.getMinY() - dataText.prefHeight(-1) * 0.5
-                        )
-                );
-            }
-        };
-
-        cl2Map.put(node, cl2);
-
-        node.boundsInParentProperty().addListener(cl2);
-
-    }
+//    private void displayLabelForData(XYChart.Data<String, Double> data) {
+//        Node node = data.getNode();
+//        Text dataText = new Text(String.valueOf(data.getYValue()));
+//
+//        ChangeListener<Parent> cl = (ov, oldParent, parent) -> {
+//            if (parent != null) {
+//                Group parentGroup = (Group) parent;
+//                parentGroup.getChildren().add(dataText);
+//                dataLabelsMap.put(dataText, parentGroup);
+//            }
+//        };
+//
+//        cl1Map.put(node, cl);
+//        node.parentProperty().addListener(cl);
+//
+//        ChangeListener<Bounds> cl2 = (ov, oldBounds, bounds) -> {
+//            dataText.setLayoutX(
+//                    Math.round(
+//                            bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+//                    )
+//            );
+//            dataText.setLayoutY(
+//                    Math.round(
+//                            bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+//                    )
+//            );
+//        };
+//
+//        cl2Map.put(node, cl2);
+//        node.boundsInParentProperty().addListener(cl2);
+//
+//    }
 
     private void clearLabelForData(XYChart.Series<String, Double> series) {
     }
@@ -182,8 +171,12 @@ public class ReportController {
         yearLabel.setText(String.valueOf(currentYear));
 
 //        for (var text : dataLabels) {
-//            text.setVisible(false); // FIXME this one's working but it's heresy
+//            text.setVisible(false); // FIXME temporary solution ?
 //        }
+
+        for (var x : barChart.getData()) {
+//            x.getData().ge
+        }
 
         System.out.println("\n" + dataLabels.size() + "\n");
 
