@@ -50,13 +50,23 @@ public class BudgetDetailsController {
         }
 
         GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
+        GridPane parent = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getParent().getValue();
 
         for (Node node : selected.getChildren()) {
             if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0) {
+                Text textP = null;
+                for (Node node1 : parent.getChildren()) {
+                    if(GridPane.getRowIndex(node1) == 0 && GridPane.getColumnIndex(node1) == 0){
+                        textP = (Text) node1;
+                    }
+                }
+
                 Text text = (Text) node;
-                Subcategory subcategory = categoryService.getSubcategoryByName(text.getText());
-                if (subcategory != null){
-                    openSubcategoryBudgetDialog(subcategory);
+                Optional<Subcategory> subcategory = categoryService.getSubcategoryByNameCategory(text.getText(), textP.getText());
+
+
+                if (subcategory.isPresent()){
+                    openSubcategoryBudgetDialog(subcategory.get());
                 }
             }
         }
@@ -74,13 +84,22 @@ public class BudgetDetailsController {
         }
 
         GridPane selected = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getValue();
+        GridPane parent = (GridPane) categoryTree.getSelectionModel().getSelectedItem().getParent().getValue();
 
         for (Node node : selected.getChildren()) {
             if (GridPane.getRowIndex(node) == 0 && GridPane.getColumnIndex(node) == 0) {
+                Text textP = null;
+                for (Node node1 : parent.getChildren()) {
+                    if(GridPane.getRowIndex(node1) == 0 && GridPane.getColumnIndex(node1) == 0){
+                        textP = (Text) node1;
+                    }
+                }
                 Text text = (Text) node;
-                Subcategory subcategory = categoryService.getSubcategoryByName(text.getText());
-                if (subcategory != null){
-                    Optional<SubcategoryBudget> subcategoryBudgetOptional = budgetService.findSubcategoryBudget(subcategory, budget);
+                Optional<Subcategory> subcategory = categoryService.getSubcategoryByNameCategory(text.getText(), textP.getText());
+                
+                
+                if (subcategory.isPresent()){
+                    Optional<SubcategoryBudget> subcategoryBudgetOptional = budgetService.findSubcategoryBudget(subcategory.get(), budget);
                     if (subcategoryBudgetOptional.isPresent()) {
                         SubcategoryBudget subcategoryBudget = subcategoryBudgetOptional.get();
                         budgetService.deleteSubcategoryBudget(subcategoryBudget, budget);
