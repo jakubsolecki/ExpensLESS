@@ -8,29 +8,23 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.account.AccountDetailsController;
-import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Type;
-import pl.edu.agh.service.CategoryService;
 
-import java.math.BigDecimal;
-
-public class CategoryDialogController {
+public class CategoryDialogController extends ModificationController {
     @FXML
     public TextField nameTextField;
     @FXML
     public ChoiceBox<Type> typeChoiceBox;
 
     @Setter
-    private CategoryService categoryService;
-
-    @Setter
     private AccountDetailsController accountDetailsController;
 
     @FXML
     public void initialize(){
-        typeChoiceBox.setItems(FXCollections.observableArrayList(Type.values()));
+        loadData();
     }
 
     @FXML
@@ -56,5 +50,10 @@ public class CategoryDialogController {
         Node source = (Node)  event.getSource();
         Stage stage  = (Stage) source.getScene().getWindow();
         stage.close();
+    }
+
+    @Override
+    public void loadData() {
+        typeChoiceBox.setItems(FXCollections.observableArrayList(Type.values()));
     }
 }

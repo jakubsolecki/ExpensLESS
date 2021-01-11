@@ -1,4 +1,4 @@
-package pl.edu.agh.controller.account;
+package pl.edu.agh.controller.transaction;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,23 +9,18 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
-import pl.edu.agh.model.*;
-import pl.edu.agh.service.AccountService;
-import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.service.TransactionService;
+import pl.edu.agh.controller.ModificationController;
+import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.Transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class TransactionDialogController {
-    @Setter
-    private AccountService accountService;
-    @Setter
-    private TransactionService transactionService;
-    @Setter
-    private CategoryService categoryService;
+public class AddTransactionController extends ModificationController {
     @Setter
     private Account account;
 
@@ -83,6 +78,7 @@ public class TransactionDialogController {
         stage.close();
     }
 
+    @Override
     public void loadData(){
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();

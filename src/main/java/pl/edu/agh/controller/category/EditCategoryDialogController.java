@@ -9,14 +9,14 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.service.CategoryService;
 
 import java.util.List;
 
-public class EditCategoryDialogController {
+public class EditCategoryDialogController extends ModificationController {
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
     @FXML
@@ -24,8 +24,6 @@ public class EditCategoryDialogController {
     @FXML
     public TextField nameTextField;
 
-    @Setter
-    private CategoryService categoryService;
     @Setter
     private AccountDetailsController accountDetailsController;
 
@@ -39,6 +37,7 @@ public class EditCategoryDialogController {
         closeDialog(event);
     }
 
+    @Override
     public void loadData() {
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();

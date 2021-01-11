@@ -3,7 +3,7 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.account.AccountDetailsController">
     <center>
         <TableView fx:id="transactionsTable" prefHeight="200.0" prefWidth="200.0" style="-fx-alignment: center" BorderPane.alignment="CENTER">
@@ -60,7 +60,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </opaqueInsets>
             <children>
-                      <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addButtonClicked" styleClass="account-view-add-button" text="+">
+                      <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addTransactionButtonClicked" styleClass="account-view-add-button" text="+">
                     <VBox.margin>
                         <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>

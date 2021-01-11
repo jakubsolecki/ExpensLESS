@@ -15,14 +15,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.category.CategoryDialogController;
 import pl.edu.agh.controller.category.DeleteCategoryDialogController;
 import pl.edu.agh.controller.category.EditCategoryDialogController;
 import pl.edu.agh.controller.category.SubcategoryDialogController;
+import pl.edu.agh.controller.transaction.AddTransactionController;
 import pl.edu.agh.model.*;
-import pl.edu.agh.service.AccountService;
-import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.service.TransactionService;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -30,16 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 
 // TODO This class is too long!
-public class AccountDetailsController {
-    @Setter
-    private CategoryService categoryService;
-
-    @Setter
-    private AccountService accountService;
-
-    @Setter
-    private TransactionService transactionService;
-
+public class AccountDetailsController extends ModificationController {
     @Setter
     private List<Transaction> transactions;
 
@@ -66,25 +56,16 @@ public class AccountDetailsController {
     private TreeView<String> categoryTreeView = new TreeView<>();
 
     @FXML
-    public void addButtonClicked(ActionEvent event) throws IOException {
+    public void addTransactionButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
         Pane page = loader.load();
 
-        TransactionDialogController controller = loader.getController();
+        AddTransactionController controller = loader.getController();
         controller.setAccount(account);
-        controller.setAccountService(accountService);
-        controller.setTransactionService(transactionService);
-        controller.setCategoryService(categoryService);
-        controller.loadData();
-
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
 
+    @Override
     public void loadData(){
         new Thread(() -> {
             List<Category> categoryList = categoryService.getAllCategories();
@@ -135,15 +116,8 @@ public class AccountDetailsController {
         Pane page = loader.load();
 
         SubcategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
 
     public void addCategory(ActionEvent event) throws IOException {
@@ -151,14 +125,8 @@ public class AccountDetailsController {
         Pane page = loader.load();
 
         CategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
 
     private void refreshCategoryTree(List<Category> categoryList){
@@ -185,15 +153,8 @@ public class AccountDetailsController {
         Pane page = loader.load();
 
         EditCategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
 
     public void deleteCategory(ActionEvent event) throws IOException {
@@ -201,8 +162,14 @@ public class AccountDetailsController {
         Pane page = loader.load();
 
         DeleteCategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
+        loadController(controller, page);
+    }
+
+    public void loadController(ModificationController controller, Pane page){
+        controller.setCategoryService(categoryService);
+        controller.setAccountService(accountService);
+        controller.setTransactionService(transactionService);
         controller.loadData();
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
