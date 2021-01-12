@@ -82,8 +82,8 @@ public class ReportController {
         new Thread(() -> {
             List<Budget> budgetList = budgetService.getBudgetsByYear(currentYear);
 
-            BigDecimal totalOutcome = BigDecimal.ZERO;
-            BigDecimal totalIncome = BigDecimal.ZERO;
+            var totalOutcome = BigDecimal.ZERO;
+            var totalIncome = BigDecimal.ZERO;
 
             XYChart.Series<String, Double> outcomeSeries = new XYChart.Series<>();
             outcomeSeries.setName("Wydatki");
@@ -96,8 +96,8 @@ public class ReportController {
                 BigDecimal monthOutcome = BigDecimal.ZERO;
                 BigDecimal monthIncome = BigDecimal.ZERO;
 
-                for (SubcategoryBudget subcatBud : budget.getSubcategoryBudgetList()) {
-                    BigDecimal balance = budgetService.calculateBudgetBalance(budget, subcatBud.getSubcategory());
+                for (var subcatBud : budget.getSubcategoryBudgetList()) {
+                    var balance = budgetService.calculateBudgetBalance(budget, subcatBud.getSubcategory());
                     if (subcatBud.getSubcategory().getCategory().getType() == Type.EXPENSE) {
                         monthOutcome = monthOutcome.add(balance);
                     }

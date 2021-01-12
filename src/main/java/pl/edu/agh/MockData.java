@@ -12,6 +12,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class MockData {
@@ -21,6 +22,7 @@ public class MockData {
     private List<Subcategory> subcategories;
     private final CategoryService categoryService;
     private final TransactionService transactionService;
+    private final Random random = new Random();
 
     public void init(){
         List<Account> accounts = createMockAccounts();
@@ -106,6 +108,136 @@ public class MockData {
                 .type(subcategories.get(0).getCategory().getType())
                 .build());
 
+//        for (int i = 2; i <= 12; i++) {
+//            transactions.add(Transaction.builder()
+//                    .name("Wydatek")
+//                    .price(BigDecimal.valueOf(random.nextInt(300)))
+//                    .date(LocalDate.of(2021, i, 1))
+//                    .description("Description")
+//                    .account(accounts.get(0))
+//                    .subCategory(subcategories.get(1))
+//                    .type(subcategories.get(1).getCategory().getType())
+//                    .build());
+//            transactions.add(Transaction.builder()
+//                    .name("Przychód")
+//                    .price(BigDecimal.valueOf(random.nextInt(300)))
+//                    .date(LocalDate.of(2021, i, 1))
+//                    .description("Description")
+//                    .account(accounts.get(0))
+//                    .subCategory(subcategories.get(0))
+//                    .type(subcategories.get(0).getCategory().getType())
+//                    .build());
+//        }
+
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(50))
+                .date(LocalDate.of(2021, 2, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(170))
+                .date(LocalDate.of(2021, 2, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(50))
+                .date(LocalDate.of(2021, 3, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(170))
+                .date(LocalDate.of(2021, 3, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(125))
+                .date(LocalDate.of(2021, 4, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(30))
+                .date(LocalDate.of(2021, 4, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(20))
+                .date(LocalDate.of(2021, 5, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(90))
+                .date(LocalDate.of(2021, 5, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(200))
+                .date(LocalDate.of(2021, 6, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(70))
+                .date(LocalDate.of(2021, 6, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Wydatek")
+                .price(BigDecimal.valueOf(200))
+                .date(LocalDate.of(2021, 7, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(1))
+                .type(subcategories.get(1).getCategory().getType())
+                .build());
+        transactions.add(Transaction.builder()
+                .name("Przychód")
+                .price(BigDecimal.valueOf(250))
+                .date(LocalDate.of(2021, 7, 1))
+                .description("Description")
+                .account(accounts.get(0))
+                .subCategory(subcategories.get(0))
+                .type(subcategories.get(0).getCategory().getType())
+                .build());
+
         for (Transaction transaction : transactions){
             accountService.addTransaction(transaction.getAccount(), transaction);
         }
@@ -116,7 +248,7 @@ public class MockData {
             Budget budget = new Budget();
             budget.setMonth(m);
             budget.setYear(2021);
-            budget.setSubcategoryBudgetList(new ArrayList<>());
+//            budget.setSubcategoryBudgetList(new ArrayList<>());
 
             for (Subcategory subcategory : subcategories){
                 BigDecimal plannedBudget = new BigDecimal(200);

@@ -16,7 +16,7 @@ public class AccountDao extends Dao {
         try {
             Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
-            accountList.addAll(session.createQuery("FROM Accounts", Account.class).getResultList()); // to avoid optional
+            accountList.addAll(session.createQuery("FROM Accounts", Account.class).getResultList());
             tr.commit();
 
             return accountList;

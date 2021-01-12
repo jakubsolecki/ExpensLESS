@@ -60,9 +60,5 @@
     -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.7), 6, 0.0, 0, 1);
 }
 
-.default-color0.chart-bar { -fx-bar-fill: green }
-.default-color1.chart-bar { -fx-bar-fill: red }
-
-.onHover {
-    -fx-text-fill: black;
-}
+.default-color0.chart-bar { -fx-bar-fill: red }
+.default-color1.chart-bar { -fx-bar-fill: green }
