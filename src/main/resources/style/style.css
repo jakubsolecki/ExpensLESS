@@ -18,21 +18,7 @@
 
 }
 
-.account-view-add-button {
-    -fx-background-color: #ECA72C;
-    -fx-background-radius: 10em;
-    -fx-min-width: 40px;
-    -fx-min-height: 40px;
-    -fx-max-width: 80px;
-    -fx-max-height: 80px;
-    -fx-font-size: 40px;
-    -fx-text-fill: white;
-    -fx-cursor: hand;
-    -fx-alignment: center;
-    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
-}
-
-.subcategory-budget-edit-button {
+.add-button {
     -fx-background-color: #2ac12b;
     -fx-background-radius: 10em;
     -fx-min-width: 40px;
@@ -46,7 +32,21 @@
     -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
 }
 
-.subcategory-budget-delete-button {
+.edit-button {
+    -fx-background-color: #ECA72C;
+    -fx-background-radius: 10em;
+    -fx-min-width: 40px;
+    -fx-min-height: 40px;
+    -fx-max-width: 80px;
+    -fx-max-height: 80px;
+    -fx-font-size: 40px;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+    -fx-alignment: center;
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 1 );
+}
+
+.delete-button {
     -fx-background-color: #ff0000;
     -fx-background-radius: 10em;
     -fx-min-width: 40px;

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -168,6 +169,7 @@ public class AccountDetailsController extends ModificationController {
     }
 
     public void addTransactionButtonClicked(ActionEvent event) throws IOException {
+        openTrasactionDialog(null);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
         Pane page = loader.load();
 
@@ -176,9 +178,21 @@ public class AccountDetailsController extends ModificationController {
         loadController(controller, page);
     }
 
+    private void openTrasactionDialog(Object o) {
+
+    }
+
     public void markOut(ActionEvent event) {
         categoryTreeView.getSelectionModel().clearSelection();
         refreshTableView(transactionService.getAllTransactionsOfAccount(account));
+    }
+
+    public void deleteTransaction(MouseEvent mouseEvent) {
+
+    }
+
+    public void openTransactionDialog(MouseEvent mouseEvent, Transaction transaction) {
+
     }
 }
 

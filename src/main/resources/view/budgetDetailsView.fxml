@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<?import javafx.scene.control.Button?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsController">
     <opaqueInsets>
         <Insets />
@@ -35,7 +27,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </opaqueInsets>
             <children>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked" styleClass="subcategory-budget-delete-button" text="+">
+                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked" styleClass="delete-button" text="+">
                     <VBox.margin>
                         <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
@@ -43,7 +35,7 @@
                         <Insets />
                     </opaqueInsets>
                 </Button>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#editButtonClicked" styleClass="subcategory-budget-edit-button" text="+">
+                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#editButtonClicked" styleClass="edit-button" text="+">
                     <VBox.margin>
                         <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
@@ -51,7 +43,7 @@
                         <Insets />
                     </opaqueInsets>
                 </Button>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addButtonClicked" styleClass="account-view-add-button" text="+">
+                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addButtonClicked" styleClass="add-button" text="+">
                     <VBox.margin>
                         <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
