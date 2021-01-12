@@ -31,9 +31,6 @@ import java.util.List;
 // TODO This class is too long!
 public class AccountDetailsController extends ModificationController {
     @Setter
-    private List<Transaction> transactions;
-
-    @Setter
     private Account account;
 
     @FXML
@@ -53,38 +50,38 @@ public class AccountDetailsController extends ModificationController {
     @FXML
     private TableView<Transaction> transactionsTable;
     @FXML
-    private TreeView<String> categoryTreeView = new TreeView<>();
-
-    @FXML
-    public void addTransactionButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
-        Pane page = loader.load();
-
-        AddTransactionController controller = loader.getController();
-        controller.setAccount(account);
-        loadController(controller, page);
-    }
+    private TreeView<Object> categoryTreeView = new TreeView<>();
 
     @Override
     public void loadData(){
-        new Thread(() -> {
-            List<Category> categoryList = categoryService.getAllCategories();
-            transactions = transactionService.getAllTransactionsOfAccount(account);
-            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+        name.setText(account.getName());
+        setTableView();
 
-            Platform.runLater(() -> {
-                refreshCategoryTree(categoryList);
+        categoryTreeView.setOnMouseClicked(event -> {
+            List<Transaction> transactions;
+            var item = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
+            if(item instanceof Category) transactions = transactionService.getTransactionsOfCategoryAndAccount((Category)item, account);
+            else transactions = transactionService.getTransactionOfSubcategoryAndAccount((Subcategory)item, account);
+            refreshTableView(transactions);
+        });
 
-                setTableView(transactions);
-                balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
-                name.setText(account.getName());
-            });
-        }).start();
+        new Thread(() -> Platform.runLater(this::refresh)).start();
     }
 
-    private void setTableView(List<Transaction> transactions) {
-        transactionsTable.setItems(FXCollections.observableList(transactions));
+    public void loadController(ModificationController controller, Pane page){
+        controller.setCategoryService(categoryService);
+        controller.setAccountService(accountService);
+        controller.setTransactionService(transactionService);
+        controller.loadData();
+        Stage dialogStage = new Stage();
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.showAndWait();
+        refresh();
+    }
+
+    private void setTableView() {
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         priceColumn.setCellValueFactory(data -> {
             var text = new Text(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString());
@@ -96,19 +93,42 @@ public class AccountDetailsController extends ModificationController {
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
         categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ?  data.getValue().getSubCategory().getCategory().getName()+ " / " + data.getValue().getSubCategory().getName() : ""));
-
-
     }
 
     public void refresh(){
-            transactions = transactionService.getAllTransactionsOfAccount(account);
-            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
-            List<Category> categoryList = categoryService.getAllCategories();
-                refreshCategoryTree(categoryList);
-                transactionsTable.setItems(FXCollections.observableList(transactions));
-                balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+        List<Transaction> transactions = transactionService.getAllTransactionsOfAccount(account);
+        List<Category> categoryList = categoryService.getAllCategories();
+        refreshCategoryTree(categoryList);
+        refreshTableView(transactions);
+        refreshAccountInfo();
+    }
 
+    private void refreshTableView(List<Transaction> transactions) {
+        transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+        transactionsTable.setItems(FXCollections.observableList(transactions));
+    }
+
+    private void refreshAccountInfo() {
+        balance.setText(account.getBalance() + " PLN");
+        balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
+    }
+
+    private void refreshCategoryTree(List<Category> categoryList){
+        categoryTreeView.setRoot(null);
+        TreeItem<Object> rootItem = new TreeItem<>();
+        rootItem.setExpanded(true);
+
+        for (Category cat : categoryList) {
+            TreeItem<Object> categoryTreeItem = new TreeItem<>(cat);
+            for (Subcategory subcategory : cat.getSubcategories()) {
+                if (subcategory != null) {
+                    categoryTreeItem.getChildren().add(new TreeItem<>(subcategory));
+                }
+            }
+            rootItem.getChildren().add(categoryTreeItem);
+        }
+        categoryTreeView.setRoot(rootItem);
+        categoryTreeView.setShowRoot(false);
     }
 
     public void addSubcategory(ActionEvent event) throws IOException {
@@ -129,25 +149,6 @@ public class AccountDetailsController extends ModificationController {
         loadController(controller, page);
     }
 
-    private void refreshCategoryTree(List<Category> categoryList){
-        categoryTreeView.setRoot(null);
-        TreeItem<String> rootItem = new TreeItem<>("Categories");
-        rootItem.setExpanded(true);
-
-        for (Category cat : categoryList) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
-
-            for (Subcategory subcategory : cat.getSubcategories()) {
-                if (subcategory != null) {
-                    categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
-                }
-            }
-            rootItem.getChildren().add(categoryTreeItem);
-        }
-        categoryTreeView.setRoot(rootItem);
-        categoryTreeView.setShowRoot(false);
-    }
-
     public void editCategory(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editCategoryDialog.fxml"));
         Pane page = loader.load();
@@ -166,17 +167,18 @@ public class AccountDetailsController extends ModificationController {
         loadController(controller, page);
     }
 
-    public void loadController(ModificationController controller, Pane page){
-        controller.setCategoryService(categoryService);
-        controller.setAccountService(accountService);
-        controller.setTransactionService(transactionService);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+    public void addTransactionButtonClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
+        Pane page = loader.load();
+
+        AddTransactionController controller = loader.getController();
+        controller.setAccount(account);
+        loadController(controller, page);
+    }
+
+    public void markOut(ActionEvent event) {
+        categoryTreeView.getSelectionModel().clearSelection();
+        refreshTableView(transactionService.getAllTransactionsOfAccount(account));
     }
 }
 

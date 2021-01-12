@@ -56,8 +56,8 @@ public class AddTransactionController extends ModificationController {
                 Transaction transaction = Transaction.builder().
                         name(name)
                         .price(price)
-                        .date(date.get()).
-                        description(description)
+                        .date(date.get())
+                        .description(description)
                         .account(account)
                         .subCategory(subcategory)
                         .type(subcategory.getCategory().getType())

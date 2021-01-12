@@ -2,6 +2,7 @@ package pl.edu.agh.dao;
 
 import org.hibernate.Session;
 import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.model.Transaction;
 import pl.edu.agh.util.SessionUtil;
@@ -67,5 +68,58 @@ public class TransactionDao extends Dao {
 
             throw e;
         }
+    }
+
+    public List<Transaction> getTransactionOfSubcategoryAndAccount(Subcategory subcategory, Account account) {
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            List<Transaction> transactionList = session.
+                    createQuery("SELECT T FROM Transactions T " +
+                            "WHERE T.subCategory = :subcategory and T.account = :account", Transaction.class).
+                    setParameter("subcategory", subcategory).
+                    setParameter("account", account).
+                    getResultList();
+            tr.commit();
+
+            return transactionList;
+        } catch (Exception e) {
+
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
+
+    }
+
+    public List<Transaction> getTransactionsOfCategoryAndAccount(Category category, Account account) {
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            List<Transaction> transactionList = session.
+                    createQuery("SELECT T FROM Transactions T " +
+                            "JOIN Subcategories S ON S.id = T.subCategory.id " +
+                            "WHERE T.account = :account and S.category = :category", Transaction.class).
+                    setParameter("category", category).
+                    setParameter("account", account).
+                    getResultList();
+            tr.commit();
+
+            return transactionList;
+        } catch (Exception e) {
+
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
+
     }
 }
