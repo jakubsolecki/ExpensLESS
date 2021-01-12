@@ -9,7 +9,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashMap;

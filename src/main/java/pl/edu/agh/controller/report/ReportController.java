@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.chart.*;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import lombok.Setter;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.model.SubcategoryBudget;
@@ -52,7 +54,7 @@ public class ReportController {
     @FXML
     private Label yearLabel;
     @FXML
-    private CustomBarChart<String, Double> barChart;
+    private BarChart<String, Double> barChart;
     @FXML
     private CategoryAxis xAxis;
     @FXML
@@ -60,11 +62,12 @@ public class ReportController {
 
     private int currentYear;
 
-    private final Map<Text, Group> dataLabelsMap = new HashMap<>();
+//    NOREMOVE
+/*    private final Map<Text, Group> dataLabelsMap = new HashMap<>();
     private final Map<Node, ChangeListener<Parent>> cl1Map = new HashMap<>();
     private final Map<Node, ChangeListener<Bounds>> cl2Map = new HashMap<>();
     private final List<Text> dataLabels = new LinkedList<>();
-
+*/
     public void initialize() {
         currentYear = Calendar.getInstance().get(Calendar.YEAR);
         yearLabel.setText(String.valueOf(currentYear));
@@ -82,8 +85,11 @@ public class ReportController {
             BigDecimal totalOutcome = BigDecimal.ZERO;
             BigDecimal totalIncome = BigDecimal.ZERO;
 
-            XYChart.Series<String, Double> series = new XYChart.Series<>();
-            series.setName("Wydano");
+            XYChart.Series<String, Double> outcomeSeries = new XYChart.Series<>();
+            outcomeSeries.setName("Wydatki");
+
+            XYChart.Series<String, Double> incomeSeries = new XYChart.Series<>();
+            incomeSeries.setName("Przychody");
 
             for (Budget budget : budgetList) {
                 BigDecimal monthPlanned = BigDecimal.ZERO;
@@ -107,13 +113,21 @@ public class ReportController {
                 totalIncome = totalIncome.add(monthIncome);
 
                 var data = new XYChart.Data<>(budget.getMonth().toString(), monthOutcome.doubleValue());
-                data.nodeProperty().addListener((ov, oldNode, node) -> {
-                    if (node != null) {
-//                        displayLabelForData(data);
-                    }
-                });
+                var data2 = new XYChart.Data<>(budget.getMonth().toString(), monthIncome.doubleValue());
 
-                series.getData().add(data);
+                var tooltip1 = new Tooltip();
+                tooltip1.setText(String.valueOf(monthOutcome.doubleValue()));
+                Tooltip.install(data.getNode(), tooltip1);
+
+//                NOREMOVE
+/*                data.nodeProperty().addListener((ov, oldNode, node) -> {
+                    if (node != null) {
+                        displayLabelForData(data);
+                    }
+                });*/
+
+                outcomeSeries.getData().add(data);
+                incomeSeries.getData().add(data2);
             }
 
             BigDecimal finalTotalOutcome = totalOutcome;
@@ -124,58 +138,68 @@ public class ReportController {
                 outcome.setText(finalTotalOutcome.toString());
                 income.setText(finalTotalIncome.toString());
                 balance.setText(finalBalance.toString());
-                barChart.getData().add(series);
-                barChart.setCategoryGap(10);
+                barChart.getData().add(outcomeSeries);
+                barChart.getData().add(incomeSeries);
+
+                for (var series : barChart.getData()) {
+                    for (var data : series.getData()) {
+                        var tip = new Tooltip(data.getYValue().toString());
+                        tip.setShowDelay(Duration.ZERO);
+                        Tooltip.install(data.getNode(), tip);
+                    }
+                }
+
+//                barChart.setCategoryGap(10);
             });
         }).start();
     }
 
 
-//    private void displayLabelForData(XYChart.Data<String, Double> data) {
-//        Node node = data.getNode();
-//        Text dataText = new Text(String.valueOf(data.getYValue()));
-//
-//        ChangeListener<Parent> cl = (ov, oldParent, parent) -> {
-//            if (parent != null) {
-//                Group parentGroup = (Group) parent;
-//                parentGroup.getChildren().add(dataText);
-//                dataLabelsMap.put(dataText, parentGroup);
-//            }
-//        };
-//
-//        cl1Map.put(node, cl);
-//        node.parentProperty().addListener(cl);
-//
-//        ChangeListener<Bounds> cl2 = (ov, oldBounds, bounds) -> {
-//            dataText.setLayoutX(
-//                    Math.round(
-//                            bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
-//                    )
-//            );
-//            dataText.setLayoutY(
-//                    Math.round(
-//                            bounds.getMinY() - dataText.prefHeight(-1) * 0.5
-//                    )
-//            );
-//        };
-//
-//        cl2Map.put(node, cl2);
-//        node.boundsInParentProperty().addListener(cl2);
-//
-//    }
+//    NOREMOVE
+/*    private void displayLabelForData(XYChart.Data<String, Double> data) {
+        Node node = data.getNode();
+        Text dataText = new Text(String.valueOf(data.getYValue()));
 
-    private void clearLabelForData(XYChart.Series<String, Double> series) {
+        ChangeListener<Parent> cl = (ov, oldParent, parent) -> {
+            if (parent != null) {
+                Group parentGroup = (Group) parent;
+                parentGroup.getChildren().add(dataText);
+                dataLabelsMap.put(dataText, parentGroup);
+            }
+        };
+
+        cl1Map.put(node, cl);
+        node.parentProperty().addListener(cl);
+
+        ChangeListener<Bounds> cl2 = (ov, oldBounds, bounds) -> {
+            dataText.setLayoutX(
+                    Math.round(
+                            bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2
+                    )
+            );
+            dataText.setLayoutY(
+                    Math.round(
+                            bounds.getMinY() - dataText.prefHeight(-1) * 0.5
+                    )
+            );
+        };
+
+        cl2Map.put(node, cl2);
+        node.boundsInParentProperty().addListener(cl2);
+
     }
+*/
 
     private void refreshData() {
         yearLabel.setText(String.valueOf(currentYear));
 
-//        for (var text : dataLabels) {
-//            text.setVisible(false); // FIXME temporary solution ?
-//        }
+        // NOREMOVE
+/*        for (var text : dataLabels) {
+            text.setVisible(false); // NOREMOVE temporary solution ?
+        }
 
         for (var x : barChart.getData()) {
-//            x.getData().ge
+            x.getData().ge
         }
 
         System.out.println("\n" + dataLabels.size() + "\n");
@@ -195,8 +219,9 @@ public class ReportController {
         }
         dataLabelsMap.clear();
 
-        barChart.getData().clear();
+ */
 
+        barChart.getData().clear();
         barChart.layout();
 
         loadData();
