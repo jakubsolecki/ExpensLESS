@@ -7,8 +7,8 @@ import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
 import pl.edu.agh.util.SessionUtil;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 public class CategoryService {
 
@@ -57,10 +57,11 @@ public class CategoryService {
         return category;
     }
 
-    public Subcategory getSubcategoryByName(String name) {
-        SessionUtil.openSession();
-        Subcategory subcategory = subcategoryDao.findSubcategoryByName(name);
-        SessionUtil.closeSession();
+    public Optional<Subcategory> getSubcategoryByNameCategory(String name, String category) {
+
+        List<Subcategory> subcategoryList = getSubcategoriesFromCategory(getCategoryByName(category));
+
+        Optional<Subcategory> subcategory = subcategoryList.stream().filter(subcat -> subcat.getName().equals(name)).findFirst();
 
         return subcategory;
     }

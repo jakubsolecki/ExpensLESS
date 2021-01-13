@@ -52,7 +52,7 @@ public class TransactionDao extends Dao {
         try {
             Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
-            List<Transaction> res = session.createQuery("SELECT T FROM Transactions T where T.subCategory = :subcategory and T.date >= :start and T.date <= :end ", Transaction.class)
+            List<Transaction> res = session.createQuery("SELECT T FROM Transactions T where T.subCategory = :subcategory and T.date >= :start and T.date < :end ", Transaction.class)
                     .setParameter("subcategory", subcategory)
                     .setParameter("start", startDate)
                     .setParameter("end", endDate)

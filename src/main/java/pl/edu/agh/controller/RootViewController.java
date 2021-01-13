@@ -136,7 +136,6 @@ public class RootViewController {
                     Pane pane = fxmlLoader.load();
                     ReportController controller = fxmlLoader.getController();
                     controller.setBudgetService(budgetService);
-                    controller.setCategoryService(categoryService);
                     controller.loadData();
                     borderPane.setCenter(pane);
                 }
