@@ -27,6 +27,7 @@
                     </font>
                 </Label>
             </HBox>
+            <HBox spacing="40" alignment="CENTER" fx:id="summary" />
         </VBox>
     </top>
     <right>
