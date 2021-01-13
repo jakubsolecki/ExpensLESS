@@ -12,66 +12,67 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.Button?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
+            prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsController">
     <opaqueInsets>
-        <Insets />
+        <Insets/>
     </opaqueInsets>
     <top>
         <VBox prefHeight="137.0" prefWidth="1200.0" BorderPane.alignment="CENTER">
             <HBox alignment="CENTER" prefHeight="57.0" prefWidth="1149.0">
-            <children>
-               <Label fx:id="nameLabel" text="Label">
-                  <font>
-                     <Font size="26.0" />
-                  </font>
-               </Label>
-            </children>
+                <Label fx:id="nameLabel" text="Label">
+                    <font>
+                        <Font size="26.0"/>
+                    </font>
+                </Label>
             </HBox>
         </VBox>
     </top>
     <right>
         <VBox alignment="BOTTOM_CENTER" prefHeight="5000.0" prefWidth="150.0" BorderPane.alignment="BOTTOM_CENTER">
             <opaqueInsets>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </opaqueInsets>
-            <children>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked" styleClass="subcategory-budget-delete-button" text="+">
-                    <VBox.margin>
-                        <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                </Button>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#editButtonClicked" styleClass="subcategory-budget-edit-button" text="+">
-                    <VBox.margin>
-                        <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                </Button>
-                <Button alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addButtonClicked" styleClass="account-view-add-button" text="+">
-                    <VBox.margin>
-                        <Insets bottom="30.0" left="5.0" right="5.0" top="5.0" />
-                    </VBox.margin>
-                    <opaqueInsets>
-                        <Insets />
-                    </opaqueInsets>
-                </Button>
-            </children>
             <BorderPane.margin>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </BorderPane.margin>
+            <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked"
+                    styleClass="subcategory-budget-delete-button" text="Delete">
+                <VBox.margin>
+                    <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+            </Button>
+            <Button alignment="TOP_CENTER" mnemonicParsing="false"
+                    onMouseClicked="#editButtonClicked" styleClass="subcategory-budget-edit-button" text="Edit">
+                <VBox.margin>
+                    <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+            </Button>
+            <Button alignment="TOP_CENTER" mnemonicParsing="false"
+                    onMouseClicked="#addButtonClicked" styleClass="subcategory-budget-add-button" text="Add">
+                <VBox.margin>
+                    <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+            </Button>
         </VBox>
     </right>
-   <center>
-      <TreeView prefHeight="510.0" prefWidth="1000.0" BorderPane.alignment="CENTER" fx:id="categoryTree"/>
-   </center>
-   <left>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
-   </left>
-   <bottom>
-      <HBox prefHeight="63.0" prefWidth="1200.0" BorderPane.alignment="CENTER" />
-   </bottom>
+    <center>
+        <TreeView prefHeight="510.0" prefWidth="1000.0" BorderPane.alignment="CENTER" fx:id="categoryTree"/>
+    </center>
+    <left>
+        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER"/>
+    </left>
+    <bottom>
+        <HBox prefHeight="63.0" prefWidth="1200.0" BorderPane.alignment="CENTER"/>
+    </bottom>
 </BorderPane>

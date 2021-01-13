@@ -66,7 +66,7 @@ public class BudgetService {
         for (Transaction t : transactions) {
             balance = balance.add(t.getPrice());
         }
-        return balance.multiply(BigDecimal.valueOf(-1));
+        return balance;
     }
 
     public List<Budget> getBudgetsByYear(int year) {
