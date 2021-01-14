@@ -6,25 +6,21 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.service.CategoryService;
 
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DeleteCategoryDialogController {
+public class DeleteCategoryDialogController extends ModificationController {
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
     @FXML
     public ChoiceBox<Subcategory> subcategoryChoiceBox;
-    @Setter
-    private CategoryService categoryService;
     @Setter
     private AccountDetailsController accountDetailsController;
 
@@ -38,6 +34,7 @@ public class DeleteCategoryDialogController {
         closeDialog(event);
     }
 
+    @Override
     public void loadData() {
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();

@@ -1,4 +1,4 @@
-package pl.edu.agh.controller.account;
+package pl.edu.agh.controller.transaction;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -9,25 +9,23 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
-import pl.edu.agh.model.*;
-import pl.edu.agh.service.AccountService;
-import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.service.TransactionService;
+import pl.edu.agh.controller.ModificationController;
+import pl.edu.agh.model.Account;
+import pl.edu.agh.model.Category;
+import pl.edu.agh.model.Subcategory;
+import pl.edu.agh.model.Transaction;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class TransactionDialogController {
-    @Setter
-    private AccountService accountService;
-    @Setter
-    private TransactionService transactionService;
-    @Setter
-    private CategoryService categoryService;
+public class TransactionDialogController extends ModificationController {
     @Setter
     private Account account;
+
+    @Setter
+    private Transaction transactionToEdit;
 
     @FXML
     public TextField nameTextField;
@@ -43,7 +41,6 @@ public class TransactionDialogController {
     public ChoiceBox<Subcategory> subcategoryChoiceBox;
     @FXML
     public void initialize() {
-        dateTextField.setText(LocalDate.now().toString());
         categoryChoiceBox.setOnAction(event -> subcategoryChoiceBox.
                 setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories())));
     }
@@ -53,22 +50,26 @@ public class TransactionDialogController {
         try {
             String name = nameTextField.getText();
             BigDecimal price = new BigDecimal(priceTextField.getText());
-
             Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
-            if(!name.isEmpty() && date.isPresent() && subcategory != null){
+
+            if(!name.isEmpty() && date.isPresent() && subcategory != null && price.compareTo(BigDecimal.ZERO) > 0){
+                if(transactionToEdit != null){
+                    accountService.removeTransaction(account, transactionToEdit);
+                    transactionService.deleteTransaction(transactionToEdit);
+                }
                 Transaction transaction = Transaction.builder().
                         name(name)
                         .price(price)
-                        .date(date.get()).
-                        description(description)
+                        .date(date.get())
+                        .description(description)
                         .account(account)
                         .subCategory(subcategory)
                         .type(subcategory.getCategory().getType())
                         .build();
-                transactionService.saveTransaction(transaction);
                 accountService.addTransaction(account, transaction);
+                transactionService.saveTransaction(transaction);
                 closeDialog(event);
             }
         } catch (Exception e){
@@ -83,9 +84,18 @@ public class TransactionDialogController {
         stage.close();
     }
 
+    @Override
     public void loadData(){
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();
+            if(transactionToEdit != null){
+                nameTextField.setText(transactionToEdit.getName());
+                priceTextField.setText(transactionToEdit.getPrice().toString());
+                dateTextField.setText(transactionToEdit.getDate().toString());
+                descriptionTextField.setText(transactionToEdit.getDescription() != null ? transactionToEdit.getDescription() : "");
+            } else{
+                dateTextField.setText(LocalDate.now().toString());
+            }
             Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
         }).start();
     }

@@ -15,14 +15,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.category.CategoryDialogController;
 import pl.edu.agh.controller.category.DeleteCategoryDialogController;
 import pl.edu.agh.controller.category.EditCategoryDialogController;
 import pl.edu.agh.controller.category.SubcategoryDialogController;
+import pl.edu.agh.controller.transaction.TransactionDialogController;
 import pl.edu.agh.model.*;
-import pl.edu.agh.service.AccountService;
-import pl.edu.agh.service.CategoryService;
-import pl.edu.agh.service.TransactionService;
 
 import java.io.IOException;
 import java.math.RoundingMode;
@@ -30,19 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 
 // TODO This class is too long!
-public class AccountDetailsController {
-    @Setter
-    private CategoryService categoryService;
-
-    @Setter
-    private AccountService accountService;
-
-    @Setter
-    private TransactionService transactionService;
-
-    @Setter
-    private List<Transaction> transactions;
-
+public class AccountDetailsController extends ModificationController {
     @Setter
     private Account account;
 
@@ -63,20 +50,29 @@ public class AccountDetailsController {
     @FXML
     private TableView<Transaction> transactionsTable;
     @FXML
-    private TreeView<String> categoryTreeView = new TreeView<>();
+    private TreeView<Object> categoryTreeView = new TreeView<>();
 
-    @FXML
-    public void addButtonClicked(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
-        Pane page = loader.load();
+    @Override
+    public void loadData(){
+        name.setText(account.getName());
+        setTableView();
 
-        TransactionDialogController controller = loader.getController();
-        controller.setAccount(account);
+        categoryTreeView.setOnMouseClicked(event -> {
+            List<Transaction> transactions;
+            var item = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
+            if(item instanceof Category) transactions = transactionService.getTransactionsOfCategoryAndAccount((Category)item, account);
+            else transactions = transactionService.getTransactionOfSubcategoryAndAccount((Subcategory)item, account);
+            refreshTableView(transactions);
+        });
+
+        new Thread(() -> Platform.runLater(this::refresh)).start();
+    }
+
+    public void loadController(ModificationController controller, Pane page){
+        controller.setCategoryService(categoryService);
         controller.setAccountService(accountService);
         controller.setTransactionService(transactionService);
-        controller.setCategoryService(categoryService);
         controller.loadData();
-
         Stage dialogStage = new Stage();
         dialogStage.initModality(Modality.WINDOW_MODAL);
         Scene scene = new Scene(page);
@@ -85,25 +81,7 @@ public class AccountDetailsController {
         refresh();
     }
 
-    public void loadData(){
-        new Thread(() -> {
-            List<Category> categoryList = categoryService.getAllCategories();
-            transactions = transactionService.getAllTransactionsOfAccount(account);
-            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
-
-            Platform.runLater(() -> {
-                refreshCategoryTree(categoryList);
-
-                setTableView(transactions);
-                balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
-                name.setText(account.getName());
-            });
-        }).start();
-    }
-
-    private void setTableView(List<Transaction> transactions) {
-        transactionsTable.setItems(FXCollections.observableList(transactions));
+    private void setTableView() {
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getName()));
         priceColumn.setCellValueFactory(data -> {
             var text = new Text(data.getValue().getPrice().setScale(2, RoundingMode.DOWN).toString());
@@ -115,63 +93,36 @@ public class AccountDetailsController {
         dateColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDate().toString()));
         descriptionColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getDescription()));
         categoryColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getSubCategory() != null ?  data.getValue().getSubCategory().getCategory().getName()+ " / " + data.getValue().getSubCategory().getName() : ""));
-
-
     }
 
     public void refresh(){
-            transactions = transactionService.getAllTransactionsOfAccount(account);
-            transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
-            List<Category> categoryList = categoryService.getAllCategories();
-                refreshCategoryTree(categoryList);
-                transactionsTable.setItems(FXCollections.observableList(transactions));
-                balance.setText(account.getBalance() + " PLN");
-                balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
-
+        List<Transaction> transactions = transactionService.getAllTransactionsOfAccount(account);
+        List<Category> categoryList = categoryService.getAllCategories();
+        refreshCategoryTree(categoryList);
+        refreshTableView(transactions);
+        refreshAccountInfo();
     }
 
-    public void addSubcategory(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/subcategoryDialog.fxml"));
-        Pane page = loader.load();
-
-        SubcategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
-        controller.setAccountDetailsController(this);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+    private void refreshTableView(List<Transaction> transactions) {
+        transactions.sort(Comparator.comparing(Transaction::getDate, Comparator.reverseOrder()));
+        transactionsTable.setItems(FXCollections.observableList(transactions));
     }
 
-    public void addCategory(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/categoryDialog.fxml"));
-        Pane page = loader.load();
-
-        CategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
-        controller.setAccountDetailsController(this);
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+    private void refreshAccountInfo() {
+        balance.setText(account.getBalance() + " PLN");
+        balance.setTextFill(account.getBalance().doubleValue() >= 0 ? Color.GREEN : Color.RED);
     }
 
     private void refreshCategoryTree(List<Category> categoryList){
         categoryTreeView.setRoot(null);
-        TreeItem<String> rootItem = new TreeItem<>("Categories");
+        TreeItem<Object> rootItem = new TreeItem<>();
         rootItem.setExpanded(true);
 
         for (Category cat : categoryList) {
-            TreeItem<String> categoryTreeItem = new TreeItem<>(cat.getName());
-
+            TreeItem<Object> categoryTreeItem = new TreeItem<>(cat);
             for (Subcategory subcategory : cat.getSubcategories()) {
                 if (subcategory != null) {
-                    categoryTreeItem.getChildren().add(new TreeItem<>(subcategory.getName()));
+                    categoryTreeItem.getChildren().add(new TreeItem<>(subcategory));
                 }
             }
             rootItem.getChildren().add(categoryTreeItem);
@@ -180,20 +131,31 @@ public class AccountDetailsController {
         categoryTreeView.setShowRoot(false);
     }
 
+    public void addSubcategory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/subcategoryDialog.fxml"));
+        Pane page = loader.load();
+
+        SubcategoryDialogController controller = loader.getController();
+        controller.setAccountDetailsController(this);
+        loadController(controller, page);
+    }
+
+    public void addCategory(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/categoryDialog.fxml"));
+        Pane page = loader.load();
+
+        CategoryDialogController controller = loader.getController();
+        controller.setAccountDetailsController(this);
+        loadController(controller, page);
+    }
+
     public void editCategory(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editCategoryDialog.fxml"));
         Pane page = loader.load();
 
         EditCategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
 
     public void deleteCategory(ActionEvent event) throws IOException {
@@ -201,16 +163,45 @@ public class AccountDetailsController {
         Pane page = loader.load();
 
         DeleteCategoryDialogController controller = loader.getController();
-        controller.setCategoryService(categoryService);
         controller.setAccountDetailsController(this);
-        controller.loadData();
-        Stage dialogStage = new Stage();
-        dialogStage.initModality(Modality.WINDOW_MODAL);
-        Scene scene = new Scene(page);
-        dialogStage.setScene(scene);
-        dialogStage.showAndWait();
-        refresh();
+        loadController(controller, page);
     }
+
+    public void addTransaction(ActionEvent event) throws IOException {
+        openTransactionDialog(null);
+    }
+
+    public void editTransaction(ActionEvent event) throws IOException {
+        Transaction selectedItem = transactionsTable.getSelectionModel().getSelectedItem();
+        if(selectedItem != null) openTransactionDialog(selectedItem);
+    }
+
+    public void deleteTransaction(ActionEvent event) {
+        Transaction transaction = transactionsTable.getSelectionModel().getSelectedItem();
+        if(transaction != null) {
+            accountService.removeTransaction(account, transaction);
+            transactionService.deleteTransaction(transaction);
+            refresh();
+        }
+
+    }
+
+    private void openTransactionDialog(Transaction transaction) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
+        Pane page = loader.load();
+
+        TransactionDialogController controller = loader.getController();
+        controller.setAccount(account);
+        controller.setTransactionToEdit(transaction);
+        loadController(controller, page);
+    }
+
+    public void markOut(ActionEvent event) {
+        categoryTreeView.getSelectionModel().clearSelection();
+        refreshTableView(transactionService.getAllTransactionsOfAccount(account));
+    }
+
+
 }
 
 

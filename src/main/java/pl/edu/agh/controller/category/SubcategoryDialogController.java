@@ -9,20 +9,18 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Setter;
+import pl.edu.agh.controller.ModificationController;
 import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.model.Category;
 import pl.edu.agh.model.Subcategory;
-import pl.edu.agh.service.CategoryService;
 
 import java.util.List;
 
-public class SubcategoryDialogController {
+public class SubcategoryDialogController extends ModificationController {
     @FXML
     public TextField nameTextField;
     @FXML
     public ChoiceBox<Category> categoryChoiceBox;
-    @Setter
-    private CategoryService categoryService;
     @Setter
     private AccountDetailsController accountDetailsController;
 

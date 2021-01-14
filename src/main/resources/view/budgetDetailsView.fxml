@@ -1,20 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TreeView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
-
-<?import javafx.scene.control.Button?>
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0"
-            prefWidth="1200.0" stylesheets="style/style.css" xmlns="http://javafx.com/javafx/11.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="/style/style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.edu.agh.controller.budget.BudgetDetailsController">
     <opaqueInsets>
         <Insets/>
     </opaqueInsets>
@@ -39,7 +29,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </BorderPane.margin>
             <Button alignment="TOP_CENTER" mnemonicParsing="false" onMouseClicked="#deleteButtonClicked"
-                    styleClass="subcategory-budget-delete-button" text="Delete">
+                    styleClass="delete-button" text="Usuń">
                 <VBox.margin>
                     <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
@@ -48,7 +38,7 @@
                 </opaqueInsets>
             </Button>
             <Button alignment="TOP_CENTER" mnemonicParsing="false"
-                    onMouseClicked="#editButtonClicked" styleClass="subcategory-budget-edit-button" text="Edit">
+                    onMouseClicked="#editButtonClicked" styleClass="edit-button" text="Edytuj">
                 <VBox.margin>
                     <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
@@ -57,7 +47,7 @@
                 </opaqueInsets>
             </Button>
             <Button alignment="TOP_CENTER" mnemonicParsing="false"
-                    onMouseClicked="#addButtonClicked" styleClass="subcategory-budget-add-button" text="Add">
+                    onMouseClicked="#addButtonClicked" styleClass="add-button" text="Dodaj">
                 <VBox.margin>
                     <Insets bottom="30.0" left="5.0" right="5.0" top="5.0"/>
                 </VBox.margin>
