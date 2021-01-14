@@ -4,5 +4,6 @@ public enum View {
     ACCOUNTS,
     ACCOUNT_DETAILS,
     BUDGETS,
-    BUDGET_DETAILS
+    BUDGET_DETAILS,
+    REPORT
 }

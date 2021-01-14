@@ -9,7 +9,7 @@ public abstract class Dao {
         org.hibernate.Transaction tr = null;
 
         try {
-            Session session = SessionUtil.getSession();
+            var session = SessionUtil.getSession();
             tr = session.beginTransaction();
             session.saveOrUpdate(entity);
             tr.commit();

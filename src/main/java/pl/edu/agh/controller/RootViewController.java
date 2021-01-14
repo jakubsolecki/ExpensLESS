@@ -11,6 +11,7 @@ import pl.edu.agh.controller.account.AccountController;
 import pl.edu.agh.controller.account.AccountDetailsController;
 import pl.edu.agh.controller.budget.BudgetController;
 import pl.edu.agh.controller.budget.BudgetDetailsController;
+import pl.edu.agh.controller.report.ReportController;
 import pl.edu.agh.model.Account;
 import pl.edu.agh.model.Budget;
 import pl.edu.agh.service.AccountService;
@@ -40,6 +41,7 @@ public class RootViewController {
     @FXML
     private BorderPane borderPane;
 
+    // TODO expand functionality on report view
     @FXML
     public void backButtonClicked(MouseEvent event) {
         toggleBackBtnVisibility(false);
@@ -54,6 +56,11 @@ public class RootViewController {
     @FXML
     public void budgetsButtonClicked(MouseEvent mouseEvent) {
         setMainScene(View.BUDGETS, null);
+    }
+
+    @FXML
+    public void reportButtonClicked(MouseEvent mouseEvent) {
+        setMainScene(View.REPORT, null);
     }
 
     public void toggleBackBtnVisibility(boolean isVisible) {
@@ -121,6 +128,14 @@ public class RootViewController {
                     controller.setBudget((Budget)object);
                     controller.setBudgetService(budgetService);
                     controller.setCategoryService(categoryService);
+                    controller.loadData();
+                    borderPane.setCenter(pane);
+                }
+                case REPORT -> {
+                    fxmlLoader.setLocation(RootViewController.class.getResource("/view/reportView.fxml"));
+                    Pane pane = fxmlLoader.load();
+                    ReportController controller = fxmlLoader.getController();
+                    controller.setBudgetService(budgetService);
                     controller.loadData();
                     borderPane.setCenter(pane);
                 }
