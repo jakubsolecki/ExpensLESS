@@ -20,9 +20,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public class AddTransactionController extends ModificationController {
+public class TransactionDialogController extends ModificationController {
     @Setter
     private Account account;
+
+    @Setter
+    private Transaction transactionToEdit;
 
     @FXML
     public TextField nameTextField;
@@ -38,7 +41,6 @@ public class AddTransactionController extends ModificationController {
     public ChoiceBox<Subcategory> subcategoryChoiceBox;
     @FXML
     public void initialize() {
-        dateTextField.setText(LocalDate.now().toString());
         categoryChoiceBox.setOnAction(event -> subcategoryChoiceBox.
                 setItems(FXCollections.observableArrayList(categoryChoiceBox.getValue().getSubcategories())));
     }
@@ -48,22 +50,31 @@ public class AddTransactionController extends ModificationController {
         try {
             String name = nameTextField.getText();
             BigDecimal price = new BigDecimal(priceTextField.getText());
-
             Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
-            if(!name.isEmpty() && date.isPresent() && subcategory != null){
-                Transaction transaction = Transaction.builder().
-                        name(name)
-                        .price(price)
-                        .date(date.get())
-                        .description(description)
-                        .account(account)
-                        .subCategory(subcategory)
-                        .type(subcategory.getCategory().getType())
-                        .build();
-                transactionService.saveTransaction(transaction);
-                accountService.addTransaction(account, transaction);
+
+            if(!name.isEmpty() && date.isPresent() && subcategory != null && price.compareTo(BigDecimal.ZERO) > 0){
+                if(transactionToEdit == null){
+                    transactionToEdit = Transaction.builder().
+                            name(name)
+                            .price(price)
+                            .date(date.get())
+                            .description(description)
+                            .account(account)
+                            .subCategory(subcategory)
+                            .type(subcategory.getCategory().getType())
+                            .build();
+                } else {
+                    transactionToEdit.setName(name);
+                    transactionToEdit.setPrice(price);
+                    transactionToEdit.setDate(date.get());
+                    transactionToEdit.setDescription(description);
+                    transactionToEdit.setSubCategory(subcategory);
+                    transactionToEdit.setType(subcategory.getCategory().getType());
+                }
+                accountService.addTransaction(account, transactionToEdit);
+                transactionService.saveTransaction(transactionToEdit);
                 closeDialog(event);
             }
         } catch (Exception e){
@@ -82,6 +93,14 @@ public class AddTransactionController extends ModificationController {
     public void loadData(){
         new Thread(() -> {
             List<Category> categories = categoryService.getAllCategories();
+            if(transactionToEdit != null){
+                nameTextField.setText(transactionToEdit.getName());
+                priceTextField.setText(transactionToEdit.getPrice().toString());
+                dateTextField.setText(transactionToEdit.getDate().toString());
+                descriptionTextField.setText(transactionToEdit.getDescription() != null ? transactionToEdit.getDescription() : "");
+            } else{
+                dateTextField.setText(LocalDate.now().toString());
+            }
             Platform.runLater(() -> categoryChoiceBox.setItems(FXCollections.observableArrayList(categories)));
         }).start();
     }

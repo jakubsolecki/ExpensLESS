@@ -36,7 +36,8 @@ public class Transaction {
     private Type type;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "account_id")
     private Account account;
 
     @ManyToOne

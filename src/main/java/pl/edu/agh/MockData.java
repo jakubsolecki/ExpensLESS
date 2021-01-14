@@ -107,6 +107,7 @@ public class MockData {
                 .build());
 
         for (Transaction transaction : transactions){
+            transactionService.saveTransaction(transaction);
             accountService.addTransaction(transaction.getAccount(), transaction);
         }
     }

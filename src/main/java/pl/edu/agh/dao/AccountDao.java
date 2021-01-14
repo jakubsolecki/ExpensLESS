@@ -37,7 +37,31 @@ public class AccountDao extends Dao {
             Session session = SessionUtil.getSession();
             tr = session.beginTransaction();
             account.addTransaction(transaction);
-            session.update(account);
+            session.createQuery("UPDATE Accounts SET balance = :balance WHERE id = :id").
+                    setParameter("balance", account.getBalance()).
+                    setParameter("id", account.getId()).executeUpdate();
+            //session.saveOrUpdate(account);
+            tr.commit();
+        } catch (Exception e) {
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
+    }
+
+    public void removeTransaction(Account account, Transaction transaction){
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            account.removeTransaction(transaction);
+            session.createQuery("UPDATE Accounts SET balance = :balance WHERE id = :id").
+                    setParameter("balance", account.getBalance()).
+                    setParameter("id", account.getId()).executeUpdate();
+            //session.saveOrUpdate(account);
             tr.commit();
 
         } catch (Exception e) {

@@ -9,7 +9,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -21,7 +20,7 @@ import pl.edu.agh.controller.category.CategoryDialogController;
 import pl.edu.agh.controller.category.DeleteCategoryDialogController;
 import pl.edu.agh.controller.category.EditCategoryDialogController;
 import pl.edu.agh.controller.category.SubcategoryDialogController;
-import pl.edu.agh.controller.transaction.AddTransactionController;
+import pl.edu.agh.controller.transaction.TransactionDialogController;
 import pl.edu.agh.model.*;
 
 import java.io.IOException;
@@ -168,18 +167,33 @@ public class AccountDetailsController extends ModificationController {
         loadController(controller, page);
     }
 
-    public void addTransactionButtonClicked(ActionEvent event) throws IOException {
-        openTrasactionDialog(null);
+    public void addTransaction(ActionEvent event) throws IOException {
+        openTransactionDialog(null);
+    }
+
+    public void editTransaction(ActionEvent event) throws IOException {
+        Transaction selectedItem = transactionsTable.getSelectionModel().getSelectedItem();
+        if(selectedItem != null) openTransactionDialog(selectedItem);
+    }
+
+    public void deleteTransaction(ActionEvent event) {
+        Transaction transaction = transactionsTable.getSelectionModel().getSelectedItem();
+        if(transaction != null) {
+            accountService.removeTransaction(account, transaction);
+            transactionService.deleteTransaction(transaction);
+            refresh();
+        }
+
+    }
+
+    private void openTransactionDialog(Transaction transaction) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/transactionDialog.fxml"));
         Pane page = loader.load();
 
-        AddTransactionController controller = loader.getController();
+        TransactionDialogController controller = loader.getController();
         controller.setAccount(account);
+        controller.setTransactionToEdit(transaction);
         loadController(controller, page);
-    }
-
-    private void openTrasactionDialog(Object o) {
-
     }
 
     public void markOut(ActionEvent event) {
@@ -187,13 +201,7 @@ public class AccountDetailsController extends ModificationController {
         refreshTableView(transactionService.getAllTransactionsOfAccount(account));
     }
 
-    public void deleteTransaction(MouseEvent mouseEvent) {
 
-    }
-
-    public void openTransactionDialog(MouseEvent mouseEvent, Transaction transaction) {
-
-    }
 }
 
 

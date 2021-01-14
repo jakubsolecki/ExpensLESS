@@ -122,4 +122,41 @@ public class TransactionDao extends Dao {
         }
 
     }
+
+    public void delete(Transaction transaction) {
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            session.delete(transaction);
+            tr.commit();
+        } catch (Exception e) {
+
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
+    }
+
+    public void update(Transaction transaction) {
+        org.hibernate.Transaction tr = null;
+
+        try {
+            Session session = SessionUtil.getSession();
+            tr = session.beginTransaction();
+            session.update(transaction);
+            session.update(transaction.getAccount());
+            tr.commit();
+        } catch (Exception e) {
+
+            if (tr != null) {
+                tr.rollback();
+            }
+
+            throw e;
+        }
+    }
 }

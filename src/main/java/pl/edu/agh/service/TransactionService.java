@@ -47,4 +47,16 @@ public class TransactionService {
 
         return transactionList;
     }
+
+    public void deleteTransaction(Transaction transaction) {
+        SessionUtil.openSession();
+        transactionDao.delete(transaction);
+        SessionUtil.closeSession();
+    }
+
+    public void updateTransaction(Transaction transaction) {
+        SessionUtil.openSession();
+        transactionDao.update(transaction);
+        SessionUtil.closeSession();
+    }
 }
