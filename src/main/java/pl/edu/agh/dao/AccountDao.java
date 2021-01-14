@@ -40,7 +40,6 @@ public class AccountDao extends Dao {
             session.createQuery("UPDATE Accounts SET balance = :balance WHERE id = :id").
                     setParameter("balance", account.getBalance()).
                     setParameter("id", account.getId()).executeUpdate();
-            //session.saveOrUpdate(account);
             tr.commit();
         } catch (Exception e) {
             if (tr != null) {
@@ -61,7 +60,6 @@ public class AccountDao extends Dao {
             session.createQuery("UPDATE Accounts SET balance = :balance WHERE id = :id").
                     setParameter("balance", account.getBalance()).
                     setParameter("id", account.getId()).executeUpdate();
-            //session.saveOrUpdate(account);
             tr.commit();
 
         } catch (Exception e) {

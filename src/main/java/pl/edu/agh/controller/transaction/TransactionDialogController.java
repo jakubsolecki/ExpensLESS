@@ -55,26 +55,21 @@ public class TransactionDialogController extends ModificationController {
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
 
             if(!name.isEmpty() && date.isPresent() && subcategory != null && price.compareTo(BigDecimal.ZERO) > 0){
-                if(transactionToEdit == null){
-                    transactionToEdit = Transaction.builder().
-                            name(name)
-                            .price(price)
-                            .date(date.get())
-                            .description(description)
-                            .account(account)
-                            .subCategory(subcategory)
-                            .type(subcategory.getCategory().getType())
-                            .build();
-                } else {
-                    transactionToEdit.setName(name);
-                    transactionToEdit.setPrice(price);
-                    transactionToEdit.setDate(date.get());
-                    transactionToEdit.setDescription(description);
-                    transactionToEdit.setSubCategory(subcategory);
-                    transactionToEdit.setType(subcategory.getCategory().getType());
+                if(transactionToEdit != null){
+                    accountService.removeTransaction(account, transactionToEdit);
+                    transactionService.deleteTransaction(transactionToEdit);
                 }
-                accountService.addTransaction(account, transactionToEdit);
-                transactionService.saveTransaction(transactionToEdit);
+                Transaction transaction = Transaction.builder().
+                        name(name)
+                        .price(price)
+                        .date(date.get())
+                        .description(description)
+                        .account(account)
+                        .subCategory(subcategory)
+                        .type(subcategory.getCategory().getType())
+                        .build();
+                accountService.addTransaction(account, transaction);
+                transactionService.saveTransaction(transaction);
                 closeDialog(event);
             }
         } catch (Exception e){
