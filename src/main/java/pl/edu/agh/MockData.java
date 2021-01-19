@@ -107,7 +107,7 @@ public class MockData {
                 .build());
 
         for (int y = 2019; y < 2022; y++) {
-            for (int i = 2; i <= 12; i++) {
+            for (int i = 1; i <= 12; i++) {
                 transactions.add(Transaction.builder()
                         .name("Wydatek")
                         .price(BigDecimal.valueOf(random.nextInt(300)))
