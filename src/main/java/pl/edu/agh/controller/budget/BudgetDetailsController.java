@@ -204,6 +204,7 @@ public class BudgetDetailsController {
 
 
             Platform.runLater(() -> {
+                summary.getChildren().clear();
                 summary.getChildren().add(gridPane);
                 summary.getChildren().add(gridPane2);
                 categoryTree.setRoot(rootItem);
