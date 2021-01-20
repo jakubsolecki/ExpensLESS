@@ -4,11 +4,11 @@
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:sqlite:database.db</property>
-        <property name="connection.driver_class">org.sqlite.JDBC</property>
-        <property name="dialect">org.hibernate.dialect.SQLiteDialect</property>
-        <property name="connection.username"/>
-        <property name="connection.password"/>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/expensless</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/expensless</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property>
         <property name="connection.pool_size">10</property>
 
         <!-- DB schema will be updated if needed -->
