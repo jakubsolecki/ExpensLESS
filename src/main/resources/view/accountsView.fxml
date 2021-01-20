@@ -23,7 +23,7 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <children>
-                  <Button onAction="#handleAddAction" fx:id="addButton" styleClass="add-button" mnemonicParsing="false" text="+" />
+                  <Button onAction="#handleAddAction" fx:id="addButton" styleClass="add-button" mnemonicParsing="false" text="Dodaj" />
                </children>
             </HBox>
          </children>

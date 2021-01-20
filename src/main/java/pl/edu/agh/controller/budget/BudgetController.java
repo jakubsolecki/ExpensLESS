@@ -58,7 +58,7 @@ public class BudgetController {
     }
 
     private void addBudgetToPane(Budget budget){
-        if (budgetNumber <= 10 ){
+        if (budgetNumber <= 11){
             BudgetViewElement budgetViewElement = new BudgetViewElement(budget);
             gridPane.add(budgetViewElement, budgetNumber % 4, budgetNumber / 4);
             budgetNumber++;
