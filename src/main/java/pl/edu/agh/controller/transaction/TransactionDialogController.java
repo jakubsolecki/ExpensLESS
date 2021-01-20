@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -49,16 +50,18 @@ public class TransactionDialogController extends ModificationController {
     public void okButtonClicked(ActionEvent event) {
         try {
             String name = nameTextField.getText();
-            BigDecimal price = new BigDecimal(priceTextField.getText());
+            String priceString = priceTextField.getText();
             Optional<LocalDate> date = parseDateFromString(dateTextField.getText());
             String description = descriptionTextField.getText();
             Subcategory subcategory = subcategoryChoiceBox.getSelectionModel().getSelectedItem();
 
-            if(!name.isEmpty() && date.isPresent() && subcategory != null && price.compareTo(BigDecimal.ZERO) > 0){
+            if(!name.isEmpty() && date.isPresent() && subcategory != null && !priceString.isEmpty()
+                    && Float.parseFloat(priceString) >= 0){
                 if(transactionToEdit != null){
                     accountService.removeTransaction(account, transactionToEdit);
                     transactionService.deleteTransaction(transactionToEdit);
                 }
+                BigDecimal price = new BigDecimal(priceString);
                 Transaction transaction = Transaction.builder().
                         name(name)
                         .price(price)
@@ -71,10 +74,25 @@ public class TransactionDialogController extends ModificationController {
                 accountService.addTransaction(account, transaction);
                 transactionService.saveTransaction(transaction);
                 closeDialog(event);
-            }
+            } else
+                showMissingTransactionInfo(name, priceString, date, subcategory);
         } catch (Exception e){
             System.out.println("Wrong format");
         }
+    }
+
+    private void showMissingTransactionInfo(String name, String priceString, Optional<LocalDate> date, Subcategory subcategory) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        StringBuilder stringBuilder = new StringBuilder();
+        alert.setTitle("");
+        alert.setHeaderText("Niepełne informacje odnośnie transakcji");
+        if(name.isEmpty()) stringBuilder.append("Transakcja musi mieć nazwę\n");
+        if(date.isEmpty()) stringBuilder.append("Transakcja musi mieć datę\n");
+        if(subcategory == null) stringBuilder.append("Transakcja musi mieć wybraną kategorię i podkategorię\n");
+        if(priceString.isEmpty()) stringBuilder.append("Trzeba podać dodatnią kwotę transakcji\n");
+        else if(Float.parseFloat(priceString) < 0) stringBuilder.append("Transakcja musi mieć dodatnią kwotę\n");
+        alert.setContentText(stringBuilder.toString());
+        alert.showAndWait();
     }
 
     @FXML
