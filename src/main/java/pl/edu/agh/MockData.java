@@ -12,6 +12,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class MockData {
@@ -21,14 +22,13 @@ public class MockData {
     private List<Subcategory> subcategories;
     private final CategoryService categoryService;
     private final TransactionService transactionService;
+    private final Random random = new Random();
 
     public void init(){
         List<Account> accounts = createMockAccounts();
         createMockCategories();
         createMockTransactions(accounts);
         createMockBudget();
-        List<Subcategory> subcategories = categoryService.getAllCategories().stream().flatMap(category -> category.getSubcategories().stream()).collect(Collectors.toList());
-
     }
 
     public MockData(AccountService accountService, BudgetService budgetService, CategoryService categoryService, TransactionService transactionService) {
@@ -106,24 +106,54 @@ public class MockData {
                 .type(subcategories.get(0).getCategory().getType())
                 .build());
 
+        for (int y = 2019; y < 2022; y++) {
+            for (int i = 1; i <= 12; i++) {
+                transactions.add(Transaction.builder()
+                        .name("Wydatek")
+                        .price(BigDecimal.valueOf(random.nextInt(300)))
+                        .date(LocalDate.of(y, i, 1))
+                        .description("Description")
+                        .account(accounts.get(0))
+                        .subCategory(subcategories.get(1))
+                        .type(subcategories.get(1).getCategory().getType())
+                        .build());
+                transactions.add(Transaction.builder()
+                        .name("Przychód")
+                        .price(BigDecimal.valueOf(random.nextInt(300)))
+                        .date(LocalDate.of(y, i, 1))
+                        .description("Description")
+                        .account(accounts.get(0))
+                        .subCategory(subcategories.get(0))
+                        .type(subcategories.get(0).getCategory().getType())
+                        .build());
+            }
+        }
+
         for (Transaction transaction : transactions){
+            transactionService.saveTransaction(transaction);
             accountService.addTransaction(transaction.getAccount(), transaction);
         }
     }
 
     public void createMockBudget(){
-        Budget budget = new Budget();
-        budget.setMonth(Month.JANUARY);
-        budget.setYear(2021);
-        budget.setSubcategoryBudgetList(new ArrayList<>());
 
-        for (Subcategory subcategory : subcategories){
-            BigDecimal plannedBudget = new BigDecimal(200);
-            if (!plannedBudget.equals(BigDecimal.ZERO)){
-                budget.addSubcategoryBudget(new SubcategoryBudget(subcategory, plannedBudget));
+        for (int y = 2019; y < 2022; y++) {
+            for (Month m : Month.values()) {
+                Budget budget = new Budget();
+                budget.setMonth(m);
+                budget.setYear(y);
+
+                for (Subcategory subcategory : subcategories){
+                    BigDecimal plannedBudget = new BigDecimal(200);
+                    if (!plannedBudget.equals(BigDecimal.ZERO)){
+                        budget.addSubcategoryBudget(new SubcategoryBudget(subcategory, plannedBudget));
+                    }
+                }
+
+                budgetService.createBudget(budget);
             }
         }
 
-        budgetService.createBudget(budget);
+
     }
 }

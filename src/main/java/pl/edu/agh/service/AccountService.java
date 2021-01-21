@@ -36,4 +36,10 @@ public class AccountService {
         accountDao.addTransaction(account, transaction);
         SessionUtil.closeSession();
     }
+
+    public void removeTransaction(Account account, Transaction transaction){
+        SessionUtil.openSession();
+        accountDao.removeTransaction(account, transaction);
+        SessionUtil.closeSession();
+    }
 }

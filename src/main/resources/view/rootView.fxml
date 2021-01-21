@@ -46,7 +46,15 @@
                         <Insets left="45.0" />
                     </HBox.margin>
                 </Text>
-                <Text fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Wstecz" fx:id="backButton">
+            <Text fill="WHITE" onMouseClicked="#reportButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand;" text="Raport">
+               <HBox.margin>
+                  <Insets left="45.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Text>
+                <Text fx:id="backButton" fill="WHITE" onMouseClicked="#backButtonClicked" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-cursor: hand" text="Wstecz">
                     <font>
                         <Font size="40.0" />
                     </font>
@@ -55,9 +63,6 @@
                     </HBox.margin>
                 </Text>
             </children>
-            <BorderPane.margin>
-                <Insets bottom="20.0" />
-            </BorderPane.margin>
         </HBox>
     </top>
 
